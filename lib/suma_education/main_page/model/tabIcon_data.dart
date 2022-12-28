@@ -25,14 +25,14 @@ class TabIconData {
       animationController: null,
     ),
     TabIconData(
-      imagePath: 'assets/portal_app/tab_2.png',
+      imagePath: 'assets/suma_education/tab_2.png',
       selectedImagePath: 'assets/suma_education/tab_2s.png',
       index: 1,
       isSelected: false,
       animationController: null,
     ),
     TabIconData(
-      imagePath: 'assets/portal_app/tab_3.png',
+      imagePath: 'assets/suma_education/tab_3.png',
       selectedImagePath: 'assets/suma_education/tab_3s.png',
       index: 2,
       isSelected: false,
