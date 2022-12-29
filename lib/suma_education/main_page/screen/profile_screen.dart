@@ -1,10 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/services.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:suma_education/suma_education/main_page/ui_part/main_logout.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/main_user_bio.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +115,15 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness:
+      !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
     return Container(
       color: AppTheme.background,
       child: Scaffold(
@@ -284,7 +297,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
                                                               Container(
-                                                                child: Text('Tanya IT',
+                                                                child: Text("Customer Service",
                                                                     overflow: TextOverflow.ellipsis,
                                                                     maxLines: 1,
                                                                     style: TextStyle(
@@ -302,9 +315,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                               Container(
                                                                 width: MediaQuery.of(context).size.width*0.6,
                                                                 padding: EdgeInsets.only(right: 5),
-                                                                child: Text('Untuk menghubungi bagian IT anda akan terhubung melalui WhatsApp',
+                                                                child: Text('Kamu akan terhubung melalui WhatsApp Customer Service',
                                                                     overflow: TextOverflow.ellipsis,
-                                                                    maxLines: 2,
+                                                                    maxLines: 3,
                                                                     style: TextStyle(
                                                                         fontFamily: AppTheme.fontName,
                                                                         fontWeight: FontWeight.w500,
@@ -422,7 +435,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma & Appointment merupakan aplikasi yang dikembangkan oleh Tim IT PT Gelora Aksara Pratama untuk mendukung proses bisnis perusahaan. \n\nVersi yang saat ini anda gunakan adalah v 1.0.8',
+                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.1',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.fontName,
                                                                 fontWeight: FontWeight.w500,
@@ -466,7 +479,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         // sized box with width 10
                                         width: 10,
                                       ),
-                                      Text("Tanya IT")
+                                      Text("Customer Service")
                                     ],
                                   ),
                                 ),

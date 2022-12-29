@@ -26,6 +26,8 @@ class MainMade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String year = DateFormat('yyyy').format(now);
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -75,7 +77,7 @@ class MainMade extends StatelessWidget {
                                         "assets/suma_education/copy_right.png"),
                                   ),
                                   Text(
-                                    " 2022, IT PT. Gelora Aksara Pratama",
+                                    " "+year+", Suma & Team",
                                     textAlign: TextAlign.left,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,

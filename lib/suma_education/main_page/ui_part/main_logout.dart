@@ -95,7 +95,7 @@ class _LogoutButtonState extends State<LogoutButton>
                               width: 30,
                               loopAnimation: true,
                               type: CoolAlertType.confirm,
-                              text: 'Apakah anda yakin ingin Logout?',
+                              text: 'Apakah kamu yakin untuk Logout?',
                               confirmBtnText: 'OK',
                               cancelBtnText: 'Batal',
                               animType: CoolAlertAnimType.scale,

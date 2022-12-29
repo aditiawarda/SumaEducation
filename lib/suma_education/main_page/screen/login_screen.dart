@@ -299,12 +299,14 @@ class _LoginPageState extends State<LoginScreen>
       String status = json["status"];
       if (status == "Success") {
         print('Login berhasil');
+        var id            = json["data"]["id"];
         var username      = json["data"]["username"];
         var email         = json["data"]["email"];
         var jenis_kelamin = json["data"]["jenis_kelamin"];
         var no_telp       = json["data"]["no_telp"];
 
         await prefs.setBool('login', true);
+        await prefs.setString('data_id', id);
         await prefs.setString('data_username', username);
         await prefs.setString('data_email', email);
         await prefs.setString('data_jenis_kelamin', jenis_kelamin);
@@ -378,7 +380,8 @@ class _LoginPageState extends State<LoginScreen>
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/images/background_before_login.png"),
-                fit: BoxFit.none)),
+                fit: BoxFit.none)
+        ),
         height: height,
         child: Stack(
           children: <Widget>[

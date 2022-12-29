@@ -2,14 +2,17 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/services.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:suma_education/main.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/main_carousel.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/main_company_profile.dart';
@@ -103,16 +106,6 @@ class _HomeScreenState extends State<HomeScreen>
     const int count = 9;
 
     listViews.add(
-      MainCarousel(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController!,
-      ),
-    );
-
-    listViews.add(
       MainMenu(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
@@ -120,17 +113,6 @@ class _HomeScreenState extends State<HomeScreen>
             Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController!,
         animationControllerBottomSheet: animationControllerBottomSheet,
-      ),
-    );
-
-    listViews.add(
-      MainCompanyProfile(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
       ),
     );
 
@@ -216,6 +198,15 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness:
+      !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
     return Container(
       color: AppTheme.background,
       child: Scaffold(
@@ -226,14 +217,13 @@ class _HomeScreenState extends State<HomeScreen>
             Column(
               children: [
                 SizedBox(
-                  height: AppBar().preferredSize.height + MediaQuery.of(context).padding.top,
+                  height: 30,
                 ),
                 Expanded(
                   child: getMainListViewUI()
                 )
               ],
             ),
-            getAppBarUI(),
             SizedBox(
               height: MediaQuery.of(context).padding.bottom,
             )
@@ -265,18 +255,21 @@ class _HomeScreenState extends State<HomeScreen>
           return const SizedBox();
         } else {
           return
-            FadeInUp(
+            FadeInDown(
               delay: Duration(milliseconds: 500),
               child:
               Stack(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 380),
+                    margin: EdgeInsets.only(bottom: 450),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.orange,
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/bg_header_img.png"),
+                            fit: BoxFit.cover),
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0)),
+                          bottomLeft: Radius.circular(50.0),
+                          bottomRight: Radius.circular(50.0)),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                             color: AppTheme.grey.withOpacity(0.2),
@@ -305,7 +298,6 @@ class _HomeScreenState extends State<HomeScreen>
             child: SmartRefresher(
               enablePullDown: true,
               enablePullUp: false,
-              header: WaterDropHeader(),
               footer: null,
               controller: _refreshController,
               onRefresh: _onRefresh,
@@ -341,19 +333,6 @@ class _HomeScreenState extends State<HomeScreen>
                 transform: Matrix4.translationValues(
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(0.0),
-                    ),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: AppTheme.grey
-                              .withOpacity(0.4 * topBarOpacity),
-                          offset: const Offset(1.1, 1.1),
-                          blurRadius: 10.0),
-                    ],
-                  ),
                   child: Column(
                     children: <Widget>[
                       SizedBox(
@@ -371,22 +350,11 @@ class _HomeScreenState extends State<HomeScreen>
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Suma Learning',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontName,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16 + 6 - 6 * topBarOpacity,
-                                    letterSpacing: 1.2,
-                                    color: AppTheme.darkerText,
-                                  ),
-                                ),
+                                child: null
                               ),
                             ),
-
                             PopupMenuButton<int>(
-                              icon: Icon(Icons.more_vert),
+                              icon: Icon(Icons.more_vert, color: Colors.white),
                               onSelected: (int size) {
                                 print(size);
                                 if (size==1){
@@ -576,7 +544,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma & Appointment merupakan aplikasi yang dikembangkan oleh Tim IT PT Gelora Aksara Pratama untuk mendukung proses bisnis perusahaan. \n\nVersi yang saat ini anda gunakan adalah v 1.0.8',
+                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.1',
                                                           style: TextStyle(
                                                             fontFamily: AppTheme.fontName,
                                                             fontWeight: FontWeight.w500,

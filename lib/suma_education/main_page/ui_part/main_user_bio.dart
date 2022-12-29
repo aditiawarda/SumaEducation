@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:suma_education/main.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,8 +10,8 @@ import '../../app_theme/app_theme.dart';
 
 SharedPreferences? prefs;
 
-String? dear = "";
-String? ucapan = "";
+String? namaUser = "";
+String? fotoProfil = "";
 
 class UserBio extends StatelessWidget {
   final AnimationController? animationController;
@@ -17,41 +20,28 @@ class UserBio extends StatelessWidget {
   const UserBio({Key? key, this.animationController, this.animation})
       : super(key: key);
 
-  Future <String> _getUcapan() async {
-    String time = DateFormat('kk').format(DateTime.now());
-    if(int.parse(time)>=5 && int.parse(time)<11){
-      ucapan = "Selamat pagi,";
-    } else if(int.parse(time)>=11 && int.parse(time)<15){
-      ucapan = "Selamat siang,";
-    } else if(int.parse(time)>=15 && int.parse(time)<18){
-      ucapan = "Selamat sore,";
-    } else if(int.parse(time)>=18 && int.parse(time)<=23){
-      ucapan = "Selamat malam,";
-    } else if(int.parse(time)>=0 && int.parse(time)<5){
-      ucapan = "Selamat malam,";
-    }
-
-    return 'true';
-  }
-
-  Future <String> _getName() async {
+  Future<String> getUser() async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-    prefs = await _prefs;
+    final SharedPreferences prefs = await _prefs;
+    namaUser = prefs.getString("data_username")!;
 
-    if(prefs!.getString("data_NIK").toString()=="2151010115" || prefs!.getString("data_NIK").toString()=="1504060711"){
-      dear = "Ibu";
-    } else if (prefs!.getString("data_NIK").toString()=="P2182" || prefs!.getString("data_NIK")=="M0015"){
-      dear = "Bapak";
-    } else {
-      dear = "";
+    try {
+      var response = await http.post(
+          Uri.parse("https://suma.geloraaksara.co.id/api/profile_picture"),
+          body: {
+            "id": prefs.getString("data_id")!,
+          });
+      var json = jsonDecode(response.body);
+      String status = json["status"];
+      if (status == "Success") {
+        fotoProfil = json["filename"];
+        print(fotoProfil.toString());
+      } else {
+        print("error");
+      }
+    } catch (e) {
+      print("error");
     }
-
-    return 'true';
-  }
-
-  Future <String> _getDetail() async {
-    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-    prefs = await _prefs;
 
     return 'true';
   }
@@ -74,15 +64,14 @@ class UserBio extends StatelessWidget {
                       left: 24, right: 24, top: 32, bottom: 10),
                   child: Container(
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        HexColor("#b6410e"),
-                        HexColor("#e5983f")
-                      ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                      image: DecorationImage(
+                          image: AssetImage("assets/images/bg_header_img.png"),
+                          fit: BoxFit.cover),
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10.0),
                           bottomLeft: Radius.circular(10.0),
                           bottomRight: Radius.circular(10.0),
-                          topRight: Radius.circular(50.0)),
+                          topRight: Radius.circular(10.0)),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                             color: AppTheme.grey.withOpacity(0.5),
@@ -91,67 +80,65 @@ class UserBio extends StatelessWidget {
                       ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20, top: 23, bottom: 23),
+                      padding: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 23),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 0.0),
-                            child:
-                            FutureBuilder<String>(
-                              future: _getUcapan(),
-                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return Text(
-                                    ucapan!,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 14,
-                                      letterSpacing: 0.0,
-                                      color: AppTheme.white,
+                          FutureBuilder<String>(
+                            future: getUser(),
+                            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return Container(
+                                  width: 80,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: Colors.orange,
+                                    shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                    image: DecorationImage(
+                                        image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                        fit: BoxFit.fitWidth
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                if (snapshot.hasError)
+                                  return Container(
+                                    width: 80,
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                      color: Colors.orange,
+                                      shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                      image: DecorationImage(
+                                          image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                          fit: BoxFit.fitWidth
+                                      ),
                                     ),
                                   );
-                                } else {
-                                  if (snapshot.hasError)
-                                    return Text(
-                                      ucapan!,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
+                                else
+                                  return Container(
+                                    width: 80,
+                                    height: 80,
+                                    decoration: BoxDecoration(
+                                      color: Colors.orange,
+                                      shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                      image: DecorationImage(
+                                          image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/'+fotoProfil!),
+                                          fit: BoxFit.fitWidth
                                       ),
-                                    );
-                                  else
-                                    return Text(
-                                      ucapan!,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                }
-                              },
-                            ),
+                                    ),
+                                  );
+                              }
+                            },
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child:
                             FutureBuilder<String>(
-                              future: _getName(),
+                              future: getUser(),
                               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
-                                  if(dear==""){
-                                    return Text(prefs!.getString("data_NmKaryawan").toString(),
+                                    return Text(namaUser!,
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontName,
@@ -161,49 +148,9 @@ class UserBio extends StatelessWidget {
                                         color: AppTheme.white,
                                       ),
                                     );
-                                  } else {
-                                    return Text(
-                                      dear!+" "+prefs!.getString("data_NmKaryawan").toString(),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 20,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  }
-
                                 } else {
                                   if (snapshot.hasError)
-                                    if(dear==""){
-                                      return Text(prefs!.getString("data_NmKaryawan").toString(),
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 20,
-                                          letterSpacing: 0.0,
-                                          color: AppTheme.white,
-                                        ),
-                                      );
-                                    } else {
-                                      return Text(
-                                        dear!+" "+prefs!.getString("data_NmKaryawan").toString(),
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 20,
-                                          letterSpacing: 0.0,
-                                          color: AppTheme.white,
-                                        ),
-                                      );
-                                    }
-                                  else
-                                  if(dear==""){
-                                    return Text(prefs!.getString("data_NmKaryawan").toString(),
+                                    return Text(namaUser!,
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontName,
@@ -213,9 +160,8 @@ class UserBio extends StatelessWidget {
                                         color: AppTheme.white,
                                       ),
                                     );
-                                  } else {
-                                    return Text(
-                                      dear!+" "+prefs!.getString("data_NmKaryawan").toString(),
+                                  else
+                                    return Text(namaUser!,
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontName,
@@ -225,168 +171,6 @@ class UserBio extends StatelessWidget {
                                         color: AppTheme.white,
                                       ),
                                     );
-                                  }
-                                }
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child:
-                            FutureBuilder<String>(
-                              future: _getDetail(),
-                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  if(prefs!.getString("data_NIK").toString()=='2151010115'){
-                                    return Text(
-                                      "Direktur Utama PT Gelora Aksara Pratama",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  } else if(prefs!.getString("data_NIK").toString()=='1504060711'){
-                                    return Text(
-                                      "Ka.Dept Akunting dan Keuangan",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  } else if (prefs!.getString("data_NIK").toString()=='Dom' || prefs!.getString("data_NIK").toString()=='Asrel') {
-                                    return Text(
-                                      "SUMA",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  } else {
-                                    return Text(
-                                      prefs!.getString("data_KdDept").toString()+" | "+ prefs!.getString("data_NmHeadDept").toString(),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  }
-                                } else {
-                                  if (snapshot.hasError)
-                                    if(prefs!.getString("data_NIK").toString()=='2151010115'){
-                                      return Text(
-                                        "Direktur Utama PT Gelora Aksara Pratama",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
-                                          letterSpacing: 0.0,
-                                          color: AppTheme.white,
-                                        ),
-                                      );
-                                    } else if(prefs!.getString("data_NIK").toString()=='1504060711'){
-                                      return Text(
-                                        "Ka.Dept Akunting dan Keuangan",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
-                                          letterSpacing: 0.0,
-                                          color: AppTheme.white,
-                                        ),
-                                      );
-                                    } else if (prefs!.getString("data_NIK").toString()=='Dom' || prefs!.getString("data_NIK").toString()=='Asrel') {
-                                      return Text(
-                                        "SUMA",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
-                                          letterSpacing: 0.0,
-                                          color: AppTheme.white,
-                                        ),
-                                      );
-                                    } else {
-                                      return Text(
-                                        prefs!.getString("data_KdDept").toString()+" | "+ prefs!.getString("data_NmHeadDept").toString(),
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
-                                          letterSpacing: 0.0,
-                                          color: AppTheme.white,
-                                        ),
-                                      );
-                                    }
-                                  else
-                                  if(prefs!.getString("data_NIK").toString()=='2151010115'){
-                                    return Text(
-                                      "Direktur Utama PT Gelora Aksara Pratama",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  } else if(prefs!.getString("data_NIK").toString()=='1504060711'){
-                                    return Text(
-                                      "Ka.Dept Akunting dan Keuangan",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  } else if (prefs!.getString("data_NIK").toString()=='P2182' || prefs!.getString("data_NIK").toString()=='M0015') {
-                                    return Text(
-                                      "SUMA",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  } else {
-                                    return Text(
-                                      prefs!.getString("data_KdDept").toString()+" | "+ prefs!.getString("data_NmHeadDept").toString(),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 14,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  }
                                 }
                               },
                             ),
