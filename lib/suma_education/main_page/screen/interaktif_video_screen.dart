@@ -1,80 +1,48 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/services.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
-import 'package:suma_education/suma_education/appointment_approver/ui_part/appointment_list_lampiran.dart';
-import 'package:suma_education/suma_education/appointment_approver/ui_part/appointment_authority.dart';
-import 'package:suma_education/suma_education/appointment_approver/ui_part/appointment_detail_main.dart';
-import 'package:suma_education/suma_education/appointment_approver/ui_part/appointment_list_participant.dart';
-import 'package:suma_education/suma_education/appointment_approver/ui_part/appointment_participant.dart';
-import 'package:suma_education/suma_education/appointment_approver/ui_part/appointment_participant_ext.dart';
-import 'package:suma_education/suma_education/appointment_approver/ui_part/appointment_title_view.dart';
-import 'package:suma_education/suma_education/main_page/bottom_navigation_view/main_page.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_attachment_download.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_authority.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_author.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:suma_education/suma_education/main_page/ui_part/main_logout.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/main_user_bio.dart';
 import 'package:flutter/material.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_detail_main.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_list_attachment.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_list_lampiran.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_list_queue.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
+
 import '../../app_theme/app_theme.dart';
 
-SharedPreferences? prefs;
-
-String? id = "";
-String? date = "0000-00-00";
-String? start_date = "";
-String? end_date = "";
-String? deskripsi = "";
-String? lokasi = "";
-String? room_name = "";
-String? detail_lokasi = "";
-String? status_request = "";
-String? urgent = "";
-String? tipe_jadwal = "";
-String? visitor_name = "";
-String? visitor_address = "";
-String? erlangga_area = "";
-String? number_visitor = "";
-
-class AppointmentDetail extends StatefulWidget {
-  const AppointmentDetail({Key? key, required this.animationController, required this.appointmentId}) : super(key: key);
+class InteraktifScreen extends StatefulWidget {
+  const InteraktifScreen({Key? key, this.animationController}) : super(key: key);
 
   final AnimationController? animationController;
-  final String? appointmentId;
   @override
-  _AppointmentDetailState createState() => _AppointmentDetailState();
+  _InteraktifScreenState createState() => _InteraktifScreenState();
 }
 
-class _AppointmentDetailState extends State<AppointmentDetail>
+class _InteraktifScreenState extends State<InteraktifScreen>
     with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
   AnimationController? animationControllerBottomSheet;
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
+
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
-    WidgetsFlutterBinding.ensureInitialized();
     animationControllerBottomSheet = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: widget.animationController!,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-    getUser();
+    addAllListData();
 
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
@@ -101,63 +69,40 @@ class _AppointmentDetailState extends State<AppointmentDetail>
     super.initState();
   }
 
-  Future<String> getUser() async {
+  void addAllListData() {
+    const int count = 5;
 
-    prefs = await _prefs;
-    setState(() {
-      getAppointmentDetail();
-    });
+    listViews.add(
+      UserBio(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController!,
+      ),
+    );
 
-    return 'true';
+    listViews.add(
+      LogoutButton(
+        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+            Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        mainScreenAnimationController: widget.animationController!,
+      ),
+    );
+
   }
 
-  Future<String> getAppointmentDetail() async {
-    print('tes');
-    try {
-      var response = await http.post(
-          Uri.parse("https://appointment.geloraaksara.co.id/api/detail_request"),
-          body: {
-            "id_request": widget.appointmentId,
-          });
-      var json = jsonDecode(response.body);
-      String status = json["status"];
-      if (status == "Success") {
-        print('tes');
-
-        id = json['data']['id'].toString();
-        date = json['data']['date'].toString();
-        start_date = json['data']['start_date'].toString();
-        end_date = json['data']['end_date'].toString();
-        deskripsi = json['data']['deskripsi'].toString();
-        lokasi = json['data']['lokasi'].toString();
-        room_name = json['data']['room_name'].toString();
-        detail_lokasi = json['data']['detail_lokasi'].toString();
-        status_request = json['data']['status'].toString();
-        urgent = json['data']['urgent'].toString();
-        tipe_jadwal = json['data']['tipe_jadwal'].toString();
-        visitor_name = json['data']['visitor_name'].toString();
-        visitor_address = json['data']['visitor_address'].toString();
-        erlangga_area = json['data']['erlangga_area'].toString();
-        number_visitor = json['data']['number_visitor'].toString();
-
-        setState(() {
-          addAllListData();
-          print('tes');
-        });
-
-      }
-    } catch (e) {
-      print("Error");
-    }
-
-    return 'true';
-
+  Future<bool> getData() async {
+    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    return true;
   }
 
   void _onRefresh() async{
     setState(() {
       listViews.clear();
-      getUser();
+      addAllListData();
     });
     await Future.delayed(Duration(milliseconds: 1500));
     _refreshController.refreshCompleted();
@@ -168,105 +113,17 @@ class _AppointmentDetailState extends State<AppointmentDetail>
     _refreshController.loadComplete();
   }
 
-  void addAllListData() {
-    const int count = 5;
-
-    listViews.add(
-      AppointmentDetailMain(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-            Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController!,
-        idRequest: id,
-        dateRequest: date,
-        startDate: start_date,
-        endDate: end_date,
-        description: deskripsi,
-        location: lokasi,
-        roomName: room_name,
-        detailLocation: detail_lokasi,
-        typeRequest: tipe_jadwal,
-        statusRequest: status_request,
-        urgent: urgent,
-        visitorName: visitor_name,
-        visitorAddress: visitor_address,
-        erlanggaArea: erlangga_area,
-        numberVisitor: number_visitor,
-      ),
-    );
-
-    if(tipe_jadwal=='0'){
-      listViews.add(
-        TitleViewAppointment(
-          titleTxt: 'Peserta Internal',
-          subTxt: 'Semua data',
-          animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-              parent: widget.animationController!,
-              curve:
-              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController!,
-        ),
-      );
-    }
-
-    if(tipe_jadwal=='0'){
-      listViews.add(
-        AppointmentParticipant(
-          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-              CurvedAnimation(
-                  parent: widget.animationController!,
-                  curve: Interval((1 / count) * 3, 1.0,
-                      curve: Curves.fastOutSlowIn))),
-          mainScreenAnimationController: widget.animationController,
-          idRequest: id!,
-        ),
-      );
-      listViews.add(
-        TitleViewAppointment(
-          titleTxt: 'Peserta Eksternal',
-          subTxt: 'Semua data',
-          animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-              parent: widget.animationController!,
-              curve:
-              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController!,
-        ),
-      );
-      listViews.add(
-        AppointmentParticipantExt(
-          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-              CurvedAnimation(
-                  parent: widget.animationController!,
-                  curve: Interval((1 / count) * 3, 1.0,
-                      curve: Curves.fastOutSlowIn))),
-          mainScreenAnimationController: widget.animationController,
-          idRequest: id!,
-        ),
-      );
-    } else if(tipe_jadwal=='2'){
-      listViews.add(
-        AppointmentListLampiran(
-          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-              CurvedAnimation(
-                  parent: widget.animationController!,
-                  curve: Interval((1 / count) * 3, 1.0,
-                      curve: Curves.fastOutSlowIn))),
-          mainScreenAnimationController: widget.animationController,
-          idRequest: id,
-        ),
-      );
-    }
-
-  }
-
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness:
+      !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
     return Container(
       color: AppTheme.background,
       child: Scaffold(
@@ -332,8 +189,7 @@ class _AppointmentDetailState extends State<AppointmentDetail>
   }
 
   Widget getAppBarUI() {
-    return
-      Column(
+    return Column(
       children: <Widget>[
         AnimatedBuilder(
           animation: widget.animationController!,
@@ -371,34 +227,12 @@ class _AppointmentDetailState extends State<AppointmentDetail>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {
-                                  new Future.delayed(new Duration(milliseconds: 300), () {
-                                    Navigator.pop(context);
-                                  });
-                                },
-                                child: Center(
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: AppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Detail Appointment',
+                                  'Video Interaktif',
                                   textAlign: TextAlign.left,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,
                                     fontWeight: FontWeight.w700,
@@ -414,13 +248,7 @@ class _AppointmentDetailState extends State<AppointmentDetail>
                               onSelected: (int size) {
                                 print(size);
                                 if (size==1){
-                                  Navigator.push<dynamic>(
-                                      context,
-                                      MaterialPageRoute<dynamic>(
-                                        builder: (BuildContext context) => MainPage(),
-                                      )
-                                  );
-                                } else if (size==2) {
+
                                   showModalBottomSheet<void>(
                                       context: context,
                                       backgroundColor: Colors.transparent,
@@ -428,7 +256,7 @@ class _AppointmentDetailState extends State<AppointmentDetail>
                                       builder: (BuildContext context) {
                                         return
                                           SlideInUp(
-                                            child:  Container(
+                                            child: Container(
                                               height: 190,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -469,7 +297,7 @@ class _AppointmentDetailState extends State<AppointmentDetail>
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
                                                               Container(
-                                                                child: Text('Tanya IT',
+                                                                child: Text("Customer Service",
                                                                     overflow: TextOverflow.ellipsis,
                                                                     maxLines: 1,
                                                                     style: TextStyle(
@@ -487,9 +315,9 @@ class _AppointmentDetailState extends State<AppointmentDetail>
                                                               Container(
                                                                 width: MediaQuery.of(context).size.width*0.6,
                                                                 padding: EdgeInsets.only(right: 5),
-                                                                child: Text('Untuk menghubungi bagian IT anda akan terhubung melalui WhatsApp',
+                                                                child: Text('Kamu akan terhubung melalui WhatsApp Customer Service',
                                                                     overflow: TextOverflow.ellipsis,
-                                                                    maxLines: 2,
+                                                                    maxLines: 3,
                                                                     style: TextStyle(
                                                                         fontFamily: AppTheme.fontName,
                                                                         fontWeight: FontWeight.w500,
@@ -544,7 +372,9 @@ class _AppointmentDetailState extends State<AppointmentDetail>
                                           );
                                       }
                                   );
-                                } else if (size==3) {
+
+                                } else if (size==2) {
+
                                   showModalBottomSheet<void>(
                                       context: context,
                                       backgroundColor: Colors.transparent,
@@ -605,7 +435,7 @@ class _AppointmentDetailState extends State<AppointmentDetail>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma & Appointment merupakan aplikasi yang dikembangkan oleh Tim IT PT Gelora Aksara Pratama untuk mendukung proses bisnis perusahaan. \n\nVersi yang saat ini anda gunakan adalah v 1.0.8',
+                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.1',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.fontName,
                                                                 fontWeight: FontWeight.w500,
@@ -636,6 +466,7 @@ class _AppointmentDetailState extends State<AppointmentDetail>
                                           );
                                       }
                                   );
+
                                 }
                               },
                               itemBuilder: (BuildContext context) => <PopupMenuItem<int>>[
@@ -643,12 +474,12 @@ class _AppointmentDetailState extends State<AppointmentDetail>
                                   value: 1,
                                   child: Row(
                                     children: [
-                                      Icon(Icons.home_outlined),
+                                      Icon(Icons.headset_mic_outlined),
                                       SizedBox(
                                         // sized box with width 10
                                         width: 10,
                                       ),
-                                      Text("Home")
+                                      Text("Customer Service")
                                     ],
                                   ),
                                 ),
@@ -656,22 +487,8 @@ class _AppointmentDetailState extends State<AppointmentDetail>
                                   value: 2,
                                   child: Row(
                                     children: [
-                                      Icon(Icons.headset_mic_outlined),
-                                      SizedBox(
-                                        // sized box with width 10
-                                        width: 10,
-                                      ),
-                                      Text("Tanya IT")
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: 3,
-                                  child: Row(
-                                    children: [
                                       Icon(Icons.phone_android_rounded),
                                       SizedBox(
-                                        // sized box with width 10
                                         width: 10,
                                       ),
                                       Text("Tentang App")

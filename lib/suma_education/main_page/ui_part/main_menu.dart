@@ -5,15 +5,18 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:getwidget/components/button/gf_button.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:suma_education/suma_education/appointment_approver/screen/appointment_approver_screen.dart';
+import 'package:suma_education/suma_education/main_page/model/new_book_data.dart';
 import 'package:suma_education/suma_education/main_page/model/menu_data.dart';
-import 'package:suma_education/suma_education/proposal_approver/screen/proposal_approver_screen.dart';
+import 'package:suma_education/suma_education/main_page/screen/interaktif_video_screen.dart';
+import 'package:suma_education/suma_education/main_page/screen/kreasi_video_screen.dart';
+import 'package:suma_education/suma_education/main_page/screen/tutorial_video_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math' as math;
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -22,6 +25,7 @@ List<MenuData> listMenu = [];
 SharedPreferences? prefs;
 String namaUser = "";
 String fotoProfil = "";
+List<NewBookData> book = [];
 final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 class MainMenu extends StatelessWidget {
@@ -36,7 +40,6 @@ class MainMenu extends StatelessWidget {
   Future<String> getUser() async {
     final SharedPreferences prefs = await _prefs;
     namaUser = prefs.getString("data_username")!;
-
     try {
       var response = await http.post(
           Uri.parse("https://suma.geloraaksara.co.id/api/profile_picture"),
@@ -54,7 +57,29 @@ class MainMenu extends StatelessWidget {
     } catch (e) {
       print("error");
     }
+    return 'true';
+  }
 
+  Future<String> _getBookNew() async {
+    try {
+      var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/get_content_book_new"),
+          body: {
+            "id_user": "request",
+          });
+      book = [];
+      var dataBookNew = json.decode(response.body);
+      print(dataBookNew);
+      for (var i = 0; i < dataBookNew['data'].length; i++) {
+        var id = dataBookNew['data'][i]['id'];
+        var title_content = dataBookNew['data'][i]['title_content'];
+        var cover_picture = dataBookNew['data'][i]['cover_picture'];
+        var created_at = dataBookNew['data'][i]['created_at'];
+        var updated_at = dataBookNew['data'][i]['updated_at'];
+        book.add(NewBookData(id, title_content, cover_picture, created_at, updated_at));
+      }
+    } catch (e) {
+      print("Error");
+    }
     return 'true';
   }
 
@@ -90,56 +115,83 @@ class MainMenu extends StatelessWidget {
                                   Expanded(
                                     flex: 2,
                                     child:
-                                    FutureBuilder<String>(
-                                      future: getUser(),
-                                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return Container(
+                                      Stack(
+                                        children: [
+                                          Container(
                                             width: 150,
                                             height: 150,
                                             margin: EdgeInsets.only(right: 15),
                                             decoration: BoxDecoration(
-                                              color: Colors.orange,
                                               shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                               image: DecorationImage(
-                                                  image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                                  image: AssetImage('assets/images/default_profile.jpg'),
                                                   fit: BoxFit.fitWidth
                                               ),
                                             ),
-                                          );
-                                        } else {
-                                          if (snapshot.hasError)
-                                            return Container(
-                                              width: 150,
-                                              height: 150,
+                                          ),
+                                          Container(
+                                              alignment: Alignment.center,
                                               margin: EdgeInsets.only(right: 15),
-                                              decoration: BoxDecoration(
-                                                color: Colors.orange,
-                                                shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                                image: DecorationImage(
-                                                    image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
-                                                    fit: BoxFit.fitWidth
-                                                ),
-                                              ),
-                                            );
-                                          else
-                                            return
+                                              child:
                                               Container(
-                                                width: 150,
-                                                height: 150,
-                                                margin: EdgeInsets.only(right: 15),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.orange,
-                                                  shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                                  image: DecorationImage(
-                                                      image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/'+fotoProfil),
-                                                      fit: BoxFit.fitWidth
-                                                  ),
+                                                height: 20,
+                                                width: 20,
+                                                child: CircularProgressIndicator(
+                                                  color: Colors.deepOrange.withOpacity(0.8),
+                                                  strokeWidth: 2.5,
                                                 ),
-                                              );
-                                        }
-                                      },
-                                    ),
+                                              )
+                                          ),
+                                          FutureBuilder<String>(
+                                            future: getUser(),
+                                            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Container(
+                                                  width: 150,
+                                                  height: 150,
+                                                  margin: EdgeInsets.only(right: 15),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.orange,
+                                                    shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                                    image: DecorationImage(
+                                                        image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                                        fit: BoxFit.fitWidth
+                                                    ),
+                                                  ),
+                                                );
+                                              } else {
+                                                if (snapshot.hasError)
+                                                  return Container(
+                                                    width: 150,
+                                                    height: 150,
+                                                    margin: EdgeInsets.only(right: 15),
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                                      image: DecorationImage(
+                                                          image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                                          fit: BoxFit.fitWidth
+                                                      ),
+                                                    ),
+                                                  );
+                                                else
+                                                  return
+                                                    Container(
+                                                      width: 150,
+                                                      height: 150,
+                                                      margin: EdgeInsets.only(right: 15),
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                                        image: DecorationImage(
+                                                            image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/'+fotoProfil),
+                                                            fit: BoxFit.fitWidth
+                                                        ),
+                                                      ),
+                                                    );
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      )
                                   ),
                                   Expanded(
                                     flex: 8,
@@ -412,7 +464,7 @@ class MainMenu extends StatelessWidget {
                         )
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
+                        padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
                         decoration: BoxDecoration(
                           color: AppTheme.white,
                           borderRadius: BorderRadius.only(
@@ -475,34 +527,67 @@ class MainMenu extends StatelessWidget {
                                           ZoomTapAnimation(
                                             onTap: () {
                                               new Future.delayed(new Duration(milliseconds: 300), () {
-
+                                                Navigator.push<dynamic>(
+                                                    context,
+                                                    MaterialPageRoute<dynamic>(
+                                                      builder: (BuildContext context) => KreasiScreen(animationController: animationController),
+                                                    )
+                                                );
                                               });
                                             },
-                                            child: Container(
-                                              padding: EdgeInsets.all(10),
-                                              margin: EdgeInsets.only(right: 15),
-                                              height: 90,
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                color: AppTheme.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(10.0),
-                                                    bottomLeft: Radius.circular(10.0),
-                                                    bottomRight: Radius.circular(10.0),
-                                                    topRight: Radius.circular(10.0)),
-                                                boxShadow: <BoxShadow>[
-                                                  BoxShadow(
-                                                      color: AppTheme.grey.withOpacity(0.2),
-                                                      offset: Offset(0.0, 1.0), //(x,y)
-                                                      blurRadius: 2.0),
-                                                ],
-                                              ),
-                                              child: Image.asset(
-                                                'assets/images/ic_kreasi.png',
-                                                width: double.infinity,
-                                                height: double.infinity,
-                                                fit: BoxFit.cover,
-                                              ),
+                                            child:
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.all(10),
+                                                  margin: EdgeInsets.only(right: 15),
+                                                  height: 90,
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.orange.shade50,
+                                                    borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(10.0),
+                                                        bottomLeft: Radius.circular(10.0),
+                                                        bottomRight: Radius.circular(10.0),
+                                                        topRight: Radius.circular(10.0)),
+                                                    boxShadow: <BoxShadow>[
+                                                      BoxShadow(
+                                                          color: AppTheme.grey.withOpacity(0.2),
+                                                          offset: Offset(0.0, 1.0), //(x,y)
+                                                          blurRadius: 2.0),
+                                                    ],
+                                                  ),
+                                                  child:
+                                                  Image.asset(
+                                                    'assets/images/ic_kreasi.png',
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  bottom: 2, right: 27,
+                                                  child: Container(
+                                                    width: 15,
+                                                    height: 15,
+                                                    decoration: BoxDecoration(
+                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  bottom: 2, right: 17,
+                                                  child: Container(
+                                                    width: 20,
+                                                    height: 20,
+                                                    decoration: BoxDecoration(
+                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           SizedBox(height: 12),
@@ -527,35 +612,67 @@ class MainMenu extends StatelessWidget {
                                           ZoomTapAnimation(
                                             onTap: () {
                                               new Future.delayed(new Duration(milliseconds: 300), () {
-
+                                                Navigator.push<dynamic>(
+                                                    context,
+                                                    MaterialPageRoute<dynamic>(
+                                                      builder: (BuildContext context) => InteraktifScreen(animationController: animationController),
+                                                    )
+                                                );
                                               });
                                             },
-                                            child: Container(
-                                                height: 90,
-                                                width: double.infinity,
-                                                padding: EdgeInsets.all(10),
-                                                margin: EdgeInsets.only(right: 7, left: 7),
-                                                decoration: BoxDecoration(
-                                                  color: AppTheme.white,
-                                                  borderRadius: BorderRadius.only(
-                                                      topLeft: Radius.circular(10.0),
-                                                      bottomLeft: Radius.circular(10.0),
-                                                      bottomRight: Radius.circular(10.0),
-                                                      topRight: Radius.circular(10.0)),
-                                                  boxShadow: <BoxShadow>[
-                                                    BoxShadow(
-                                                        color: AppTheme.grey.withOpacity(0.2),
-                                                        offset: Offset(0.0, 1.0), //(x,y)
-                                                        blurRadius: 2.0),
-                                                  ],
-                                                ),
-                                                child: Image.asset(
-                                                  'assets/images/ic_interaktif.png',
+                                            child:
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                  height: 90,
                                                   width: double.infinity,
-                                                  height: double.infinity,
-                                                  fit: BoxFit.cover,
+                                                  padding: EdgeInsets.all(10),
+                                                  margin: EdgeInsets.only(right: 7, left: 7),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.orange.shade50,
+                                                    borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(10.0),
+                                                        bottomLeft: Radius.circular(10.0),
+                                                        bottomRight: Radius.circular(10.0),
+                                                        topRight: Radius.circular(10.0)),
+                                                    boxShadow: <BoxShadow>[
+                                                      BoxShadow(
+                                                          color: AppTheme.grey.withOpacity(0.2),
+                                                          offset: Offset(0.0, 1.0), //(x,y)
+                                                          blurRadius: 2.0),
+                                                    ],
+                                                  ),
+                                                  child: Image.asset(
+                                                    'assets/images/ic_interaktif.png',
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
-                                              ),
+                                                Positioned(
+                                                  bottom: 2, right: 19,
+                                                  child: Container(
+                                                    width: 15,
+                                                    height: 15,
+                                                    decoration: BoxDecoration(
+                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  bottom: 2, right: 9,
+                                                  child: Container(
+                                                    width: 20,
+                                                    height: 20,
+                                                    decoration: BoxDecoration(
+                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           SizedBox(height: 12),
                                           Container(
@@ -578,34 +695,66 @@ class MainMenu extends StatelessWidget {
                                           ZoomTapAnimation(
                                             onTap: () {
                                               new Future.delayed(new Duration(milliseconds: 300), () {
-
+                                                Navigator.push<dynamic>(
+                                                    context,
+                                                    MaterialPageRoute<dynamic>(
+                                                      builder: (BuildContext context) => TutorialScreen(animationController: animationController),
+                                                    )
+                                                );
                                               });
                                             },
-                                            child: Container(
-                                              height: 90,
-                                              width: double.infinity,
-                                              padding: EdgeInsets.all(10),
-                                              margin: EdgeInsets.only(left: 15),
-                                              decoration: BoxDecoration(
-                                                color: AppTheme.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(10.0),
-                                                    bottomLeft: Radius.circular(10.0),
-                                                    bottomRight: Radius.circular(10.0),
-                                                    topRight: Radius.circular(10.0)),
-                                                boxShadow: <BoxShadow>[
-                                                  BoxShadow(
-                                                      color: AppTheme.grey.withOpacity(0.2),
-                                                      offset: Offset(0.0, 1.0), //(x,y)
-                                                      blurRadius: 2.0),
-                                                ],
-                                              ),
-                                              child: Image.asset(
-                                                'assets/images/ic_tutorial.png',
-                                                width: double.infinity,
-                                                height: double.infinity,
-                                                fit: BoxFit.cover,
-                                              ),
+                                            child:
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                  height: 90,
+                                                  width: double.infinity,
+                                                  padding: EdgeInsets.all(10),
+                                                  margin: EdgeInsets.only(left: 15),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.orange.shade50,
+                                                    borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(10.0),
+                                                        bottomLeft: Radius.circular(10.0),
+                                                        bottomRight: Radius.circular(10.0),
+                                                        topRight: Radius.circular(10.0)),
+                                                    boxShadow: <BoxShadow>[
+                                                      BoxShadow(
+                                                          color: AppTheme.grey.withOpacity(0.2),
+                                                          offset: Offset(0.0, 1.0), //(x,y)
+                                                          blurRadius: 2.0),
+                                                    ],
+                                                  ),
+                                                  child: Image.asset(
+                                                    'assets/images/ic_tutorial.png',
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  bottom: 2, right:12,
+                                                  child: Container(
+                                                    width: 15,
+                                                    height: 15,
+                                                    decoration: BoxDecoration(
+                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  bottom: 2, right: 2,
+                                                  child: Container(
+                                                    width: 20,
+                                                    height: 20,
+                                                    decoration: BoxDecoration(
+                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           SizedBox(height: 12),
@@ -629,7 +778,7 @@ class MainMenu extends StatelessWidget {
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 10),
-                        padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
+                        padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
                         decoration: BoxDecoration(
                           color: AppTheme.white,
                           borderRadius: BorderRadius.only(
@@ -681,10 +830,258 @@ class MainMenu extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 20),
-                            //konten reading
+                            Container(
+                              height: MediaQuery.of(context).size.height/2.5,
+                              child: FutureBuilder<String>(
+                                future: _getBookNew(),
+                                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return GridView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                          childAspectRatio: 2.1 / 3,
+                                        ),
+                                        itemCount: book.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          var tinggi = MediaQuery.of(context).size.height;
+                                          var lebar = MediaQuery.of(context).size.width;
+                                          return itemBuku(book[index], context, lebar, tinggi);
+                                        }
+                                    );
+                                  } else {
+                                    if (snapshot.hasError)
+                                      return GridView.builder(
+                                          physics: NeverScrollableScrollPhysics(),
+                                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                            childAspectRatio: 2.1 / 3,
+                                          ),
+                                          itemCount: book.length,
+                                          itemBuilder: (BuildContext context, int index) {
+                                            var tinggi = MediaQuery.of(context).size.height;
+                                            var lebar = MediaQuery.of(context).size.width;
+                                            return itemBuku(book[index], context, lebar, tinggi);
+                                          }
+                                      );
+                                    else
+                                      return
+                                        GridView.builder(
+                                            physics: NeverScrollableScrollPhysics(),
+                                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 3,
+                                              childAspectRatio: 2.1 / 3,
+                                            ),
+                                            itemCount: book.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              var tinggi = MediaQuery.of(context).size.height;
+                                              var lebar = MediaQuery.of(context).size.width;
+                                              return itemBuku(book[index], context, lebar, tinggi);
+                                            }
+                                        );
+                                  }
+                                },
+                              ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.only(top: 20, bottom: 10),
+                              child:
+                              ZoomTapAnimation(
+                                  child: GestureDetector(
+                                    onTap: () {
+
+                                    },
+                                    child:
+                                    Text(
+                                      "Lihat Selengkapnya",
+                                      textAlign: TextAlign.left,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14,
+                                        letterSpacing: 0.5,
+                                        color: AppTheme.grey.withOpacity(0.7),
+                                      ),
+                                    )
+                                  )
+                              ),
+                            )
                           ],
                         )
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(top: 15),
+                          padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
+                          decoration: BoxDecoration(
+                            color: AppTheme.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                bottomLeft: Radius.circular(10.0),
+                                bottomRight: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0)),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                  color: AppTheme.grey.withOpacity(0.2),
+                                  offset: Offset(0.0, 1.0), //(x,y)
+                                  blurRadius: 2.0),
+                            ],
+                          ),
+                          child:
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'SUMA',
+                                    style: TextStyle(
+                                        color: Colors.orange,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16
+                                    ),
+                                  ),
+                                  Text(
+                                    'GAMES',
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Mainkan games Suma',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontFamily: 'RobotoMono',
+                                    color: Colors.black87.withOpacity(0.5),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    flex: 5,
+                                    child:
+                                    Column(
+                                      children: [
+                                        ZoomTapAnimation(
+                                          onTap: () {
+
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(10),
+                                            margin: EdgeInsets.only(right: 15),
+                                            height: 120,
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              color: Colors.orange.shade50,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10.0),
+                                                  bottomLeft: Radius.circular(10.0),
+                                                  bottomRight: Radius.circular(10.0),
+                                                  topRight: Radius.circular(10.0)),
+                                              boxShadow: <BoxShadow>[
+                                                BoxShadow(
+                                                    color: AppTheme.grey.withOpacity(0.2),
+                                                    offset: Offset(0.0, 1.0), //(x,y)
+                                                    blurRadius: 2.0),
+                                              ],
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(5.0),
+                                              child:
+                                              Image.asset(
+                                                'assets/images/games_1.png',
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 12),
+                                        Container(
+                                            margin: EdgeInsets.only(right: 10),
+                                            child: Text(
+                                                "Puzzle",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 14
+                                                )
+                                            )
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 5,
+                                    child:
+                                    Column(
+                                      children: [
+                                        ZoomTapAnimation(
+                                          onTap: () {
+
+                                          },
+                                          child: Container(
+                                            height: 120,
+                                            width: double.infinity,
+                                            padding: EdgeInsets.all(10),
+                                            margin: EdgeInsets.only(left: 15),
+                                            decoration: BoxDecoration(
+                                              color: Colors.orange.shade50,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10.0),
+                                                  bottomLeft: Radius.circular(10.0),
+                                                  bottomRight: Radius.circular(10.0),
+                                                  topRight: Radius.circular(10.0)),
+                                              boxShadow: <BoxShadow>[
+                                                BoxShadow(
+                                                    color: AppTheme.grey.withOpacity(0.2),
+                                                    offset: Offset(0.0, 1.0), //(x,y)
+                                                    blurRadius: 2.0),
+                                              ],
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(5.0),
+                                              child:
+                                              Image.asset(
+                                                'assets/images/games_2.png',
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 12),
+                                        Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            child: Text(
+                                                "Tic Tac Toe",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 14
+                                                )
+                                            )
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          )
                       ),
                     ],
                   ),
@@ -695,6 +1092,75 @@ class MainMenu extends StatelessWidget {
       },
     );
   }
+}
+
+Widget itemBuku(NewBookData book, BuildContext context,var lebar,var tinggi){
+  var tinggifix = tinggi/7;
+  var lebarfix = lebar/4;
+  return
+    FadeInUp(
+        delay : Duration(milliseconds: 500),
+        child: ZoomTapAnimation(
+            child: GestureDetector(
+                onTap: () {
+
+                },
+                child: Container(
+                    height: 140,
+                    width:  lebar/4,
+                    margin: EdgeInsets.only(top: 5, bottom: 5),
+                    child:
+                    Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.orange.shade50,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(7.0),
+                                bottomLeft: Radius.circular(7.0),
+                                bottomRight: Radius.circular(7.0),
+                                topRight: Radius.circular(7.0)),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                  color: AppTheme.grey.withOpacity(0.2),
+                                  offset: Offset(0.0, 1.0), //(x,y)
+                                  blurRadius: 2.0),
+                            ],
+                          ),
+                          alignment: Alignment.center,
+                          width: lebarfix,
+                          margin: EdgeInsets.only(bottom:18,top: 35,left: 5,right: 5,),
+                          height: tinggifix,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          width: lebarfix,
+                          margin: EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 25),
+                          height: tinggifix,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5.0),
+                            child:
+                            Image.network(
+                                book.cover_picture,
+                                width: lebarfix,
+                                height: tinggifix,
+                                fit:BoxFit.fill
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child:
+                          Text(book.title_content,style: GoogleFonts.roboto( fontSize: 13)),
+                        )
+                      ],
+                    )
+                )
+            )
+        )
+    );
 }
 
 class CurvePainter extends CustomPainter {

@@ -7,8 +7,6 @@ import 'package:suma_education/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
-import 'package:suma_education/suma_education/proposal_approver/model/proposal_list_data.dart';
-import 'package:suma_education/suma_education/proposal_approver/screen/proposal_detail_view.dart';
 import 'package:ripple_animation/ripple_animation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -112,10 +110,10 @@ class _LogoutButtonState extends State<LogoutButton>
                           decoration: BoxDecoration(
                             gradient: LinearGradient(colors: [
                               AppTheme.white.withOpacity(0.7),
-                              Colors.red.shade50
+                              Colors.deepOrange.shade50
                             ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                            border: Border.all(color: Colors.redAccent.withOpacity(0.8)),
-                            color: Colors.red.shade50,
+                            border: Border.all(color: Colors.deepOrange.withOpacity(0.8)),
+                            color: Colors.deepOrange.shade50,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10.0),
                                 bottomLeft: Radius.circular(10.0),
@@ -141,14 +139,14 @@ class _LogoutButtonState extends State<LogoutButton>
                                       margin: EdgeInsets.only(right: 10),
                                       child: logoutLoad ? SizedBox(
                                         child: CircularProgressIndicator(
-                                          color: Colors.redAccent.withOpacity(0.8),
+                                          color: Colors.deepOrange.withOpacity(0.8),
                                           strokeWidth: 2.5,
                                         ),
                                         height: 13.0,
                                         width: 13.0,
                                       ) : null,
                                     ),
-                                    Text('Logout', style: TextStyle(color: Colors.redAccent.withOpacity(0.8), fontSize: 17)),
+                                    Text('Logout', style: TextStyle(color: Colors.deepOrange.withOpacity(0.8), fontSize: 17)),
                                   ],
                                 )
                             ),

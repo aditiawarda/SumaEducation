@@ -12,6 +12,7 @@ SharedPreferences? prefs;
 
 String? namaUser = "";
 String? fotoProfil = "";
+String? emailUser = "";
 
 class UserBio extends StatelessWidget {
   final AnimationController? animationController;
@@ -35,6 +36,7 @@ class UserBio extends StatelessWidget {
       String status = json["status"];
       if (status == "Success") {
         fotoProfil = json["filename"];
+        emailUser  = json["email"];
         print(fotoProfil.toString());
       } else {
         print("error");
@@ -85,51 +87,86 @@ class UserBio extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          FutureBuilder<String>(
-                            future: getUser(),
-                            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return Container(
-                                  width: 80,
-                                  height: 80,
+                          Stack(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                child: Container(
+                                  width: 90,
+                                  height: 90,
+                                  alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: Colors.orange,
                                     shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                     image: DecorationImage(
-                                        image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                        image: AssetImage('assets/images/default_profile.jpg'),
                                         fit: BoxFit.fitWidth
                                     ),
                                   ),
-                                );
-                              } else {
-                                if (snapshot.hasError)
-                                  return Container(
-                                    width: 80,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      color: Colors.orange,
-                                      shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                      image: DecorationImage(
-                                          image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
-                                          fit: BoxFit.fitWidth
-                                      ),
+                                ),
+                              ),
+                              Container(
+                                  alignment: Alignment.center,
+                                  width: double.infinity,
+                                  height: 90,
+                                  child:
+                                  Container(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.deepOrange.withOpacity(0.8),
+                                      strokeWidth: 2.5,
                                     ),
-                                  );
-                                else
-                                  return Container(
-                                    width: 80,
-                                    height: 80,
-                                    decoration: BoxDecoration(
-                                      color: Colors.orange,
-                                      shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                      image: DecorationImage(
-                                          image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/'+fotoProfil!),
-                                          fit: BoxFit.fitWidth
-                                      ),
-                                    ),
-                                  );
-                              }
-                            },
+                                  )
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                child: FutureBuilder<String>(
+                                  future: getUser(),
+                                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return Container(
+                                        width: 90,
+                                        height: 90,
+                                        decoration: BoxDecoration(
+                                          color: Colors.orange,
+                                          shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                          image: DecorationImage(
+                                              image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                              fit: BoxFit.fitWidth
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      if (snapshot.hasError)
+                                        return Container(
+                                          width: 90,
+                                          height: 90,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                            image: DecorationImage(
+                                                image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                                fit: BoxFit.fitWidth
+                                            ),
+                                          ),
+                                        );
+                                      else
+                                        return
+                                          Container(
+                                            width: 90,
+                                            height: 90,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                              image: DecorationImage(
+                                                  image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/'+fotoProfil!),
+                                                  fit: BoxFit.fitWidth
+                                              ),
+                                            ),
+                                          );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
@@ -167,6 +204,50 @@ class UserBio extends StatelessWidget {
                                         fontFamily: AppTheme.fontName,
                                         fontWeight: FontWeight.normal,
                                         fontSize: 20,
+                                        letterSpacing: 0.0,
+                                        color: AppTheme.white,
+                                      ),
+                                    );
+                                }
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child:
+                            FutureBuilder<String>(
+                              future: getUser(),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return Text(emailUser!,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 15,
+                                      letterSpacing: 0.0,
+                                      color: AppTheme.white,
+                                    ),
+                                  );
+                                } else {
+                                  if (snapshot.hasError)
+                                    return Text(emailUser!,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15,
+                                        letterSpacing: 0.0,
+                                        color: AppTheme.white,
+                                      ),
+                                    );
+                                  else
+                                    return Text(emailUser!,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15,
                                         letterSpacing: 0.0,
                                         color: AppTheme.white,
                                       ),

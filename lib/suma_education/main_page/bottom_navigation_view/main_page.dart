@@ -2,12 +2,13 @@ import 'dart:async';
 
 import 'package:suma_education/suma_education/main_page/bottom_navigation_view/bottom_bar_view.dart';
 import 'package:suma_education/suma_education/main_page/model/tabIcon_data.dart';
+import 'package:suma_education/suma_education/main_page/screen/feed_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/home_screen.dart';
+import 'package:suma_education/suma_education/main_page/screen/product_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../app_theme/app_theme.dart';
-import '../../proposal_approver/screen/proposal_approver_screen.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -99,7 +100,7 @@ class _MainPageState extends State<MainPage>
                 }
                 setState(() {
                   tabBody =
-                      ProfileScreen(animationController: animationController);
+                      FeedScreen(animationController: animationController);
                 });
               });
             } else if (index == 2) {
@@ -109,7 +110,7 @@ class _MainPageState extends State<MainPage>
                 }
                 setState(() {
                   tabBody =
-                      ProfileScreen(animationController: animationController);
+                      ProductScreen(animationController: animationController);
                 });
               });
             } else if (index == 3) {

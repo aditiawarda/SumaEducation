@@ -1,31 +1,31 @@
-// ignore_for_file: deprecated_member_use, unnecessary_statements
+// ignore_for_file: deprecated_member_use
+
+import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/services.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
-import 'package:suma_education/suma_education/main_page/bottom_navigation_view/main_page.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_statistics.dart';
-import 'package:suma_education/suma_education/app_theme/app_theme.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_list_queue.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:suma_education/suma_education/main_page/ui_part/main_logout.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/main_user_bio.dart';
 import 'package:flutter/material.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_title_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+import '../../app_theme/app_theme.dart';
 
-class ProposalApproverScreen extends StatefulWidget {
-  const ProposalApproverScreen({Key? key, this.animationController}) : super(key: key);
+class ProductScreen extends StatefulWidget {
+  const ProductScreen({Key? key, this.animationController}) : super(key: key);
 
   final AnimationController? animationController;
   @override
-  _ProposalApproverScreenState createState() => _ProposalApproverScreenState();
+  _ProductScreenState createState() => _ProductScreenState();
 }
 
-class _ProposalApproverScreenState extends State<ProposalApproverScreen>
+class _ProductScreenState extends State<ProductScreen>
     with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
   AnimationController? animationControllerBottomSheet;
@@ -43,7 +43,6 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
             parent: widget.animationController!,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
     addAllListData();
-    ProposalStatistics().animationController;
 
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
@@ -71,22 +70,10 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
   }
 
   void addAllListData() {
-    const int count = 9;
+    const int count = 5;
 
     listViews.add(
-      ProposalStatistics(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 1, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-
-    listViews.add(
-      TitleViewProposal(
-        titleTxt: 'Antrian Proposal',
-        subTxt: 'Semua data',
+      UserBio(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
@@ -96,70 +83,14 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
     );
 
     listViews.add(
-      ProposalListQueue(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
+      LogoutButton(
+        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+            Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        mainScreenAnimationController: widget.animationController!,
       ),
     );
-
-    // listViews.add(
-    //   HelloPart(
-    //       animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-    //           CurvedAnimation(
-    //               parent: widget.animationController!,
-    //               curve: Interval((1 / count) * 8, 1.0,
-    //                   curve: Curves.fastOutSlowIn))),
-    //       animationController: widget.animationController!),
-    // );
-
-    // listViews.add(
-    //   TitleView(
-    //     titleTxt: 'Body measurement',
-    //     subTxt: 'Today',
-    //     animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-    //         parent: widget.animationController!,
-    //         curve:
-    //             Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-    //     animationController: widget.animationController!,
-    //   ),
-    // );
-
-    // listViews.add(
-    //   BodyMeasurementView(
-    //     animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-    //         parent: widget.animationController!,
-    //         curve:
-    //             Interval((1 / count) * 5, 1.0, curve: Curves.fastOutSlowIn))),
-    //     animationController: widget.animationController!,
-    //   ),
-    // );
-
-    // listViews.add(
-    //   TitleView(
-    //     titleTxt: 'Water',
-    //     subTxt: 'Aqua SmartBottle',
-    //     animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-    //         parent: widget.animationController!,
-    //         curve:
-    //             Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
-    //     animationController: widget.animationController!,
-    //   ),
-    // );
-
-    // listViews.add(
-    //   WaterView(
-    //     mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-    //         CurvedAnimation(
-    //             parent: widget.animationController!,
-    //             curve: Interval((1 / count) * 7, 1.0,
-    //                 curve: Curves.fastOutSlowIn))),
-    //     mainScreenAnimationController: widget.animationController!,
-    //   ),
-    // );
 
   }
 
@@ -184,6 +115,15 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness:
+      !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
     return Container(
       color: AppTheme.background,
       child: Scaffold(
@@ -217,31 +157,32 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
         if (!snapshot.hasData) {
           return const SizedBox();
         } else {
-          return Theme(
-            data: Theme.of(context).copyWith(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.deepOrange[100])),
-            child:
-            SmartRefresher(
-              enablePullDown: true,
-              enablePullUp: false,
-              header: WaterDropHeader(),
-              footer: null,
-              controller: _refreshController,
-              onRefresh: _onRefresh,
-              onLoading: _onLoading,
-              child: ListView.builder(
-                controller: scrollController,
-                padding: EdgeInsets.only(
-                  bottom: 62 + MediaQuery.of(context).padding.bottom,
+          return
+            Theme(
+              data: Theme.of(context).copyWith(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.deepOrange[100])),
+              child:
+              SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: false,
+                header: WaterDropHeader(),
+                footer: null,
+                controller: _refreshController,
+                onRefresh: _onRefresh,
+                onLoading: _onLoading,
+                child: ListView.builder(
+                  controller: scrollController,
+                  padding: EdgeInsets.only(
+                    bottom: 62 + MediaQuery.of(context).padding.bottom,
+                  ),
+                  itemCount: listViews.length,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    widget.animationController?.forward();
+                    return listViews[index];
+                  },
                 ),
-                itemCount: listViews.length,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  widget.animationController?.forward();
-                  return listViews[index];
-                },
               ),
-            ),
-          );
+            );
         }
       },
     );
@@ -286,34 +227,12 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {
-                                  new Future.delayed(new Duration(milliseconds: 300), () {
-                                    Navigator.pop(context);
-                                  });
-                                },
-                                child: Center(
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: AppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Proposal Suma',
+                                  'Produk Suma',
                                   textAlign: TextAlign.left,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,
                                     fontWeight: FontWeight.w700,
@@ -329,13 +248,6 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                               onSelected: (int size) {
                                 print(size);
                                 if (size==1){
-                                  Navigator.pop<dynamic>(
-                                      context,
-                                      MaterialPageRoute<dynamic>(
-                                        builder: (BuildContext context) => MainPage(),
-                                      )
-                                  );
-                                } else if (size==2) {
 
                                   showModalBottomSheet<void>(
                                       context: context,
@@ -344,7 +256,7 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                                       builder: (BuildContext context) {
                                         return
                                           SlideInUp(
-                                            child:  Container(
+                                            child: Container(
                                               height: 190,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -385,7 +297,7 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
                                                               Container(
-                                                                child: Text('Tanya IT',
+                                                                child: Text("Customer Service",
                                                                     overflow: TextOverflow.ellipsis,
                                                                     maxLines: 1,
                                                                     style: TextStyle(
@@ -403,9 +315,9 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                                                               Container(
                                                                 width: MediaQuery.of(context).size.width*0.6,
                                                                 padding: EdgeInsets.only(right: 5),
-                                                                child: Text('Untuk menghubungi bagian IT anda akan terhubung melalui WhatsApp',
+                                                                child: Text('Kamu akan terhubung melalui WhatsApp Customer Service',
                                                                     overflow: TextOverflow.ellipsis,
-                                                                    maxLines: 2,
+                                                                    maxLines: 3,
                                                                     style: TextStyle(
                                                                         fontFamily: AppTheme.fontName,
                                                                         fontWeight: FontWeight.w500,
@@ -461,7 +373,8 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                                       }
                                   );
 
-                                } else if (size==3) {
+                                } else if (size==2) {
+
                                   showModalBottomSheet<void>(
                                       context: context,
                                       backgroundColor: Colors.transparent,
@@ -522,7 +435,7 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma & Appointment merupakan aplikasi yang dikembangkan oleh Tim IT PT Gelora Aksara Pratama untuk mendukung proses bisnis perusahaan. \n\nVersi yang saat ini anda gunakan adalah v 1.0.8',
+                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.1',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.fontName,
                                                                 fontWeight: FontWeight.w500,
@@ -553,6 +466,7 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                                           );
                                       }
                                   );
+
                                 }
                               },
                               itemBuilder: (BuildContext context) => <PopupMenuItem<int>>[
@@ -560,12 +474,12 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                                   value: 1,
                                   child: Row(
                                     children: [
-                                      Icon(Icons.home_outlined),
+                                      Icon(Icons.headset_mic_outlined),
                                       SizedBox(
                                         // sized box with width 10
                                         width: 10,
                                       ),
-                                      Text("Home")
+                                      Text("Customer Service")
                                     ],
                                   ),
                                 ),
@@ -573,22 +487,8 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                                   value: 2,
                                   child: Row(
                                     children: [
-                                      Icon(Icons.headset_mic_outlined),
-                                      SizedBox(
-                                        // sized box with width 10
-                                        width: 10,
-                                      ),
-                                      Text("Tanya IT")
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: 3,
-                                  child: Row(
-                                    children: [
                                       Icon(Icons.phone_android_rounded),
                                       SizedBox(
-                                        // sized box with width 10
                                         width: 10,
                                       ),
                                       Text("Tentang App")
@@ -599,7 +499,7 @@ class _ProposalApproverScreenState extends State<ProposalApproverScreen>
                               offset: Offset(-6,45),
                               color: Colors.white,
                               elevation: 5,
-                            )
+                            ),
                           ],
                         ),
                       )

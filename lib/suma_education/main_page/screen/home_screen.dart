@@ -20,7 +20,6 @@ import 'package:suma_education/suma_education/main_page/ui_part/main_made_with_l
 import 'package:suma_education/suma_education/main_page/ui_part/main_menu.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_limit_layout.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';

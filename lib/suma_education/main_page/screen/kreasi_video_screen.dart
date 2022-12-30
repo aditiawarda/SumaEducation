@@ -1,30 +1,31 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/services.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
-import 'package:suma_education/main.dart';
-import 'package:suma_education/suma_education/main_page/bottom_navigation_view/main_page.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_limit_layout.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_list_all_data.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:suma_education/suma_education/main_page/ui_part/main_logout.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/main_user_bio.dart';
 import 'package:flutter/material.dart';
-import 'package:suma_education/suma_education/proposal_approver/ui_part/proposal_note_color.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme/app_theme.dart';
 
-class ProposalAllList extends StatefulWidget {
-  const ProposalAllList({Key? key, required this.animationController}) : super(key: key);
+class KreasiScreen extends StatefulWidget {
+  const KreasiScreen({Key? key, this.animationController}) : super(key: key);
 
   final AnimationController? animationController;
   @override
-  _ProposalAllListState createState() => _ProposalAllListState();
+  _KreasiScreenState createState() => _KreasiScreenState();
 }
 
-class _ProposalAllListState extends State<ProposalAllList>
+class _KreasiScreenState extends State<KreasiScreen>
     with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
   AnimationController? animationControllerBottomSheet;
@@ -69,27 +70,25 @@ class _ProposalAllListState extends State<ProposalAllList>
   }
 
   void addAllListData() {
-    const int count = 2; //Sesuaikan
+    const int count = 5;
 
     listViews.add(
-      ProposalNoteColor(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
+      UserBio(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController!,
       ),
     );
 
     listViews.add(
-      ProposalListAllData(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
+      LogoutButton(
+        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+            Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        mainScreenAnimationController: widget.animationController!,
       ),
     );
 
@@ -116,10 +115,19 @@ class _ProposalAllListState extends State<ProposalAllList>
 
   @override
   Widget build(BuildContext context) {
-    final fullWidth = MediaQuery.of(context).size.width;
-    final widthPart = fullWidth * 0.55;
-    return Scaffold(
-        backgroundColor: AppTheme.background,
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness:
+      !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+    return Container(
+      color: AppTheme.background,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
             Column(
@@ -138,7 +146,8 @@ class _ProposalAllListState extends State<ProposalAllList>
             )
           ],
         ),
-      );
+      ),
+    );
   }
 
   Widget getMainListViewUI() {
@@ -160,20 +169,18 @@ class _ProposalAllListState extends State<ProposalAllList>
                 controller: _refreshController,
                 onRefresh: _onRefresh,
                 onLoading: _onLoading,
-                child:
-                  ListView.builder(
-                    shrinkWrap: true,
-                    controller: scrollController,
-                    padding: EdgeInsets.only(
-                      bottom: 100 + MediaQuery.of(context).padding.bottom,
-                    ),
-                    itemCount: listViews.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      widget.animationController?.forward();
-                      return listViews[index];
-                    },
+                child: ListView.builder(
+                  controller: scrollController,
+                  padding: EdgeInsets.only(
+                    bottom: 62 + MediaQuery.of(context).padding.bottom,
                   ),
+                  itemCount: listViews.length,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    widget.animationController?.forward();
+                    return listViews[index];
+                  },
+                ),
               ),
             );
         }
@@ -182,8 +189,7 @@ class _ProposalAllListState extends State<ProposalAllList>
   }
 
   Widget getAppBarUI() {
-    return
-      Column(
+    return Column(
       children: <Widget>[
         AnimatedBuilder(
           animation: widget.animationController!,
@@ -221,34 +227,12 @@ class _ProposalAllListState extends State<ProposalAllList>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {
-                                  new Future.delayed(new Duration(milliseconds: 300), () {
-                                    Navigator.pop(context);
-                                  });
-                                },
-                                child: Center(
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: AppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'List All Proposal',
+                                  'Video Kreasi',
                                   textAlign: TextAlign.left,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,
                                     fontWeight: FontWeight.w700,
@@ -264,13 +248,7 @@ class _ProposalAllListState extends State<ProposalAllList>
                               onSelected: (int size) {
                                 print(size);
                                 if (size==1){
-                                  Navigator.push<dynamic>(
-                                      context,
-                                      MaterialPageRoute<dynamic>(
-                                        builder: (BuildContext context) => MainPage(),
-                                      )
-                                  );
-                                } else if (size==2) {
+
                                   showModalBottomSheet<void>(
                                       context: context,
                                       backgroundColor: Colors.transparent,
@@ -278,7 +256,7 @@ class _ProposalAllListState extends State<ProposalAllList>
                                       builder: (BuildContext context) {
                                         return
                                           SlideInUp(
-                                            child:  Container(
+                                            child: Container(
                                               height: 190,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -319,7 +297,7 @@ class _ProposalAllListState extends State<ProposalAllList>
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
                                                               Container(
-                                                                child: Text('Tanya IT',
+                                                                child: Text("Customer Service",
                                                                     overflow: TextOverflow.ellipsis,
                                                                     maxLines: 1,
                                                                     style: TextStyle(
@@ -337,9 +315,9 @@ class _ProposalAllListState extends State<ProposalAllList>
                                                               Container(
                                                                 width: MediaQuery.of(context).size.width*0.6,
                                                                 padding: EdgeInsets.only(right: 5),
-                                                                child: Text('Untuk menghubungi bagian IT anda akan terhubung melalui WhatsApp',
+                                                                child: Text('Kamu akan terhubung melalui WhatsApp Customer Service',
                                                                     overflow: TextOverflow.ellipsis,
-                                                                    maxLines: 2,
+                                                                    maxLines: 3,
                                                                     style: TextStyle(
                                                                         fontFamily: AppTheme.fontName,
                                                                         fontWeight: FontWeight.w500,
@@ -394,7 +372,9 @@ class _ProposalAllListState extends State<ProposalAllList>
                                           );
                                       }
                                   );
-                                } else if (size==3) {
+
+                                } else if (size==2) {
+
                                   showModalBottomSheet<void>(
                                       context: context,
                                       backgroundColor: Colors.transparent,
@@ -455,7 +435,7 @@ class _ProposalAllListState extends State<ProposalAllList>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma & Appointment merupakan aplikasi yang dikembangkan oleh Tim IT PT Gelora Aksara Pratama untuk mendukung proses bisnis perusahaan. \n\nVersi yang saat ini anda gunakan adalah v 1.0.8',
+                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.1',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.fontName,
                                                                 fontWeight: FontWeight.w500,
@@ -486,6 +466,7 @@ class _ProposalAllListState extends State<ProposalAllList>
                                           );
                                       }
                                   );
+
                                 }
                               },
                               itemBuilder: (BuildContext context) => <PopupMenuItem<int>>[
@@ -493,12 +474,12 @@ class _ProposalAllListState extends State<ProposalAllList>
                                   value: 1,
                                   child: Row(
                                     children: [
-                                      Icon(Icons.home_outlined),
+                                      Icon(Icons.headset_mic_outlined),
                                       SizedBox(
                                         // sized box with width 10
                                         width: 10,
                                       ),
-                                      Text("Home")
+                                      Text("Customer Service")
                                     ],
                                   ),
                                 ),
@@ -506,22 +487,8 @@ class _ProposalAllListState extends State<ProposalAllList>
                                   value: 2,
                                   child: Row(
                                     children: [
-                                      Icon(Icons.headset_mic_outlined),
-                                      SizedBox(
-                                        // sized box with width 10
-                                        width: 10,
-                                      ),
-                                      Text("Tanya IT")
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: 3,
-                                  child: Row(
-                                    children: [
                                       Icon(Icons.phone_android_rounded),
                                       SizedBox(
-                                        // sized box with width 10
                                         width: 10,
                                       ),
                                       Text("Tentang App")
