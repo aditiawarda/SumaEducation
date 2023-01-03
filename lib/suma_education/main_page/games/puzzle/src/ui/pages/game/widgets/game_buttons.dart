@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:suma_education/suma_education/main_page/games/puzzle/generated/l10n.dart';
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/global/widgets/my_text_icon_button.dart';
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/pages/game/controller/game_controller.dart';
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/pages/game/controller/game_state.dart';
@@ -10,7 +11,6 @@ import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/page
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/utils/colors.dart';
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/utils/responsive.dart';
 
-import '../../../../../generated/l10n.dart';
 
 class GameButtons extends StatelessWidget {
   const GameButtons({Key? key}) : super(key: key);

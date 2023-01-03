@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_phoenix/generated/i18n.dart';
 import 'package:provider/provider.dart';
+import 'package:suma_education/suma_education/main_page/games/puzzle/generated/l10n.dart';
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/routes/app_routes.dart';
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/routes/routes.dart';
 
