@@ -12,12 +12,16 @@ import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:suma_education/suma_education/main_page/games/puzzle/src/inject_dependencies.dart';
+import 'package:suma_education/suma_education/main_page/games/puzzle/src/my_app.dart';
 import 'package:suma_education/suma_education/main_page/model/new_book_data.dart';
 import 'package:suma_education/suma_education/main_page/model/menu_data.dart';
+import 'package:suma_education/suma_education/main_page/screen/book_content_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/interaktif_video_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/kreasi_video_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/tutorial_video_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'dart:math' as math;
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -540,7 +544,7 @@ class MainMenu extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   padding: EdgeInsets.all(10),
-                                                  margin: EdgeInsets.only(right: 15),
+                                                  margin: EdgeInsets.only(right: 15, left: 7),
                                                   height: 90,
                                                   width: double.infinity,
                                                   decoration: BoxDecoration(
@@ -627,7 +631,7 @@ class MainMenu extends StatelessWidget {
                                                   height: 90,
                                                   width: double.infinity,
                                                   padding: EdgeInsets.all(10),
-                                                  margin: EdgeInsets.only(right: 7, left: 7),
+                                                  margin: EdgeInsets.only(right: 10, left: 10),
                                                   decoration: BoxDecoration(
                                                     color: Colors.orange.shade50,
                                                     borderRadius: BorderRadius.only(
@@ -650,7 +654,7 @@ class MainMenu extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  bottom: 2, right: 19,
+                                                  bottom: 2, right: 22,
                                                   child: Container(
                                                     width: 15,
                                                     height: 15,
@@ -661,7 +665,7 @@ class MainMenu extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  bottom: 2, right: 9,
+                                                  bottom: 2, right: 12,
                                                   child: Container(
                                                     width: 20,
                                                     height: 20,
@@ -710,7 +714,7 @@ class MainMenu extends StatelessWidget {
                                                   height: 90,
                                                   width: double.infinity,
                                                   padding: EdgeInsets.all(10),
-                                                  margin: EdgeInsets.only(left: 15),
+                                                  margin: EdgeInsets.only(left: 15, right: 7),
                                                   decoration: BoxDecoration(
                                                     color: Colors.orange.shade50,
                                                     borderRadius: BorderRadius.only(
@@ -733,7 +737,7 @@ class MainMenu extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  bottom: 2, right:12,
+                                                  bottom: 2, right: 20,
                                                   child: Container(
                                                     width: 15,
                                                     height: 15,
@@ -744,7 +748,7 @@ class MainMenu extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  bottom: 2, right: 2,
+                                                  bottom: 2, right: 10,
                                                   child: Container(
                                                     width: 20,
                                                     height: 20,
@@ -831,7 +835,7 @@ class MainMenu extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              height: MediaQuery.of(context).size.height/2.5,
+                              height: MediaQuery.of(context).size.height/2.4,
                               child: FutureBuilder<String>(
                                 future: _getBookNew(),
                                 builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -840,7 +844,7 @@ class MainMenu extends StatelessWidget {
                                         physics: NeverScrollableScrollPhysics(),
                                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 3,
-                                          childAspectRatio: 2.1 / 3,
+                                          childAspectRatio: 2 / 3,
                                         ),
                                         itemCount: book.length,
                                         itemBuilder: (BuildContext context, int index) {
@@ -855,7 +859,7 @@ class MainMenu extends StatelessWidget {
                                           physics: NeverScrollableScrollPhysics(),
                                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 3,
-                                            childAspectRatio: 2.1 / 3,
+                                            childAspectRatio: 2 / 3,
                                           ),
                                           itemCount: book.length,
                                           itemBuilder: (BuildContext context, int index) {
@@ -870,7 +874,7 @@ class MainMenu extends StatelessWidget {
                                             physics: NeverScrollableScrollPhysics(),
                                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 3,
-                                              childAspectRatio: 2.1 / 3,
+                                              childAspectRatio: 2 / 3,
                                             ),
                                             itemCount: book.length,
                                             itemBuilder: (BuildContext context, int index) {
@@ -886,12 +890,19 @@ class MainMenu extends StatelessWidget {
                             Container(
                               width: double.infinity,
                               alignment: Alignment.center,
-                              padding: EdgeInsets.only(top: 20, bottom: 10),
+                              padding: EdgeInsets.only(top: 10, bottom: 10),
                               child:
                               ZoomTapAnimation(
                                   child: GestureDetector(
                                     onTap: () {
-
+                                      new Future.delayed(new Duration(milliseconds: 300), () {
+                                        Navigator.push<dynamic>(
+                                            context,
+                                            MaterialPageRoute<dynamic>(
+                                              builder: (BuildContext context) => BookContentScreen(animationController: animationController),
+                                            )
+                                        );
+                                      });
                                     },
                                     child:
                                     Text(
@@ -914,7 +925,7 @@ class MainMenu extends StatelessWidget {
                         )
                       ),
                       Container(
-                          margin: EdgeInsets.only(top: 15),
+                          margin: EdgeInsets.only(top: 10),
                           padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
                           decoration: BoxDecoration(
                             color: AppTheme.white,
@@ -977,11 +988,11 @@ class MainMenu extends StatelessWidget {
                                       children: [
                                         ZoomTapAnimation(
                                           onTap: () {
-
+                                            mainPuzzle(context);
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(10),
-                                            margin: EdgeInsets.only(right: 15),
+                                            margin: EdgeInsets.only(right: 15, left: 10),
                                             height: 120,
                                             width: double.infinity,
                                             decoration: BoxDecoration(
@@ -1037,7 +1048,7 @@ class MainMenu extends StatelessWidget {
                                             height: 120,
                                             width: double.infinity,
                                             padding: EdgeInsets.all(10),
-                                            margin: EdgeInsets.only(left: 15),
+                                            margin: EdgeInsets.only(left: 15, right: 10),
                                             decoration: BoxDecoration(
                                               color: Colors.orange.shade50,
                                               borderRadius: BorderRadius.only(
@@ -1129,7 +1140,7 @@ Widget itemBuku(NewBookData book, BuildContext context,var lebar,var tinggi){
                           ),
                           alignment: Alignment.center,
                           width: lebarfix,
-                          margin: EdgeInsets.only(bottom:18,top: 35,left: 5,right: 5,),
+                          margin: EdgeInsets.only(bottom:25,top: 35, left: 10, right: 10,),
                           height: tinggifix,
                         ),
                         Container(
@@ -1137,7 +1148,7 @@ Widget itemBuku(NewBookData book, BuildContext context,var lebar,var tinggi){
                             borderRadius: BorderRadius.all(Radius.circular(5)),
                           ),
                           width: lebarfix,
-                          margin: EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 25),
+                          margin: EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 35),
                           height: tinggifix,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(5.0),
@@ -1161,6 +1172,14 @@ Widget itemBuku(NewBookData book, BuildContext context,var lebar,var tinggi){
             )
         )
     );
+}
+
+void mainPuzzle(var context) async {
+  setPathUrlStrategy();
+  WidgetsFlutterBinding.ensureInitialized();
+  await injectDependencies();
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => MyAppGAME()));
 }
 
 class CurvePainter extends CustomPainter {

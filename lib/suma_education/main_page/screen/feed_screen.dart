@@ -9,8 +9,9 @@ import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:suma_education/suma_education/main_page/ui_part/main_logout.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/main_user_bio.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/feeds_list_video.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/logout_button.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/user_bio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -73,22 +74,14 @@ class _FeedScreenState extends State<FeedScreen>
     const int count = 5;
 
     listViews.add(
-      UserBio(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
-
-    listViews.add(
-      LogoutButton(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-            Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController!,
+      FeedsListVideo(
+        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+            CurvedAnimation(
+                parent: widget.animationController!,
+                curve: Interval((1 / count) * 3, 1.0,
+                    curve: Curves.fastOutSlowIn))),
+        mainScreenAnimationController: widget.animationController,
+        idRequest: "209",
       ),
     );
 

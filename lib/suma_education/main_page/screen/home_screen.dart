@@ -7,16 +7,9 @@ import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:material_dialogs/material_dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
-import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
-import 'package:suma_education/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/main_carousel.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/main_company_profile.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/main_made_with_love.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/made_with_love.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/main_menu.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen>
             parent: widget.animationController!,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
     addAllListData();
-    MainCarousel().mainScreenAnimationController;
 
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
