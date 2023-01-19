@@ -81,6 +81,7 @@ class _BookContentScreenState extends State<BookContentScreen>
                 curve: Interval((1 / count) * 3, 1.0,
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController,
+        animationControllerBottomSheet: animationControllerBottomSheet,
       ),
     );
 

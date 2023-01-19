@@ -10,6 +10,7 @@ import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:suma_education/suma_education/main_page/ui_part/book_all.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/interaktif_equipment.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/logout_button.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/user_bio.dart';
@@ -22,11 +23,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../app_theme/app_theme.dart';
 
 class DetailVideoScreen extends StatefulWidget {
-  const DetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId}) : super(key: key);
+  const DetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId, required this.kategoriKonten}) : super(key: key);
 
   final AnimationController? animationController;
   final String? idContent;
   final String? youtubeId;
+  final String? kategoriKonten;
   @override
   _DetailVideoScreenState createState() => _DetailVideoScreenState();
 }
@@ -100,6 +102,19 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         idContent: widget.idContent!,
       ),
     );
+
+    if(widget.kategoriKonten=="2"){
+      listViews.add(
+        InteraktifEquipment(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController!,
+              curve:
+              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController!,
+          linkDownload: "https://suma.geloraaksara.co.id/uploads/equipment/interaktif_1.pdf",
+        ),
+      );
+    }
 
   }
 

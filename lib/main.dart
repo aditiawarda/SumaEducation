@@ -57,7 +57,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   AnimationController? animationController;
-  String? versionUse = '1.0.8';
+  String? versionUse = '1.1.1';
   String? currentVersion = '';
   bool load = false;
 
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   _getVersionApp() async {
     try {
-      var response = await http.post(Uri.parse("https://geloraaksara.co.id/absen-online/api/version_portal_app"),
+      var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/app_version"),
           body: {
             "request": "request",
           });

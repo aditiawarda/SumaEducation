@@ -102,6 +102,9 @@ dependencies:
     simple_ripple_animation: ^0.0.3
     youtube_player_flutter: ^8.1.2
     youtube_player_iframe: ^3.1.0
+    dio: ^4.0.0
+    path_provider: ^2.0.2
+    permission_handler: ^8.0.0+2
 
 dev_dependencies:
     flutter_test:
@@ -124,6 +127,9 @@ flutter:
         - assets/sounds/
         - assets/animals/
         - assets/icons/
+        - assets/themes/
+        - assets/themes/default/
+        - assets/themes/colorful/
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:getwidget/components/button/gf_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/main.dart';
@@ -9,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:ripple_animation/ripple_animation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suma_education/suma_education/main_page/model/book_list_data.dart';
+import 'package:suma_education/suma_education/main_page/screen/book_konten_detail.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../../../main.dart';
@@ -17,11 +19,12 @@ SharedPreferences? prefs;
 
 class BookListAllData extends StatefulWidget {
   const BookListAllData(
-      {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
+      {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation, required this.animationControllerBottomSheet})
       : super(key: key);
 
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
+  final AnimationController? animationControllerBottomSheet;
 
   @override
   _BookListAllDataState createState() => _BookListAllDataState();
@@ -101,7 +104,7 @@ class _BookListAllDataState extends State<BookListAllData>
                         animationController?.forward();
                         var tinggi = MediaQuery.of(context).size.height;
                         var lebar = MediaQuery.of(context).size.width;
-                        return itemBookAll(bookListData[index], context, lebar, tinggi);
+                        return itemBookAll(bookListData[index], context, lebar, tinggi, widget.animationControllerBottomSheet!);
                       });
                 } else {
                   if (snapshot.hasError)
@@ -125,7 +128,7 @@ class _BookListAllDataState extends State<BookListAllData>
                           animationController?.forward();
                           var tinggi = MediaQuery.of(context).size.height;
                           var lebar = MediaQuery.of(context).size.width;
-                          return itemBookAll(bookListData[index], context, lebar, tinggi);
+                          return itemBookAll(bookListData[index], context, lebar, tinggi, widget.animationControllerBottomSheet!);
                         });
                   else
                     if(bookListData.length==0)
@@ -198,7 +201,7 @@ class _BookListAllDataState extends State<BookListAllData>
                             animationController?.forward();
                             var tinggi = MediaQuery.of(context).size.height;
                             var lebar = MediaQuery.of(context).size.width;
-                            return itemBookAll(bookListData[index], context, lebar, tinggi);
+                            return itemBookAll(bookListData[index], context, lebar, tinggi, widget.animationControllerBottomSheet!);
                           });
                 }
               },
@@ -209,7 +212,7 @@ class _BookListAllDataState extends State<BookListAllData>
   }
 }
 
-Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi){
+Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi, AnimationController animationController){
   var tinggifix = tinggi/7;
   var lebarfix = lebar/4;
   return
@@ -218,6 +221,125 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi)
         child: ZoomTapAnimation(
             child: GestureDetector(
                 onTap: () {
+                  // showModalBottomSheet<void>(
+                  //     context: context,
+                  //     backgroundColor: Colors.transparent,
+                  //     transitionAnimationController: animationController,
+                  //     builder: (BuildContext context) {
+                  //       return
+                  //         SlideInUp(
+                  //           delay: Duration(milliseconds: 200),
+                  //           child:  Container(
+                  //             height: 190,
+                  //             decoration: BoxDecoration(
+                  //               color: Colors.white,
+                  //               borderRadius: BorderRadius.only(
+                  //                   topLeft: Radius.circular(20.0),
+                  //                   bottomLeft: Radius.circular(0.0),
+                  //                   bottomRight: Radius.circular(0.0),
+                  //                   topRight: Radius.circular(20.0)),
+                  //               boxShadow: <BoxShadow>[
+                  //                 BoxShadow(
+                  //                     color: AppTheme.grey.withOpacity(0.5),
+                  //                     offset: Offset(0.0, 1.0), //(x,y)
+                  //                     blurRadius: 3.0),
+                  //               ],
+                  //             ),
+                  //             child: Column(
+                  //               mainAxisAlignment: MainAxisAlignment.center,
+                  //               mainAxisSize: MainAxisSize.min,
+                  //               children: <Widget>[
+                  //                 Container(
+                  //                   width: 80,
+                  //                   height: 3,
+                  //                   margin: EdgeInsets.only(top: 3, bottom: 15),
+                  //                   decoration: BoxDecoration(
+                  //                     color: Colors.grey.withOpacity(0.5),
+                  //                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  //                   ),
+                  //                 ),
+                  //                 Row(
+                  //                   children: <Widget>[
+                  //                     SizedBox(width: 35),
+                  //                     Image.asset('assets/images/on_developing.png', height: 80, width: 80),
+                  //                     Padding(
+                  //                         padding: const EdgeInsets.only( left: 20),
+                  //                         child:
+                  //                         Column(
+                  //                           crossAxisAlignment: CrossAxisAlignment.start,
+                  //                           mainAxisAlignment: MainAxisAlignment.center,
+                  //                           children: [
+                  //                             Container(
+                  //                               child: Text('Coming soon',
+                  //                                   overflow: TextOverflow.ellipsis,
+                  //                                   maxLines: 1,
+                  //                                   style: TextStyle(
+                  //                                       fontFamily: AppTheme.fontName,
+                  //                                       fontWeight: FontWeight.w500,
+                  //                                       fontSize: 18,
+                  //                                       letterSpacing: 0.0,
+                  //                                       color: AppTheme.grey.withOpacity(0.6)
+                  //                                   )
+                  //                               ),
+                  //                             ),
+                  //                             SizedBox(
+                  //                               height: 8,
+                  //                             ),
+                  //                             Container(
+                  //                               width: MediaQuery.of(context).size.width*0.6,
+                  //                               padding: EdgeInsets.only(right: 5),
+                  //                               child: Text('Maaf ya sahabat, fitur ini masih dalam tahap pengembangan',
+                  //                                   overflow: TextOverflow.ellipsis,
+                  //                                   maxLines: 2,
+                  //                                   style: TextStyle(
+                  //                                       fontFamily: AppTheme.fontName,
+                  //                                       fontWeight: FontWeight.w500,
+                  //                                       fontSize: 16,
+                  //                                       letterSpacing: 0.0,
+                  //                                       color: AppTheme.grey.withOpacity(0.6)
+                  //                                   )
+                  //                               ),
+                  //                             ),
+                  //                             SizedBox(width: 35),
+                  //                           ],
+                  //                         )
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //                 Row(
+                  //                   mainAxisAlignment: MainAxisAlignment.center,
+                  //                   crossAxisAlignment: CrossAxisAlignment.center,
+                  //                   children: [
+                  //                     Container(
+                  //                       padding: EdgeInsets.only(left: 25, right: 25, top: 10),
+                  //                       width: MediaQuery.of(context).size.width,
+                  //                       child: GFButton(
+                  //                         color: Colors.grey,
+                  //                         textStyle: TextStyle(fontSize: 15),
+                  //                         onPressed: (){
+                  //                           Navigator.of(context, rootNavigator: true).pop('dialog');
+                  //                         },
+                  //                         text: "Tutup",
+                  //                         blockButton: true,
+                  //                       ),
+                  //                     ),
+                  //                   ],
+                  //                 )
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         );
+                  //     }
+                  // );
+
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => DetailBukuState(
+                            book: bookData,
+                          )
+                      )
+                  );
 
                 },
                 child: Container(

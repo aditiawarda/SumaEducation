@@ -78,7 +78,7 @@ class _VideoDetailState extends State<VideoDetail>
                     0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                 child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 24, right: 24, top: 0, bottom: 18),
+                        left: 24, right: 24, top: 0, bottom: 10),
                     child:
                     Container(
                       padding: EdgeInsets.only(top: 15, bottom: 15, right: 17, left: 17),

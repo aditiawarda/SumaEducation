@@ -1,22 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:material_dialogs/material_dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/inject_dependencies.dart';
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/my_app.dart';
-import 'package:suma_education/suma_education/main_page/model/new_book_data.dart';
+import 'package:suma_education/suma_education/main_page/games/tictactoe/main.dart';
+import 'package:suma_education/suma_education/main_page/model/book_list_data.dart';
 import 'package:suma_education/suma_education/main_page/model/menu_data.dart';
 import 'package:suma_education/suma_education/main_page/screen/book_content_screen.dart';
+import 'package:suma_education/suma_education/main_page/screen/book_konten_detail.dart';
 import 'package:suma_education/suma_education/main_page/screen/interaktif_video_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/kreasi_video_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/tutorial_video_screen.dart';
@@ -29,7 +28,7 @@ List<MenuData> listMenu = [];
 SharedPreferences? prefs;
 String namaUser = "";
 String fotoProfil = "";
-List<NewBookData> book = [];
+List<BookData> book = [];
 final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 class MainMenu extends StatelessWidget {
@@ -40,6 +39,7 @@ class MainMenu extends StatelessWidget {
   const MainMenu(
       {Key? key, this.animationController, this.animation, required this.animationControllerBottomSheet})
       : super(key: key);
+
 
   Future<String> getUser() async {
     final SharedPreferences prefs = await _prefs;
@@ -79,7 +79,7 @@ class MainMenu extends StatelessWidget {
         var cover_picture = dataBookNew['data'][i]['cover_picture'];
         var created_at = dataBookNew['data'][i]['created_at'];
         var updated_at = dataBookNew['data'][i]['updated_at'];
-        book.add(NewBookData(id, title_content, cover_picture, created_at, updated_at));
+        book.add(BookData(id, title_content, cover_picture, created_at, updated_at));
       }
     } catch (e) {
       print("Error");
@@ -850,7 +850,7 @@ class MainMenu extends StatelessWidget {
                                         itemBuilder: (BuildContext context, int index) {
                                           var tinggi = MediaQuery.of(context).size.height;
                                           var lebar = MediaQuery.of(context).size.width;
-                                          return itemBuku(book[index], context, lebar, tinggi);
+                                          return itemBuku(book[index], context, lebar, tinggi, animationControllerBottomSheet!);
                                         }
                                     );
                                   } else {
@@ -865,7 +865,7 @@ class MainMenu extends StatelessWidget {
                                           itemBuilder: (BuildContext context, int index) {
                                             var tinggi = MediaQuery.of(context).size.height;
                                             var lebar = MediaQuery.of(context).size.width;
-                                            return itemBuku(book[index], context, lebar, tinggi);
+                                            return itemBuku(book[index], context, lebar, tinggi, animationControllerBottomSheet!);
                                           }
                                       );
                                     else
@@ -880,7 +880,7 @@ class MainMenu extends StatelessWidget {
                                             itemBuilder: (BuildContext context, int index) {
                                               var tinggi = MediaQuery.of(context).size.height;
                                               var lebar = MediaQuery.of(context).size.width;
-                                              return itemBuku(book[index], context, lebar, tinggi);
+                                              return itemBuku(book[index], context, lebar, tinggi, animationControllerBottomSheet!);
                                             }
                                         );
                                   }
@@ -890,7 +890,7 @@ class MainMenu extends StatelessWidget {
                             Container(
                               width: double.infinity,
                               alignment: Alignment.center,
-                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                              padding: EdgeInsets.only(top: 30, bottom: 10),
                               child:
                               ZoomTapAnimation(
                                   child: GestureDetector(
@@ -1042,7 +1042,7 @@ class MainMenu extends StatelessWidget {
                                       children: [
                                         ZoomTapAnimation(
                                           onTap: () {
-
+                                            mainTICTAC(context);
                                           },
                                           child: Container(
                                             height: 120,
@@ -1105,8 +1105,8 @@ class MainMenu extends StatelessWidget {
   }
 }
 
-Widget itemBuku(NewBookData book, BuildContext context,var lebar,var tinggi){
-  var tinggifix = tinggi/7;
+Widget itemBuku(BookData book, BuildContext context,var lebar,var tinggi, AnimationController animationController){
+  var tinggifix = tinggi/8;
   var lebarfix = lebar/4;
   return
     FadeInUp(
@@ -1114,7 +1114,12 @@ Widget itemBuku(NewBookData book, BuildContext context,var lebar,var tinggi){
         child: ZoomTapAnimation(
             child: GestureDetector(
                 onTap: () {
-
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => DetailBukuState(book: book)
+                      )
+                  );
                 },
                 child: Container(
                     height: 140,
@@ -1140,7 +1145,7 @@ Widget itemBuku(NewBookData book, BuildContext context,var lebar,var tinggi){
                           ),
                           alignment: Alignment.center,
                           width: lebarfix,
-                          margin: EdgeInsets.only(bottom:25,top: 35, left: 10, right: 10,),
+                          margin: EdgeInsets.only(bottom:0,top: 35, left: 10, right: 10,),
                           height: tinggifix,
                         ),
                         Container(
@@ -1148,24 +1153,33 @@ Widget itemBuku(NewBookData book, BuildContext context,var lebar,var tinggi){
                             borderRadius: BorderRadius.all(Radius.circular(5)),
                           ),
                           width: lebarfix,
-                          margin: EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 35),
-                          height: tinggifix,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(5.0),
-                            child:
-                            Image.network(
-                                book.cover_picture,
-                                width: lebarfix,
-                                height: tinggifix,
-                                fit:BoxFit.fill
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
+                          margin: EdgeInsets.only(left: 20,right: 20),
                           child:
-                          Text(book.title_content,style: GoogleFonts.roboto( fontSize: 13)),
-                        )
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    child:
+                                    Image.network(
+                                        book.cover_picture,
+                                        width: lebarfix,
+                                        height: tinggifix,
+                                        fit:BoxFit.fill
+                                    ),
+                                  ),
+                                  SizedBox(height: 7),
+                                  Text(book.title_content,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: GoogleFonts.roboto(fontSize: 12)
+                                  ),
+                                  SizedBox(height: 3),
+                                ],
+                              )
+                        ),
                       ],
                     )
                 )
@@ -1177,9 +1191,129 @@ Widget itemBuku(NewBookData book, BuildContext context,var lebar,var tinggi){
 void mainPuzzle(var context) async {
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
-  await injectDependencies();
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => MyAppGAME()));
+  injectDependencies();
+  new Future.delayed(new Duration(milliseconds: 500), () {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MyAppGAME()));
+  });
+}
+
+void mainTICTAC(var context) async {
+  new Future.delayed(new Duration(milliseconds: 500), () {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MyAppTICTAC()));
+  });
+}
+
+void _onDeveloping(var context, AnimationController animationController) {
+  showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      transitionAnimationController: animationController,
+      builder: (BuildContext context) {
+        return
+          SlideInUp(
+            delay: Duration(milliseconds: 200),
+            child:  Container(
+              height: 190,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    bottomLeft: Radius.circular(0.0),
+                    bottomRight: Radius.circular(0.0),
+                    topRight: Radius.circular(20.0)),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: AppTheme.grey.withOpacity(0.5),
+                      offset: Offset(0.0, 1.0), //(x,y)
+                      blurRadius: 3.0),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    width: 80,
+                    height: 3,
+                    margin: EdgeInsets.only(top: 3, bottom: 15),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.5),
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(width: 35),
+                      Image.asset('assets/images/on_developing.png', height: 80, width: 80),
+                      Padding(
+                          padding: const EdgeInsets.only( left: 20),
+                          child:
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                child: Text('Coming soon',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18,
+                                        letterSpacing: 0.0,
+                                        color: AppTheme.grey.withOpacity(0.6)
+                                    )
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width*0.6,
+                                padding: EdgeInsets.only(right: 5),
+                                child: Text('Maaf ya sahabat, games ini masih dalam tahap pengembangan',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        letterSpacing: 0.0,
+                                        color: AppTheme.grey.withOpacity(0.6)
+                                    )
+                                ),
+                              ),
+                              SizedBox(width: 35),
+                            ],
+                          )
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 25, right: 25, top: 10),
+                        width: MediaQuery.of(context).size.width,
+                        child: GFButton(
+                          color: Colors.grey,
+                          textStyle: TextStyle(fontSize: 15),
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                          text: "Tutup",
+                          blockButton: true,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+      }
+  );
 }
 
 class CurvePainter extends CustomPainter {
