@@ -53,11 +53,12 @@ class _BookListAllDataState extends State<BookListAllData>
       print(dataBook);
       for (var i = 0; i < dataBook['data'].length; i++) {
         var id = dataBook['data'][i]['id'];
-        var title_content = dataBook['data'][i]['title_content'];
-        var cover_picture = dataBook['data'][i]['cover_picture'];
+        var judul = dataBook['data'][i]['judul'];
+        var deskripsi = dataBook['data'][i]['deskripsi'];
+        var cover = dataBook['data'][i]['cover'];
         var created_at = dataBook['data'][i]['created_at'];
-        var updated_at = dataBook['data'][i]['updated_at'];
-        bookListData.add(BookData(id, title_content, cover_picture, created_at, updated_at));
+
+        bookListData.add(BookData(id, judul, deskripsi, cover, created_at));
       }
     } catch (e) {
       print("Error");
@@ -221,117 +222,6 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi,
         child: ZoomTapAnimation(
             child: GestureDetector(
                 onTap: () {
-                  // showModalBottomSheet<void>(
-                  //     context: context,
-                  //     backgroundColor: Colors.transparent,
-                  //     transitionAnimationController: animationController,
-                  //     builder: (BuildContext context) {
-                  //       return
-                  //         SlideInUp(
-                  //           delay: Duration(milliseconds: 200),
-                  //           child:  Container(
-                  //             height: 190,
-                  //             decoration: BoxDecoration(
-                  //               color: Colors.white,
-                  //               borderRadius: BorderRadius.only(
-                  //                   topLeft: Radius.circular(20.0),
-                  //                   bottomLeft: Radius.circular(0.0),
-                  //                   bottomRight: Radius.circular(0.0),
-                  //                   topRight: Radius.circular(20.0)),
-                  //               boxShadow: <BoxShadow>[
-                  //                 BoxShadow(
-                  //                     color: AppTheme.grey.withOpacity(0.5),
-                  //                     offset: Offset(0.0, 1.0), //(x,y)
-                  //                     blurRadius: 3.0),
-                  //               ],
-                  //             ),
-                  //             child: Column(
-                  //               mainAxisAlignment: MainAxisAlignment.center,
-                  //               mainAxisSize: MainAxisSize.min,
-                  //               children: <Widget>[
-                  //                 Container(
-                  //                   width: 80,
-                  //                   height: 3,
-                  //                   margin: EdgeInsets.only(top: 3, bottom: 15),
-                  //                   decoration: BoxDecoration(
-                  //                     color: Colors.grey.withOpacity(0.5),
-                  //                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  //                   ),
-                  //                 ),
-                  //                 Row(
-                  //                   children: <Widget>[
-                  //                     SizedBox(width: 35),
-                  //                     Image.asset('assets/images/on_developing.png', height: 80, width: 80),
-                  //                     Padding(
-                  //                         padding: const EdgeInsets.only( left: 20),
-                  //                         child:
-                  //                         Column(
-                  //                           crossAxisAlignment: CrossAxisAlignment.start,
-                  //                           mainAxisAlignment: MainAxisAlignment.center,
-                  //                           children: [
-                  //                             Container(
-                  //                               child: Text('Coming soon',
-                  //                                   overflow: TextOverflow.ellipsis,
-                  //                                   maxLines: 1,
-                  //                                   style: TextStyle(
-                  //                                       fontFamily: AppTheme.fontName,
-                  //                                       fontWeight: FontWeight.w500,
-                  //                                       fontSize: 18,
-                  //                                       letterSpacing: 0.0,
-                  //                                       color: AppTheme.grey.withOpacity(0.6)
-                  //                                   )
-                  //                               ),
-                  //                             ),
-                  //                             SizedBox(
-                  //                               height: 8,
-                  //                             ),
-                  //                             Container(
-                  //                               width: MediaQuery.of(context).size.width*0.6,
-                  //                               padding: EdgeInsets.only(right: 5),
-                  //                               child: Text('Maaf ya sahabat, fitur ini masih dalam tahap pengembangan',
-                  //                                   overflow: TextOverflow.ellipsis,
-                  //                                   maxLines: 2,
-                  //                                   style: TextStyle(
-                  //                                       fontFamily: AppTheme.fontName,
-                  //                                       fontWeight: FontWeight.w500,
-                  //                                       fontSize: 16,
-                  //                                       letterSpacing: 0.0,
-                  //                                       color: AppTheme.grey.withOpacity(0.6)
-                  //                                   )
-                  //                               ),
-                  //                             ),
-                  //                             SizedBox(width: 35),
-                  //                           ],
-                  //                         )
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //                 Row(
-                  //                   mainAxisAlignment: MainAxisAlignment.center,
-                  //                   crossAxisAlignment: CrossAxisAlignment.center,
-                  //                   children: [
-                  //                     Container(
-                  //                       padding: EdgeInsets.only(left: 25, right: 25, top: 10),
-                  //                       width: MediaQuery.of(context).size.width,
-                  //                       child: GFButton(
-                  //                         color: Colors.grey,
-                  //                         textStyle: TextStyle(fontSize: 15),
-                  //                         onPressed: (){
-                  //                           Navigator.of(context, rootNavigator: true).pop('dialog');
-                  //                         },
-                  //                         text: "Tutup",
-                  //                         blockButton: true,
-                  //                       ),
-                  //                     ),
-                  //                   ],
-                  //                 )
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         );
-                  //     }
-                  // );
-
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
@@ -340,7 +230,6 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi,
                           )
                       )
                   );
-
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -366,7 +255,7 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi,
                         ),
                         alignment: Alignment.center,
                         width: lebarfix,
-                        margin: EdgeInsets.only(top: 40, left: 5,right: 5,),
+                        margin: EdgeInsets.only(top: 40, left: 5,right: 5),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -382,14 +271,14 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi,
                               borderRadius: BorderRadius.circular(5.0),
                               child:
                               Image.network(
-                                  bookData.cover_picture,
+                                  "https://suma.geloraaksara.co.id/uploads/cover_book/"+bookData.cover,
                                   width: lebarfix,
                                   height: tinggifix,
                                   fit:BoxFit.fill
                               ),
                             ),
                             SizedBox(height: 10),
-                            Text(bookData.title_content,
+                            Text(bookData.judul,
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
@@ -397,7 +286,6 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi,
                             ),
                           ],
                         )
-
                       ),
                     ],
                   )

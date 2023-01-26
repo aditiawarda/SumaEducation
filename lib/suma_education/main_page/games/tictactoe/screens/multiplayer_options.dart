@@ -43,7 +43,6 @@ class _MultiplayerOptionsState extends State<MultiplayerOptions> with SingleTick
   Widget build(BuildContext context) {
     if (showOnlineOptions == true) {
       controller.forward();
-      //showOnlineOptions = false;
     } else {
       controller.reverse();
     }

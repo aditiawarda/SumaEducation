@@ -75,11 +75,11 @@ class MainMenu extends StatelessWidget {
       print(dataBookNew);
       for (var i = 0; i < dataBookNew['data'].length; i++) {
         var id = dataBookNew['data'][i]['id'];
-        var title_content = dataBookNew['data'][i]['title_content'];
-        var cover_picture = dataBookNew['data'][i]['cover_picture'];
+        var judul = dataBookNew['data'][i]['judul'];
+        var deskripsi = dataBookNew['data'][i]['deskripsi'];
+        var cover = dataBookNew['data'][i]['cover'];
         var created_at = dataBookNew['data'][i]['created_at'];
-        var updated_at = dataBookNew['data'][i]['updated_at'];
-        book.add(BookData(id, title_content, cover_picture, created_at, updated_at));
+        book.add(BookData(id, judul, deskripsi, cover, created_at));
       }
     } catch (e) {
       print("Error");
@@ -1163,14 +1163,14 @@ Widget itemBuku(BookData book, BuildContext context,var lebar,var tinggi, Animat
                                     borderRadius: BorderRadius.circular(5.0),
                                     child:
                                     Image.network(
-                                        book.cover_picture,
+                                        "https://suma.geloraaksara.co.id/uploads/cover_book/"+book.cover,
                                         width: lebarfix,
                                         height: tinggifix,
                                         fit:BoxFit.fill
                                     ),
                                   ),
-                                  SizedBox(height: 7),
-                                  Text(book.title_content,
+                                  SizedBox(height: 5),
+                                  Text(book.judul,
                                       textAlign: TextAlign.center,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,

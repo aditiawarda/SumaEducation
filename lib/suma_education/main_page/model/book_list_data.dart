@@ -2,10 +2,10 @@
 
 class BookData {
   String id;
-  String title_content;
-  String cover_picture;
+  String judul;
+  String deskripsi;
+  String cover;
   String created_at;
-  String updated_at;
 
-  BookData(this.id, this.title_content, this.cover_picture, this.created_at, this.updated_at);
+  BookData(this.id, this.judul, this.deskripsi, this.cover, this.created_at);
 }
