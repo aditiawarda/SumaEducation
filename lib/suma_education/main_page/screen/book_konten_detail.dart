@@ -35,7 +35,6 @@ class _MyListScreenState extends State<DetailBukuState> {
   List<BookPage> bookPage = [];
   late AssetsAudioPlayer _assetsAudioPlayer;
 
-
   @override
   initState() {
     if(i==0){
@@ -59,7 +58,6 @@ class _MyListScreenState extends State<DetailBukuState> {
       showNotification: false,
     );
   }
-
 
   void _voiceOverSwitch() {
     setState(() {
