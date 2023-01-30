@@ -57,7 +57,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   AnimationController? animationController;
-  String? versionUse = '1.1.1';
+  String? versionUse = '1.1.2';
   String? currentVersion = '';
   bool load = false;
 
@@ -84,9 +84,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       String status = json["status"];
       if (status == "Success") {
         var version = json["version"];
+        var link = json["link"];
         currentVersion = version;
         setState(() {
-           check();
+           check(link.toString());
         });
       }
     } catch (e) {
@@ -226,18 +227,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   }
 
-  void check() async {
+  void check(String link) async {
     load = false;
     Timer(Duration(seconds: 2), () => {
       if(versionUse==currentVersion){
         Navigator.of(context).pop(), masuk()
       } else {
-        showBottomSheet()
+        showBottomSheet(link)
       }
     });
   }
 
-  void showBottomSheet() {
+  void showBottomSheet(String link) {
     Future<void> future = showModalBottomSheet<void>(
         context: context,
         backgroundColor: Colors.transparent,
@@ -350,7 +351,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             textStyle: TextStyle(fontSize: 15),
                             onPressed: () async {
                               Navigator.pop(context);
-                              await launch("https://play.google.com/store/apps/details?id=com.gelora.suma_education");
+                              await launch(link);
                             },
                             text: "Update",
                             blockButton: true,
