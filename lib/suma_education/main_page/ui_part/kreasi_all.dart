@@ -234,7 +234,7 @@ Widget itemAll(KreasiData kreasiData, BuildContext context,var lebar,var tinggi,
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
+                          color: Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(7.0),
                               bottomLeft: Radius.circular(7.0),
@@ -262,15 +262,29 @@ Widget itemAll(KreasiData kreasiData, BuildContext context,var lebar,var tinggi,
                         child:
                         Column(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(5.0),
-                              child:
-                              Image.network(
-                                  "https://suma.geloraaksara.co.id/uploads/thumbnail/"+kreasiData.thumbnail,
-                                  width: double.infinity,
-                                  height: 110,
-                                  fit:BoxFit.fill
-                              ),
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.asset(
+                                      'assets/images/no_image.png',
+                                      width: double.infinity,
+                                      height: 110,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.network(
+                                      "https://suma.geloraaksara.co.id/uploads/thumbnail/"+kreasiData.thumbnail,
+                                      width: double.infinity,
+                                      height: 110,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(height: 7),
                             Text(kreasiData.judul,
@@ -281,7 +295,6 @@ Widget itemAll(KreasiData kreasiData, BuildContext context,var lebar,var tinggi,
                             ),
                           ],
                         )
-
                       ),
                       Container(
                         height: 10,

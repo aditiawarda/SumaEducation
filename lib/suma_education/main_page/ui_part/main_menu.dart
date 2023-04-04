@@ -1159,15 +1159,29 @@ Widget itemBuku(BookData book, BuildContext context,var lebar,var tinggi, Animat
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    child:
-                                    Image.network(
-                                        "https://suma.geloraaksara.co.id/uploads/cover_book/"+book.cover,
-                                        width: lebarfix,
-                                        height: tinggifix,
-                                        fit:BoxFit.fill
-                                    ),
+                                  Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        child:
+                                        Image.asset(
+                                            'assets/images/no_image_2.png',
+                                            width: lebarfix,
+                                            height: tinggifix,
+                                            fit:BoxFit.fill
+                                        ),
+                                      ),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        child:
+                                        Image.network(
+                                            "https://suma.geloraaksara.co.id/uploads/cover_book/"+book.cover,
+                                            width: lebarfix,
+                                            height: tinggifix,
+                                            fit:BoxFit.fill
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(height: 5),
                                   Text(book.judul,

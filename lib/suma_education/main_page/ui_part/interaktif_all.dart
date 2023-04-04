@@ -235,7 +235,7 @@ Widget itemAll(InteraktifData interaktifListData, BuildContext context,var lebar
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
+                          color: Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(7.0),
                               bottomLeft: Radius.circular(7.0),
@@ -263,15 +263,29 @@ Widget itemAll(InteraktifData interaktifListData, BuildContext context,var lebar
                         child:
                         Column(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(5.0),
-                              child:
-                              Image.network(
-                                  "https://suma.geloraaksara.co.id/uploads/thumbnail/"+interaktifListData.thumbnail,
-                                  width: double.infinity,
-                                  height: 110,
-                                  fit: BoxFit.fitHeight
-                              ),
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.asset(
+                                      'assets/images/no_image.png',
+                                      width: double.infinity,
+                                      height: 110,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.network(
+                                      "https://suma.geloraaksara.co.id/uploads/thumbnail/"+interaktifListData.thumbnail,
+                                      width: double.infinity,
+                                      height: 110,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(height: 7),
                             Text(interaktifListData.judul,

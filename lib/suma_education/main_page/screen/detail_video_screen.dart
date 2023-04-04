@@ -10,9 +10,11 @@ import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:suma_education/suma_education/main_page/ui_part/book_all.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/interaktif_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/interaktif_equipment.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/logout_button.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/tutorial_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/user_bio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -112,6 +114,41 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
               Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
           mainScreenAnimationController: widget.animationController!,
           linkDownload: "https://suma.geloraaksara.co.id/uploads/equipment/interaktif_1.pdf",
+        ),
+      );
+    }
+
+    if(widget.kategoriKonten=="1"){
+      listViews.add(
+        KreasiListAllData(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController!,
+                  curve: Interval((1 / count) * 3, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController,
+        ),
+      );
+    } else if(widget.kategoriKonten=="2"){
+      listViews.add(
+        InteraktifAllListData(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController!,
+                  curve: Interval((1 / count) * 3, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController,
+        ),
+      );
+    } else if(widget.kategoriKonten=="3"){
+      listViews.add(
+        TutorialAllListData(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController!,
+                  curve: Interval((1 / count) * 3, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController,
         ),
       );
     }
@@ -226,9 +263,6 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
                 child: Container(
                   decoration: BoxDecoration(
                     color: AppTheme.white.withOpacity(topBarOpacity),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(32.0),
-                    ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                         color: AppTheme.grey
@@ -275,7 +309,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  ' ',
+                                  'Detail Video',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,

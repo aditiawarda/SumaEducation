@@ -267,6 +267,30 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi,
                         child:
                         Column(
                           children: [
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.asset(
+                                      'assets/images/no_image_2.png',
+                                      width: lebarfix,
+                                      height: tinggifix,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.network(
+                                      "https://suma.geloraaksara.co.id/uploads/cover_book/"+bookData.cover,
+                                      width: lebarfix,
+                                      height: tinggifix,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                              ],
+                            ),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(5.0),
                               child:
