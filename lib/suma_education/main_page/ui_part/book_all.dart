@@ -291,16 +291,6 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi,
                                 ),
                               ],
                             ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(5.0),
-                              child:
-                              Image.network(
-                                  "https://suma.geloraaksara.co.id/uploads/cover_book/"+bookData.cover,
-                                  width: lebarfix,
-                                  height: tinggifix,
-                                  fit:BoxFit.fill
-                              ),
-                            ),
                             SizedBox(height: 10),
                             Text(bookData.judul,
                               textAlign: TextAlign.center,
