@@ -140,6 +140,16 @@ class _FeedsDetailVideoScreenState extends State<FeedsDetailVideoScreen>
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 90.0),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background_page.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: null /* add child content here */,
+            ),
             Column(
               children: [
                 SizedBox(
@@ -261,7 +271,7 @@ class _FeedsDetailVideoScreenState extends State<FeedsDetailVideoScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  ' ',
+                                  'Detail Video',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,

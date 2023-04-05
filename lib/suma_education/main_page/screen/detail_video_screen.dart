@@ -191,6 +191,16 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 90.0),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background_page.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: null /* add child content here */,
+            ),
             Column(
               children: [
                 SizedBox(
@@ -203,7 +213,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
             ),
             getAppBarUI(),
             SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
+              height: 50,
             )
           ],
         ),

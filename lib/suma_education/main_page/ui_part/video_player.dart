@@ -69,10 +69,6 @@ class _VideoPlayerMainState extends State<VideoPlayerMain>
                       child:
                       Stack(
                         children: [
-                          Container(
-                            height: 150,
-                            color: Colors.orange,
-                          ),
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 24, right: 24, top: 25, bottom: 10),

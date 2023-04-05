@@ -105,7 +105,7 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
                     0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                 child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 24, right: 24, bottom: 18),
+                        left: 24, right: 24, bottom: 0),
                     child:
                     ZoomTapAnimation(
                       child:
@@ -148,12 +148,7 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
                         child: Container(
                           height: 45,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(colors: [
-                              Colors.white,
-                              Colors.orange.shade50
-                            ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                            border: Border.all(color: Colors.orange.shade200.withOpacity(0.8)),
-                            color: Colors.orange,
+                            color: Colors.white,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10.0),
                                 bottomLeft: Radius.circular(10.0),
@@ -161,18 +156,18 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
                                 topRight: Radius.circular(10.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                  color: AppTheme.grey.withOpacity(0.3),
+                                  color: AppTheme.grey.withOpacity(0.2),
                                   offset: Offset(0.0, 1.0), //(x,y)
-                                  blurRadius: 3.0),
+                                  blurRadius: 1.0),
                             ],
                           ),
-                          margin: EdgeInsets.only(bottom: 15),
+                          margin: EdgeInsets.only(bottom: 0),
                           child:
                           Container(
                             padding: EdgeInsets.only(top: 10, bottom: 10, right: 9, left: 9),
                             child: Center(
                                 child:
-                                Text('Download Equipment', style: TextStyle(color: Colors.orange.withOpacity(0.7), fontSize: 17)),
+                                Text('Download Template', style: TextStyle(color: Colors.orange.withOpacity(0.7), fontSize: 17)),
                             ),
                           ),
                         ),

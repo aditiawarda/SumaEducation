@@ -73,7 +73,7 @@ class _KreasiListAllDataState extends State<KreasiListAllData>
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.topCenter,
-        padding: EdgeInsets.only(left: 20, right: 20, top: 25),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 50),
         width: MediaQuery.of(context).size.width,
         child:
         Wrap(
@@ -179,7 +179,7 @@ class _KreasiListAllDataState extends State<KreasiListAllData>
                     else
                       return
                         GridView.builder(
-                          padding: EdgeInsets.only(bottom: 150),
+                          padding: EdgeInsets.only(bottom: 50),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
