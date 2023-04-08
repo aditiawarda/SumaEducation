@@ -85,9 +85,7 @@ class _LoginPageState extends State<RegisterScreen>
             height: 10,
           ),
           if (fungsi == 'email') ...[
-            SizedBox(
-              height: 50,
-              child: Form(
+            Form(
                 key: _formKey,
                 child: TextFormField(
                   obscureText: false,
@@ -135,11 +133,8 @@ class _LoginPageState extends State<RegisterScreen>
                   ),
                 ),
               ),
-            )
           ] else if (fungsi == 'nama_lengkap') ...[
-            SizedBox(
-              height: 50,
-              child: Form(
+            Form(
                 key: _formKey2,
                 child: TextFormField(
                   obscureText: false,
@@ -187,7 +182,6 @@ class _LoginPageState extends State<RegisterScreen>
                   ),
                 ),
               ),
-            )
           ] else if (fungsi == 'jenis_kelamin') ...[
             Container(
                 decoration: BoxDecoration(
@@ -236,9 +230,7 @@ class _LoginPageState extends State<RegisterScreen>
               )
             )
           ] else if (fungsi == 'no_hp') ...[
-            SizedBox(
-              height: 50,
-              child: Form(
+            Form(
                 key: _formKey3,
                 child: TextFormField(
                   obscureText: false,
@@ -286,12 +278,8 @@ class _LoginPageState extends State<RegisterScreen>
                   ),
                 ),
               ),
-            )
           ] else if (fungsi == 'password') ...[
-            SizedBox(
-              height: 50,
-              child:
-              Form(
+            Form(
                 key: _formKey4,
                 child: TextFormField(
                   controller: txtEditPassword,
@@ -346,12 +334,8 @@ class _LoginPageState extends State<RegisterScreen>
                   ),
                 ),
               ),
-            ),
           ] else if (fungsi == 'repassword') ...[
-            SizedBox(
-              height: 50,
-              child:
-              Form(
+            Form(
                 key: _formKey5,
                 child: TextFormField(
                   controller: txtEditRepassword,
@@ -406,7 +390,6 @@ class _LoginPageState extends State<RegisterScreen>
                   ),
                 ),
               ),
-            ),
           ],
         ],
       ),
@@ -1521,13 +1504,18 @@ class _LoginPageState extends State<RegisterScreen>
     return Scaffold(
       body:
       Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/background_before_login.png"),
-                fit: BoxFit.none)),
         height: height,
         child: Stack(
           children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background_before_login.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: null /* add child content here */,
+            ),
             getBackWiget(),
             Container(
               child: SingleChildScrollView(
