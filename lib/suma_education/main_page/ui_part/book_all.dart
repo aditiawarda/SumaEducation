@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
@@ -76,61 +78,42 @@ class _BookListAllDataState extends State<BookListAllData>
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.topCenter,
-        padding: EdgeInsets.only(left: 20, right: 20, top: 15),
+        padding: EdgeInsets.only(left: 15, right: 15, top: 15),
         width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child:
-        Wrap(
-          children: <Widget>[
+        Flexible(
+          child:
             FutureBuilder<String>(
               future: _getBookContent(), // function where you call your api
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 0.60,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 5),
-                      itemCount: bookListData.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final int count = bookListData.length;
-                        final Animation<double> animation =
-                        Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController!,
-                                curve: Interval((1 / count) * index, 1.0,
-                                    curve: Curves.fastOutSlowIn)));
-                        animationController?.forward();
-                        var tinggi = MediaQuery.of(context).size.height;
-                        var lebar = MediaQuery.of(context).size.width;
-                        return itemBookAll(bookListData[index], context, lebar, tinggi, widget.animationControllerBottomSheet!);
-                      });
+                  return
+                    MasonryGridView.count(
+                        physics: const ScrollPhysics(),
+                        itemCount: bookListData.length,
+                        padding: const EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 15,
+                        itemBuilder: (context, index) {
+                          return itemBookAll(bookListData[index], context, widget.animationControllerBottomSheet!);
+                        }
+                    );
                 } else {
                   if (snapshot.hasError)
-                    return GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 0.60,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 5),
-                        itemCount: bookListData.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final int count = bookListData.length;
-                          final Animation<double> animation =
-                          Tween<double>(begin: 0.0, end: 1.0).animate(
-                              CurvedAnimation(
-                                  parent: animationController!,
-                                  curve: Interval((1 / count) * index, 1.0,
-                                      curve: Curves.fastOutSlowIn)));
-                          animationController?.forward();
-                          var tinggi = MediaQuery.of(context).size.height;
-                          var lebar = MediaQuery.of(context).size.width;
-                          return itemBookAll(bookListData[index], context, lebar, tinggi, widget.animationControllerBottomSheet!);
-                        });
+                    return
+                      MasonryGridView.count(
+                          physics: const ScrollPhysics(),
+                          itemCount: bookListData.length,
+                          padding: const EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 15,
+                          crossAxisSpacing: 15,
+                          itemBuilder: (context, index) {
+                            return itemBookAll(bookListData[index], context, widget.animationControllerBottomSheet!);
+                          }
+                      );
                   else
                     if(bookListData.length==0)
                       return
@@ -181,130 +164,95 @@ class _BookListAllDataState extends State<BookListAllData>
                       );
                     else
                       return
-                        GridView.builder(
-                          padding: EdgeInsets.only(bottom: 150),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio: 0.60,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 5),
+                        MasonryGridView.count(
+                          physics: const ScrollPhysics(),
                           itemCount: bookListData.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final int count = bookListData.length;
-                            final Animation<double> animation =
-                            Tween<double>(begin: 0.0, end: 1.0).animate(
-                                CurvedAnimation(
-                                    parent: animationController!,
-                                    curve: Interval((1 / count) * index, 1.0,
-                                        curve: Curves.fastOutSlowIn)));
-                            animationController?.forward();
-                            var tinggi = MediaQuery.of(context).size.height;
-                            var lebar = MediaQuery.of(context).size.width;
-                            return itemBookAll(bookListData[index], context, lebar, tinggi, widget.animationControllerBottomSheet!);
-                          });
+                          padding: const EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 15,
+                          crossAxisSpacing: 15,
+                          itemBuilder: (context, index) {
+                            return itemBookAll(bookListData[index], context, widget.animationControllerBottomSheet!);
+                          }
+                        );
                 }
               },
-            )
-          ],
+            ),
         ),
     );
   }
 }
 
-Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi, AnimationController animationController){
-  var tinggifix = tinggi/7;
-  var lebarfix = lebar/4;
+Widget itemBookAll(BookData bookData, BuildContext context, AnimationController animationController){
   return
     FadeInUp(
         delay : Duration(milliseconds: 500),
-        child: ZoomTapAnimation(
-            child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => DetailBukuState(
-                            book: bookData,
-                          )
-                      )
-                  );
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width:  lebar/4,
-                  margin: EdgeInsets.only(top: 5, bottom: 5),
-                  child:
-                  Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(7.0),
-                              bottomLeft: Radius.circular(7.0),
-                              bottomRight: Radius.circular(7.0),
-                              topRight: Radius.circular(7.0)),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: AppTheme.grey.withOpacity(0.2),
-                                offset: Offset(0.0, 1.0), //(x,y)
-                                blurRadius: 2.0),
-                          ],
-                        ),
-                        alignment: Alignment.center,
-                        width: lebarfix,
-                        margin: EdgeInsets.only(top: 40, left: 5,right: 5),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        width: lebarfix,
-                        padding: EdgeInsets.only(left: 18, right: 7, top: 10, bottom: 10),
-                        child:
-                        Column(
-                          children: [
-                            Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  child:
-                                  Image.asset(
-                                      'assets/images/no_image_2.png',
-                                      width: lebarfix,
-                                      height: tinggifix,
-                                      fit:BoxFit.fill
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  child:
-                                  Image.network(
-                                      "https://suma.geloraaksara.co.id/uploads/cover_book/"+bookData.cover,
-                                      width: lebarfix,
-                                      height: tinggifix,
-                                      fit:BoxFit.fill
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            Text(bookData.judul,
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: GoogleFonts.roboto(fontSize: 13)
-                            ),
-                          ],
+        child : ZoomTapAnimation(
+          child: GestureDetector(
+            onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => DetailBukuState(
+                          book: bookData,
                         )
+                    )
+                );
+            },
+            child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child:
+                Container(
+                  decoration: BoxDecoration(color: Colors.white,
+                      borderRadius: BorderRadius.circular(9)),
+                  child:
+                  Column(
+                    children: [
+                      Wrap(
+                        children: [
+                          Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(9),
+                                child:
+                                Image.asset(
+                                  'assets/images/no_image_2.png',
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(9),
+                                child:
+                                Image.network(
+                                  'https://suma.geloraaksara.co.id/uploads/cover_book/'+bookData.cover,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
+                      // Container(
+                      //   padding: EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 12),
+                      //   child: Text(bookData.judul,
+                      //       style:
+                      //       GoogleFonts.roboto(
+                      //           color: Colors.blueGrey,
+                      //           fontSize: 14.0,
+                      //           height: 1.5
+                      //       ),
+                      //       textAlign: TextAlign.center,
+                      //   ),
+                      // )
                     ],
-                  )
+                  ) ,
                 )
-            )
+            ),
+          ),
         )
     );
 }

@@ -1609,6 +1609,7 @@ class _LoginPageState extends State<RegisterScreen>
                                     ],
                                   ),
                                 ),
+                                SizedBox(height: 50),
                               ],
                             ),
                           ],

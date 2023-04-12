@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +39,6 @@ class MainMenu extends StatelessWidget {
       {Key? key, this.animationController, this.animation, required this.animationControllerBottomSheet})
       : super(key: key);
 
-
   Future<String> getUser() async {
     final SharedPreferences prefs = await _prefs;
     namaUser = prefs.getString("data_username")!;
@@ -64,7 +62,7 @@ class MainMenu extends StatelessWidget {
     return 'true';
   }
 
-  Future<String> _getBookNew() async {
+  Future<String> _getNewBook() async {
     try {
       var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/get_content_book_new"),
           body: {
@@ -85,6 +83,7 @@ class MainMenu extends StatelessWidget {
       print("Error");
     }
     return 'true';
+
   }
 
   @override
@@ -100,7 +99,8 @@ class MainMenu extends StatelessWidget {
               child: new Transform(
                 transform: new Matrix4.translationValues(
                     0.0, 30 * (1.0 - animation!.value), 0.0),
-                child: Padding(
+                child:
+                Padding(
                   padding: const EdgeInsets.only(
                       left: 24, right: 24, top: 16),
                   child:
@@ -548,7 +548,7 @@ class MainMenu extends StatelessWidget {
                                                   height: 90,
                                                   width: double.infinity,
                                                   decoration: BoxDecoration(
-                                                    color: Colors.orange.shade50,
+                                                    color: Colors.blue.shade50,
                                                     borderRadius: BorderRadius.only(
                                                         topLeft: Radius.circular(10.0),
                                                         bottomLeft: Radius.circular(10.0),
@@ -556,9 +556,9 @@ class MainMenu extends StatelessWidget {
                                                         topRight: Radius.circular(10.0)),
                                                     boxShadow: <BoxShadow>[
                                                       BoxShadow(
-                                                          color: AppTheme.grey.withOpacity(0.2),
+                                                          color: AppTheme.grey.withOpacity(0.1),
                                                           offset: Offset(0.0, 1.0), //(x,y)
-                                                          blurRadius: 2.0),
+                                                          blurRadius: 0.5),
                                                     ],
                                                   ),
                                                   child:
@@ -575,7 +575,7 @@ class MainMenu extends StatelessWidget {
                                                     width: 15,
                                                     height: 15,
                                                     decoration: BoxDecoration(
-                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      color: Colors.grey.withOpacity(0.1),
                                                       shape: BoxShape.circle,
                                                     ),
                                                   ),
@@ -586,7 +586,7 @@ class MainMenu extends StatelessWidget {
                                                     width: 20,
                                                     height: 20,
                                                     decoration: BoxDecoration(
-                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      color: Colors.grey.withOpacity(0.1),
                                                       shape: BoxShape.circle,
                                                     ),
                                                   ),
@@ -633,7 +633,7 @@ class MainMenu extends StatelessWidget {
                                                   padding: EdgeInsets.all(10),
                                                   margin: EdgeInsets.only(right: 10, left: 10),
                                                   decoration: BoxDecoration(
-                                                    color: Colors.orange.shade50,
+                                                    color: Colors.green.shade50,
                                                     borderRadius: BorderRadius.only(
                                                         topLeft: Radius.circular(10.0),
                                                         bottomLeft: Radius.circular(10.0),
@@ -641,9 +641,9 @@ class MainMenu extends StatelessWidget {
                                                         topRight: Radius.circular(10.0)),
                                                     boxShadow: <BoxShadow>[
                                                       BoxShadow(
-                                                          color: AppTheme.grey.withOpacity(0.2),
+                                                          color: AppTheme.grey.withOpacity(0.1),
                                                           offset: Offset(0.0, 1.0), //(x,y)
-                                                          blurRadius: 2.0),
+                                                          blurRadius: 0.5),
                                                     ],
                                                   ),
                                                   child: Image.asset(
@@ -659,7 +659,7 @@ class MainMenu extends StatelessWidget {
                                                     width: 15,
                                                     height: 15,
                                                     decoration: BoxDecoration(
-                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      color: Colors.grey.withOpacity(0.1),
                                                       shape: BoxShape.circle,
                                                     ),
                                                   ),
@@ -670,7 +670,7 @@ class MainMenu extends StatelessWidget {
                                                     width: 20,
                                                     height: 20,
                                                     decoration: BoxDecoration(
-                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      color: Colors.grey.withOpacity(0.1),
                                                       shape: BoxShape.circle,
                                                     ),
                                                   ),
@@ -716,7 +716,7 @@ class MainMenu extends StatelessWidget {
                                                   padding: EdgeInsets.all(10),
                                                   margin: EdgeInsets.only(left: 15, right: 7),
                                                   decoration: BoxDecoration(
-                                                    color: Colors.orange.shade50,
+                                                    color: Colors.purple.shade50,
                                                     borderRadius: BorderRadius.only(
                                                         topLeft: Radius.circular(10.0),
                                                         bottomLeft: Radius.circular(10.0),
@@ -724,9 +724,9 @@ class MainMenu extends StatelessWidget {
                                                         topRight: Radius.circular(10.0)),
                                                     boxShadow: <BoxShadow>[
                                                       BoxShadow(
-                                                          color: AppTheme.grey.withOpacity(0.2),
+                                                          color: AppTheme.grey.withOpacity(0.1),
                                                           offset: Offset(0.0, 1.0), //(x,y)
-                                                          blurRadius: 2.0),
+                                                          blurRadius: 0.5),
                                                     ],
                                                   ),
                                                   child: Image.asset(
@@ -742,7 +742,7 @@ class MainMenu extends StatelessWidget {
                                                     width: 15,
                                                     height: 15,
                                                     decoration: BoxDecoration(
-                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      color: Colors.grey.withOpacity(0.1),
                                                       shape: BoxShape.circle,
                                                     ),
                                                   ),
@@ -753,7 +753,7 @@ class MainMenu extends StatelessWidget {
                                                     width: 20,
                                                     height: 20,
                                                     decoration: BoxDecoration(
-                                                      color: AppTheme.nearlyDarkOrange.withOpacity(0.1),
+                                                      color: Colors.grey.withOpacity(0.1),
                                                       shape: BoxShape.circle,
                                                     ),
                                                   ),
@@ -781,150 +781,6 @@ class MainMenu extends StatelessWidget {
                             )
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 10),
-                        padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
-                        decoration: BoxDecoration(
-                          color: AppTheme.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(10.0),
-                              topRight: Radius.circular(10.0)),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: AppTheme.grey.withOpacity(0.2),
-                                offset: Offset(0.0, 1.0), //(x,y)
-                                blurRadius: 2.0),
-                          ],
-                        ),
-                        child:
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'READING',
-                                  style: TextStyle(
-                                      color: Colors.orange,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16
-                                  ),
-                                ),
-                                Text(
-                                  'STORY',
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16
-                                  ),
-                                )
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 5),
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Cerita terbaru dari Suma dan Sahabat',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontFamily: 'RobotoMono',
-                                  color: Colors.black87.withOpacity(0.5),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height/2.4,
-                              child: FutureBuilder<String>(
-                                future: _getBookNew(),
-                                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.waiting) {
-                                    return GridView.builder(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                          childAspectRatio: 2 / 3,
-                                        ),
-                                        itemCount: book.length,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          var tinggi = MediaQuery.of(context).size.height;
-                                          var lebar = MediaQuery.of(context).size.width;
-                                          return itemBuku(book[index], context, lebar, tinggi, animationControllerBottomSheet!);
-                                        }
-                                    );
-                                  } else {
-                                    if (snapshot.hasError)
-                                      return GridView.builder(
-                                          physics: NeverScrollableScrollPhysics(),
-                                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3,
-                                            childAspectRatio: 2 / 3,
-                                          ),
-                                          itemCount: book.length,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            var tinggi = MediaQuery.of(context).size.height;
-                                            var lebar = MediaQuery.of(context).size.width;
-                                            return itemBuku(book[index], context, lebar, tinggi, animationControllerBottomSheet!);
-                                          }
-                                      );
-                                    else
-                                      return
-                                        GridView.builder(
-                                            physics: NeverScrollableScrollPhysics(),
-                                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 3,
-                                              childAspectRatio: 2 / 3,
-                                            ),
-                                            itemCount: book.length,
-                                            itemBuilder: (BuildContext context, int index) {
-                                              var tinggi = MediaQuery.of(context).size.height;
-                                              var lebar = MediaQuery.of(context).size.width;
-                                              return itemBuku(book[index], context, lebar, tinggi, animationControllerBottomSheet!);
-                                            }
-                                        );
-                                  }
-                                },
-                              ),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.only(top: 30, bottom: 10),
-                              child:
-                              ZoomTapAnimation(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      new Future.delayed(new Duration(milliseconds: 300), () {
-                                        Navigator.push<dynamic>(
-                                            context,
-                                            MaterialPageRoute<dynamic>(
-                                              builder: (BuildContext context) => BookContentScreen(animationController: animationController),
-                                            )
-                                        );
-                                      });
-                                    },
-                                    child:
-                                    Text(
-                                      "Lihat Selengkapnya",
-                                      textAlign: TextAlign.left,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                        letterSpacing: 0.5,
-                                        color: AppTheme.grey.withOpacity(0.7),
-                                      ),
-                                    )
-                                  )
-                              ),
-                            )
-                          ],
-                        )
-                      ),
-                      Container(
                           margin: EdgeInsets.only(top: 10),
                           padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
                           decoration: BoxDecoration(
@@ -949,7 +805,7 @@ class MainMenu extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    'SUMA',
+                                    'READING',
                                     style: TextStyle(
                                         color: Colors.orange,
                                         fontWeight: FontWeight.bold,
@@ -957,7 +813,7 @@ class MainMenu extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    'GAMES',
+                                    'STORY',
                                     style: TextStyle(
                                         color: Colors.black54,
                                         fontWeight: FontWeight.bold,
@@ -970,7 +826,7 @@ class MainMenu extends StatelessWidget {
                                 margin: EdgeInsets.only(top: 5),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Mainkan games Suma',
+                                  'Cerita terbaru dari Suma dan Sahabat',
                                   style: TextStyle(
                                     fontSize: 10,
                                     fontFamily: 'RobotoMono',
@@ -978,121 +834,302 @@ class MainMenu extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 20),
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    flex: 5,
-                                    child:
-                                    Column(
-                                      children: [
-                                        ZoomTapAnimation(
-                                          onTap: () {
-                                            mainPuzzle(context);
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.all(10),
-                                            margin: EdgeInsets.only(right: 15, left: 10),
-                                            height: 120,
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                              color: Colors.orange.shade50,
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(10.0),
-                                                  bottomLeft: Radius.circular(10.0),
-                                                  bottomRight: Radius.circular(10.0),
-                                                  topRight: Radius.circular(10.0)),
-                                              boxShadow: <BoxShadow>[
-                                                BoxShadow(
-                                                    color: AppTheme.grey.withOpacity(0.2),
-                                                    offset: Offset(0.0, 1.0), //(x,y)
-                                                    blurRadius: 2.0),
-                                              ],
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              child:
-                                              Image.asset(
-                                                'assets/images/games_1.png',
-                                                width: double.infinity,
-                                                height: double.infinity,
-                                                fit: BoxFit.cover,
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child:
+                                FutureBuilder<String>(
+                                  future: _getNewBook(),
+                                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return SizedBox(child: null);
+                                    } else {
+                                      if (snapshot.hasError)
+                                        return GridView.builder(
+                                            shrinkWrap: true,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2,
+                                                childAspectRatio: 0.7427,
+                                                crossAxisSpacing: 10,
+                                                mainAxisSpacing: 20),
+                                            itemCount: book.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              animationController?.forward();
+                                              return itemBuku(book[index], context, animationController!);
+                                            });
+                                      else
+                                      if(book.length==0)
+                                        return
+                                          FadeInUp(
+                                            delay: Duration(milliseconds: 500),
+                                            child: Container(
+                                              margin: EdgeInsets.only(top: 130),
+                                              padding: EdgeInsets.only(bottom: 100),
+                                              alignment: Alignment.center,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(bottom: 10),
+                                                    child: Image.asset("assets/images/empty_data.png", height: 100),
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: [
+                                                      Text(
+                                                        'Data tidak tersedia',
+                                                        textAlign: TextAlign.left,
+                                                        style: TextStyle(
+                                                          fontFamily: AppTheme.fontName,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 16,
+                                                          letterSpacing: 0.5,
+                                                          color: Colors.blueGrey.shade200,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        'Data peserta tidak tersedia',
+                                                        textAlign: TextAlign.left,
+                                                        style: TextStyle(
+                                                          fontFamily: AppTheme.fontName,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 12,
+                                                          letterSpacing: 0.5,
+                                                          color: Colors.blueGrey.shade200,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 12),
-                                        Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            child: Text(
-                                                "Puzzle",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 14
+                                          );
+                                      else
+                                        return GridView.builder(
+                                            shrinkWrap: true,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2,
+                                                childAspectRatio: 0.7427,
+                                                crossAxisSpacing: 10,
+                                                mainAxisSpacing: 20),
+                                            itemCount: book.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              animationController?.forward();
+                                              return itemBuku(book[index], context, animationController!);
+                                            });
+                                    }
+                                  },
+                                ),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.only(top: 30, bottom: 10),
+                                child:
+                                ZoomTapAnimation(
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          new Future.delayed(new Duration(milliseconds: 300), () {
+                                            Navigator.push<dynamic>(
+                                                context,
+                                                MaterialPageRoute<dynamic>(
+                                                  builder: (BuildContext context) => BookContentScreen(animationController: animationController),
                                                 )
-                                            )
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 5,
-                                    child:
-                                    Column(
-                                      children: [
-                                        ZoomTapAnimation(
-                                          onTap: () {
-                                            mainTICTAC(context);
-                                          },
-                                          child: Container(
-                                            height: 120,
-                                            width: double.infinity,
-                                            padding: EdgeInsets.all(10),
-                                            margin: EdgeInsets.only(left: 15, right: 10),
-                                            decoration: BoxDecoration(
-                                              color: Colors.orange.shade50,
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(10.0),
-                                                  bottomLeft: Radius.circular(10.0),
-                                                  bottomRight: Radius.circular(10.0),
-                                                  topRight: Radius.circular(10.0)),
-                                              boxShadow: <BoxShadow>[
-                                                BoxShadow(
-                                                    color: AppTheme.grey.withOpacity(0.2),
-                                                    offset: Offset(0.0, 1.0), //(x,y)
-                                                    blurRadius: 2.0),
-                                              ],
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              child:
-                                              Image.asset(
-                                                'assets/images/games_2.png',
-                                                width: double.infinity,
-                                                height: double.infinity,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
+                                            );
+                                          });
+                                        },
+                                        child:
+                                        Text(
+                                          "Lihat Selengkapnya",
+                                          textAlign: TextAlign.left,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontName,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                            letterSpacing: 0.5,
+                                            color: AppTheme.grey.withOpacity(0.7),
                                           ),
-                                        ),
-                                        SizedBox(height: 12),
-                                        Container(
-                                            margin: EdgeInsets.only(left: 10),
-                                            child: Text(
-                                                "Tic Tac Toe",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontSize: 14
-                                                )
-                                            )
                                         )
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                    )
+                                ),
                               )
                             ],
                           )
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
+                        decoration: BoxDecoration(
+                          color: AppTheme.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              bottomLeft: Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: AppTheme.grey.withOpacity(0.2),
+                                offset: Offset(0.0, 1.0), //(x,y)
+                                blurRadius: 2.0),
+                          ],
+                        ),
+                        child:
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'SUMA',
+                                  style: TextStyle(
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16
+                                  ),
+                                ),
+                                Text(
+                                  'GAMES',
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16
+                                  ),
+                                )
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 5),
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Mainkan games Suma',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: 'RobotoMono',
+                                  color: Colors.black87.withOpacity(0.5),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 5,
+                                  child:
+                                  Column(
+                                    children: [
+                                      ZoomTapAnimation(
+                                        onTap: () {
+                                          mainPuzzle(context);
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          margin: EdgeInsets.only(right: 15, left: 10),
+                                          height: 120,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: Colors.pink.shade50,
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10.0),
+                                                bottomLeft: Radius.circular(10.0),
+                                                bottomRight: Radius.circular(10.0),
+                                                topRight: Radius.circular(10.0)),
+                                            boxShadow: <BoxShadow>[
+                                              BoxShadow(
+                                                  color: AppTheme.grey.withOpacity(0.1),
+                                                  offset: Offset(0.0, 1.0), //(x,y)
+                                                  blurRadius: 0.5),
+                                            ],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(5.0),
+                                            child:
+                                            Image.asset(
+                                              'assets/images/games_1.png',
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 12),
+                                      Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: Text(
+                                              "Puzzle",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 14
+                                              )
+                                          )
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 5,
+                                  child:
+                                  Column(
+                                    children: [
+                                      ZoomTapAnimation(
+                                        onTap: () {
+                                          mainTICTAC(context);
+                                        },
+                                        child: Container(
+                                          height: 120,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.all(10),
+                                          margin: EdgeInsets.only(left: 15, right: 10),
+                                          decoration: BoxDecoration(
+                                            color: Colors.teal.shade50,
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10.0),
+                                                bottomLeft: Radius.circular(10.0),
+                                                bottomRight: Radius.circular(10.0),
+                                                topRight: Radius.circular(10.0)),
+                                            boxShadow: <BoxShadow>[
+                                              BoxShadow(
+                                                  color: AppTheme.grey.withOpacity(0.1),
+                                                  offset: Offset(0.0, 1.0), //(x,y)
+                                                  blurRadius: 0.5),
+                                            ],
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(5.0),
+                                            child:
+                                            Image.asset(
+                                              'assets/images/games_2.png',
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 12),
+                                      Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                              "Tic Tac Toe",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 14
+                                              )
+                                          )
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
                       ),
                     ],
                   ),
@@ -1105,14 +1142,17 @@ class MainMenu extends StatelessWidget {
   }
 }
 
-Widget itemBuku(BookData book, BuildContext context,var lebar,var tinggi, AnimationController animationController){
-  var tinggifix = tinggi/8;
-  var lebarfix = lebar/4;
+Widget itemBuku(BookData book, BuildContext context, AnimationController animationController) {
   return
     FadeInUp(
-        delay : Duration(milliseconds: 500),
-        child: ZoomTapAnimation(
-            child: GestureDetector(
+        delay : Duration(milliseconds: 100),
+        child :  FadeTransition(
+          opacity: animationController,
+          child: Transform(
+            transform: Matrix4.translationValues(0.0, 30 * (1.0 - animationController.value), 0.0),
+            child:
+            ZoomTapAnimation(
+              child: GestureDetector(
                 onTap: () {
                   Navigator.push(
                       context,
@@ -1121,83 +1161,51 @@ Widget itemBuku(BookData book, BuildContext context,var lebar,var tinggi, Animat
                       )
                   );
                 },
-                child: Container(
-                    height: 140,
-                    width:  lebar/4,
-                    margin: EdgeInsets.only(top: 5, bottom: 5),
+                // you can add more gestures...
+                child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child:
-                    Stack(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.orange.shade50,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(7.0),
-                                bottomLeft: Radius.circular(7.0),
-                                bottomRight: Radius.circular(7.0),
-                                topRight: Radius.circular(7.0)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: AppTheme.grey.withOpacity(0.2),
-                                  offset: Offset(0.0, 1.0), //(x,y)
-                                  blurRadius: 2.0),
+                    Container(
+                      decoration: BoxDecoration(color: Colors.white,
+                          borderRadius: BorderRadius.circular(9)),
+                      child:
+                      Column(
+                        children: [
+                          Wrap(
+                            children: [
+                              Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(9),
+                                    child:
+                                    Image.asset(
+                                      'assets/images/no_image_2.png',
+                                      width: double.infinity,
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(9),
+                                    child:
+                                    Image.network(
+                                      'https://suma.geloraaksara.co.id/uploads/cover_book/'+book.cover,
+                                      width: double.infinity,
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
-                          alignment: Alignment.center,
-                          width: lebarfix,
-                          margin: EdgeInsets.only(bottom:0,top: 35, left: 10, right: 10,),
-                          height: tinggifix,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                          width: lebarfix,
-                          margin: EdgeInsets.only(left: 20,right: 20),
-                          child:
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        child:
-                                        Image.asset(
-                                            'assets/images/no_image_2.png',
-                                            width: lebarfix,
-                                            height: tinggifix,
-                                            fit:BoxFit.fill
-                                        ),
-                                      ),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        child:
-                                        Image.network(
-                                            "https://suma.geloraaksara.co.id/uploads/cover_book/"+book.cover,
-                                            width: lebarfix,
-                                            height: tinggifix,
-                                            fit:BoxFit.fill
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(book.judul,
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: GoogleFonts.roboto(fontSize: 12)
-                                  ),
-                                  SizedBox(height: 3),
-                                ],
-                              )
-                        ),
-                      ],
+                        ],
+                      ) ,
                     )
-                )
+                ),
+              ),
             )
+          ),
         )
     );
 }
