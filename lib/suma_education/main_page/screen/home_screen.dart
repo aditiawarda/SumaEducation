@@ -71,26 +71,7 @@ class _HomeScreenState extends State<HomeScreen>
       }
     });
 
-      getUser();
-
     super.initState();
-  }
-
-  Future<String> getUser() async {
-    prefs = await _prefs;
-
-    if(prefs!.getString("data_NIK").toString()=='2151010115'){
-      _getDataUserProposal('3');
-      _getDataUserAppointment('2151010115');
-    } else if(prefs!.getString("data_NIK").toString()=='1504060711'){
-      _getDataUserProposal('7');
-    } else if(prefs!.getString("data_NIK").toString()=='P2182'){
-      _getDataUserProposal('1414');
-    } else if(prefs!.getString("data_NIK").toString()=='M0015'){
-      _getDataUserProposal('1415');
-    }
-
-    return 'true';
   }
 
   void addAllListData() {
@@ -120,68 +101,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   }
 
-  _getDataUserProposal(String id_user) async {
-    try {
-      var response = await http.post(Uri.parse("https://proposal.sumasistem.co.id/api/get_data_user"),
-          body: {
-            "id_user": id_user,
-          });
-      var json = jsonDecode(response.body);
-      String status = json["status"];
-      if (status == "Success") {
-        var IdUser = json["data_user"]["IdUser"];
-        var UserName = json["data_user"]["UserName"];
-        var NmKaryawan = json["data_user"]["NmKaryawan"];
-        var EmailKaryawan = json["data_user"]["EmailKaryawan"];
-        var IdJabatan = json["data_user"]["IdJabatan"];
-        var IdHeadDept = json["data_user"]["IdHeadDept"];
-        var IdDept = json["data_user"]["IdDept"];
-        var NmJabatan = json["data_user"]["NmJabatan"];
-        var NmHeadDept = json["data_user"]["NmHeadDept"];
-        var DesHeadDept = json["data_user"]["DesHeadDept"];
-        var NmDept = json["data_user"]["NmDept"];
-
-        await prefs?.setString('IdUser', IdUser);
-        await prefs?.setString('UserName', UserName);
-        await prefs?.setString('NmKaryawan', NmKaryawan);
-        await prefs?.setString('EmailKaryawan', EmailKaryawan);
-        await prefs?.setString('IdJabatan', IdJabatan);
-        await prefs?.setString('IdHeadDept', IdHeadDept);
-        await prefs?.setString('IdDept', IdDept);
-        await prefs?.setString('NmJabatan', NmJabatan);
-        await prefs?.setString('NmHeadDept', NmHeadDept);
-        await prefs?.setString('DesHeadDept', DesHeadDept);
-        await prefs?.setString('NmDept', NmDept);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-    return 'true';
-  }
-
-  _getDataUserAppointment(String nik) async {
-    try {
-      var response = await http.post(Uri.parse("https://geloraaksara.co.id/absen-online/api/get_user_appointment"),
-          body: {
-            "nik": nik,
-          });
-      var json = jsonDecode(response.body);
-      String status = json["status"];
-      if (status == "Success") {
-        var appointment_nik = json["data_user"]["NIK"];
-        var appointment_nama = json["data_user"]["NamaKaryawan"];
-        var appointment_bagian = json["data_user"]["IdDept"];
-
-        await prefs?.setString('appointment_nik', appointment_nik);
-        await prefs?.setString('appointment_nama', appointment_nama);
-        await prefs?.setString('appointment_bagian', appointment_bagian);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-    return 'true';
-  }
-
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 50));
     return true;
@@ -204,6 +123,16 @@ class _HomeScreenState extends State<HomeScreen>
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 90.0),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background_page.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: null /* add child content here */,
+            ),
             getBackWiget(),
             Column(
               children: [
@@ -535,7 +464,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.1',
+                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.3',
                                                           style: TextStyle(
                                                             fontFamily: AppTheme.fontName,
                                                             fontWeight: FontWeight.w500,

@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/suma_education/main_page/bottom_navigation_view/main_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:suma_education/suma_education/main_page/screen/forgot_password.dart';
 import 'dart:async';
 
 import 'package:suma_education/suma_education/main_page/screen/register_screen.dart';
@@ -80,9 +81,7 @@ class _LoginPageState extends State<LoginScreen>
             height: 10,
           ),
          if (fungsi == 'email') ...[
-            SizedBox(
-              height: 50,
-              child: Form(
+            Form(
                 key: _formKey,
                 child: TextFormField(
                   obscureText: false,
@@ -130,12 +129,8 @@ class _LoginPageState extends State<LoginScreen>
                   ),
                 ),
               ),
-            )
           ] else if (fungsi == 'password') ...[
-            SizedBox(
-              height: 50,
-              child:
-              Form(
+            Form(
                 key: _formKey2,
                 child: TextFormField(
                   controller: txtEditPassword,
@@ -189,7 +184,6 @@ class _LoginPageState extends State<LoginScreen>
                   ),
                 ),
               ),
-            ),
           ],
         ],
       ),
@@ -377,14 +371,18 @@ class _LoginPageState extends State<LoginScreen>
     return Scaffold(
       body:
       Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/background_before_login.png"),
-                fit: BoxFit.none)
-        ),
         height: height,
         child: Stack(
           children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background_before_login.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: null /* add child content here */,
+            ),
             getBackWiget(),
             Positioned(
               child: new Align(
@@ -394,7 +392,7 @@ class _LoginPageState extends State<LoginScreen>
                     child:
                     FadeInUp(
                       delay: Duration(milliseconds: 500),
-                      child: Text('Suma Learning v 1.1.1', style: TextStyle(color: Colors.blueGrey.withOpacity(0.7), fontSize: 14),),
+                      child: Text('Suma Learning v 1.1.3', style: TextStyle(color: Colors.blueGrey.withOpacity(0.7), fontSize: 14),),
                     ),
                   )
               )
@@ -439,6 +437,27 @@ class _LoginPageState extends State<LoginScreen>
                                           _idUsernamePasswordWidget(),
                                           SizedBox(height: 20),
                                           _submitButton(),
+                                          SizedBox(height: 20),
+                                          Container(
+                                            margin: EdgeInsets.only(right: 10, top: 10, bottom: 8),
+                                            width: double.infinity,
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                            onTap: (){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (BuildContext context) => ForgotPasswordScreen(animationController: widget.animationController)));
+                                            },
+                                            child: Text(
+                                              'Lupa password?',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.grey),
+                                            ),
+                                          ),
+                                          ),
                                         ],
                                       ),
                                     )

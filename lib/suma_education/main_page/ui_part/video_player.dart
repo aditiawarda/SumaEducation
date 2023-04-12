@@ -61,45 +61,53 @@ class _VideoPlayerMainState extends State<VideoPlayerMain>
               child: new Transform(
                 transform: new Matrix4.translationValues(
                     0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-                child: Padding(
+                child:
+                  Padding(
                     padding: const EdgeInsets.only(
-                        left: 24, right: 24, top: 15, bottom: 10),
-                    child:
-                    Container(
+                        left: 0, right: 0, top: 15, bottom: 0),
+                    child: Container(
                       child:
-                        Column(
-                          children: [
-                            Container(
-                                decoration: BoxDecoration(
-                                  color: AppTheme.white,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10.0),
-                                      bottomLeft: Radius.circular(10.0),
-                                      bottomRight: Radius.circular(10.0),
-                                      topRight: Radius.circular(10.0)),
-                                  boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                        color: AppTheme.grey.withOpacity(0.2),
-                                        offset: Offset(0.0, 1.0), //(x,y)
-                                        blurRadius: 2.0),
-                                  ],
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 24, right: 24, top: 25, bottom: 10),
+                            child: Column(
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.white,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10.0),
+                                          bottomLeft: Radius.circular(10.0),
+                                          bottomRight: Radius.circular(10.0),
+                                          topRight: Radius.circular(10.0)),
+                                      boxShadow: <BoxShadow>[
+                                        BoxShadow(
+                                            color: AppTheme.grey.withOpacity(0.2),
+                                            offset: Offset(0.0, 1.0), //(x,y)
+                                            blurRadius: 2.0),
+                                      ],
+                                    ),
+                                    child:
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child:
+                                      YoutubePlayer(
+                                        controller: _controller,
+                                        aspectRatio: 16 / 9,
+                                      ),
+                                    )
                                 ),
-                              child:
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child:
-                                YoutubePlayer(
-                                  controller: _controller,
-                                  aspectRatio: 16 / 9,
-                                ),
-                              )
+                              ],
                             ),
-                          ],
-                        ),
+                          )
+                        ],
+                      ),
                     ),
+                  )
                 ),
               ),
-            ),
           );
       },
     );

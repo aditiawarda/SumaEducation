@@ -75,7 +75,7 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.topCenter,
-        padding: EdgeInsets.only(left: 20, right: 20, top: 25),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 50),
         width: MediaQuery.of(context).size.width,
         child:
         Wrap(
@@ -89,7 +89,7 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 1.3,
+                          childAspectRatio: 1.1,
                           crossAxisSpacing: 5,
                           mainAxisSpacing: 13),
                       itemCount: tutorialListData.length,
@@ -113,7 +113,7 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 1.3,
+                            childAspectRatio: 1.1,
                             crossAxisSpacing: 5,
                             mainAxisSpacing: 13),
                         itemCount: tutorialListData.length,
@@ -181,12 +181,12 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
                     else
                       return
                         GridView.builder(
-                          padding: EdgeInsets.only(bottom: 150),
+                          padding: EdgeInsets.only(bottom: 50),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              childAspectRatio: 1.3,
+                              childAspectRatio: 1.1,
                               crossAxisSpacing: 5,
                               mainAxisSpacing: 13),
                           itemCount: tutorialListData.length,
@@ -223,7 +223,7 @@ Widget itemAll(TutorialData tutorialData, BuildContext context,var lebar,var tin
                     Navigator.push<dynamic>(
                         context,
                         MaterialPageRoute<dynamic>(
-                          builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: tutorialData.id, youtubeId: tutorialData.youtube_id),
+                          builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: tutorialData.id, youtubeId: tutorialData.youtube_id, kategoriKonten: tutorialData.kategori),
                         )
                     );
                   });
@@ -236,7 +236,7 @@ Widget itemAll(TutorialData tutorialData, BuildContext context,var lebar,var tin
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
+                          color: Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(7.0),
                               bottomLeft: Radius.circular(7.0),
@@ -264,15 +264,29 @@ Widget itemAll(TutorialData tutorialData, BuildContext context,var lebar,var tin
                         child:
                         Column(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(5.0),
-                              child:
-                              Image.network(
-                                  "https://suma.geloraaksara.co.id/uploads/thumbnail/"+tutorialData.thumbnail,
-                                  width: double.infinity,
-                                  height: 110,
-                                  fit: BoxFit.fitHeight
-                              ),
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.asset(
+                                      'assets/images/no_image.png',
+                                      width: double.infinity,
+                                      height: 110,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.network(
+                                      "https://suma.geloraaksara.co.id/uploads/thumbnail/"+tutorialData.thumbnail,
+                                      width: double.infinity,
+                                      height: 110,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(height: 7),
                             Text(tutorialData.judul,
@@ -310,6 +324,8 @@ Widget itemAll(TutorialData tutorialData, BuildContext context,var lebar,var tin
                         ),
                       ),
                       Positioned(
+                          right: 0,
+                          top: 4,
                           child: new Align(
                               alignment: FractionalOffset.bottomRight,
                               child: Container(
@@ -321,7 +337,7 @@ Widget itemAll(TutorialData tutorialData, BuildContext context,var lebar,var tin
                                       bottomRight: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
                                 ),
-                                margin: EdgeInsets.only(bottom: 35, right: 20),
+                                margin: EdgeInsets.only(bottom: 38, right: 20),
                                 padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
                                 child: Text(tutorialData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
                               )

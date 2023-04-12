@@ -16,15 +16,6 @@ class GameAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logo = isIOS
-        ? const Icon(
-            PuzzleIcons.heart,
-            color: Colors.redAccent,
-            size: 30,
-          )
-        : const FlutterLogo(
-            size: 40,
-          );
 
     return SafeArea(
       child: Padding(
@@ -40,7 +31,7 @@ class GameAppBar extends StatelessWidget {
                   text: "${isIOS ? "Puzzle" : "Puzzle"}\n",
                   children: const [
                     TextSpan(
-                      text: "Game",
+                      text: "SUMA",
                       style: TextStyle(
                         fontSize: 24,
                         height: 1,
@@ -48,17 +39,9 @@ class GameAppBar extends StatelessWidget {
                     ),
                   ],
                 ),
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.left,
               ),
             ),
-            const SizedBox(width: 5),
-            if (context.isDarkMode)
-              ColorFiltered(
-                colorFilter: whiteFlutterLogoColorFilter,
-                child: logo,
-              )
-            else
-              logo,
             const Spacer(),
             Consumer<GameController>(
               builder: (_, controller, __) => Row(

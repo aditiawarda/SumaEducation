@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:getwidget/components/button/gf_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/main.dart';
@@ -9,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:ripple_animation/ripple_animation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suma_education/suma_education/main_page/model/book_list_data.dart';
+import 'package:suma_education/suma_education/main_page/screen/book_konten_detail.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../../../main.dart';
@@ -17,11 +19,12 @@ SharedPreferences? prefs;
 
 class BookListAllData extends StatefulWidget {
   const BookListAllData(
-      {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
+      {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation, required this.animationControllerBottomSheet})
       : super(key: key);
 
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
+  final AnimationController? animationControllerBottomSheet;
 
   @override
   _BookListAllDataState createState() => _BookListAllDataState();
@@ -50,11 +53,12 @@ class _BookListAllDataState extends State<BookListAllData>
       print(dataBook);
       for (var i = 0; i < dataBook['data'].length; i++) {
         var id = dataBook['data'][i]['id'];
-        var title_content = dataBook['data'][i]['title_content'];
-        var cover_picture = dataBook['data'][i]['cover_picture'];
+        var judul = dataBook['data'][i]['judul'];
+        var deskripsi = dataBook['data'][i]['deskripsi'];
+        var cover = dataBook['data'][i]['cover'];
         var created_at = dataBook['data'][i]['created_at'];
-        var updated_at = dataBook['data'][i]['updated_at'];
-        bookListData.add(BookData(id, title_content, cover_picture, created_at, updated_at));
+
+        bookListData.add(BookData(id, judul, deskripsi, cover, created_at));
       }
     } catch (e) {
       print("Error");
@@ -101,7 +105,7 @@ class _BookListAllDataState extends State<BookListAllData>
                         animationController?.forward();
                         var tinggi = MediaQuery.of(context).size.height;
                         var lebar = MediaQuery.of(context).size.width;
-                        return itemBookAll(bookListData[index], context, lebar, tinggi);
+                        return itemBookAll(bookListData[index], context, lebar, tinggi, widget.animationControllerBottomSheet!);
                       });
                 } else {
                   if (snapshot.hasError)
@@ -125,7 +129,7 @@ class _BookListAllDataState extends State<BookListAllData>
                           animationController?.forward();
                           var tinggi = MediaQuery.of(context).size.height;
                           var lebar = MediaQuery.of(context).size.width;
-                          return itemBookAll(bookListData[index], context, lebar, tinggi);
+                          return itemBookAll(bookListData[index], context, lebar, tinggi, widget.animationControllerBottomSheet!);
                         });
                   else
                     if(bookListData.length==0)
@@ -198,7 +202,7 @@ class _BookListAllDataState extends State<BookListAllData>
                             animationController?.forward();
                             var tinggi = MediaQuery.of(context).size.height;
                             var lebar = MediaQuery.of(context).size.width;
-                            return itemBookAll(bookListData[index], context, lebar, tinggi);
+                            return itemBookAll(bookListData[index], context, lebar, tinggi, widget.animationControllerBottomSheet!);
                           });
                 }
               },
@@ -209,7 +213,7 @@ class _BookListAllDataState extends State<BookListAllData>
   }
 }
 
-Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi){
+Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi, AnimationController animationController){
   var tinggifix = tinggi/7;
   var lebarfix = lebar/4;
   return
@@ -218,7 +222,14 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi)
         child: ZoomTapAnimation(
             child: GestureDetector(
                 onTap: () {
-
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => DetailBukuState(
+                            book: bookData,
+                          )
+                      )
+                  );
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -244,7 +255,7 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi)
                         ),
                         alignment: Alignment.center,
                         width: lebarfix,
-                        margin: EdgeInsets.only(top: 40, left: 5,right: 5,),
+                        margin: EdgeInsets.only(top: 40, left: 5,right: 5),
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -256,18 +267,32 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi)
                         child:
                         Column(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(5.0),
-                              child:
-                              Image.network(
-                                  bookData.cover_picture,
-                                  width: lebarfix,
-                                  height: tinggifix,
-                                  fit:BoxFit.fill
-                              ),
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.asset(
+                                      'assets/images/no_image_2.png',
+                                      width: lebarfix,
+                                      height: tinggifix,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.network(
+                                      "https://suma.geloraaksara.co.id/uploads/cover_book/"+bookData.cover,
+                                      width: lebarfix,
+                                      height: tinggifix,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(height: 10),
-                            Text(bookData.title_content,
+                            Text(bookData.judul,
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
@@ -275,7 +300,6 @@ Widget itemBookAll(BookData bookData, BuildContext context,var lebar,var tinggi)
                             ),
                           ],
                         )
-
                       ),
                     ],
                   )

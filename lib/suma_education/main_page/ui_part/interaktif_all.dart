@@ -74,7 +74,7 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.topCenter,
-        padding: EdgeInsets.only(left: 20, right: 20, top: 25),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 50),
         width: MediaQuery.of(context).size.width,
         child:
         Wrap(
@@ -88,7 +88,7 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 1.3,
+                          childAspectRatio: 1.1,
                           crossAxisSpacing: 5,
                           mainAxisSpacing: 13),
                       itemCount: interaktifListData.length,
@@ -112,7 +112,7 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 1.3,
+                            childAspectRatio: 1.1,
                             crossAxisSpacing: 5,
                             mainAxisSpacing: 13),
                         itemCount: interaktifListData.length,
@@ -180,12 +180,12 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
                     else
                       return
                         GridView.builder(
-                          padding: EdgeInsets.only(bottom: 150),
+                          padding: EdgeInsets.only(bottom: 50),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              childAspectRatio: 1.3,
+                              childAspectRatio: 1.1,
                               crossAxisSpacing: 5,
                               mainAxisSpacing: 13),
                           itemCount: interaktifListData.length,
@@ -222,7 +222,7 @@ Widget itemAll(InteraktifData interaktifListData, BuildContext context,var lebar
                     Navigator.push<dynamic>(
                         context,
                         MaterialPageRoute<dynamic>(
-                          builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: interaktifListData.id, youtubeId: interaktifListData.youtube_id),
+                          builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: interaktifListData.id, youtubeId: interaktifListData.youtube_id, kategoriKonten: interaktifListData.kategori),
                         )
                     );
                   });
@@ -235,7 +235,7 @@ Widget itemAll(InteraktifData interaktifListData, BuildContext context,var lebar
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
+                          color: Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(7.0),
                               bottomLeft: Radius.circular(7.0),
@@ -263,15 +263,29 @@ Widget itemAll(InteraktifData interaktifListData, BuildContext context,var lebar
                         child:
                         Column(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(5.0),
-                              child:
-                              Image.network(
-                                  "https://suma.geloraaksara.co.id/uploads/thumbnail/"+interaktifListData.thumbnail,
-                                  width: double.infinity,
-                                  height: 110,
-                                  fit: BoxFit.fitHeight
-                              ),
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.asset(
+                                      'assets/images/no_image.png',
+                                      width: double.infinity,
+                                      height: 110,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  child:
+                                  Image.network(
+                                      "https://suma.geloraaksara.co.id/uploads/thumbnail/"+interaktifListData.thumbnail,
+                                      width: double.infinity,
+                                      height: 110,
+                                      fit:BoxFit.fill
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(height: 7),
                             Text(interaktifListData.judul,
@@ -309,6 +323,8 @@ Widget itemAll(InteraktifData interaktifListData, BuildContext context,var lebar
                         ),
                       ),
                       Positioned(
+                          right: 0,
+                          top: 4,
                           child: new Align(
                               alignment: FractionalOffset.bottomRight,
                               child: Container(
@@ -320,9 +336,14 @@ Widget itemAll(InteraktifData interaktifListData, BuildContext context,var lebar
                                       bottomRight: Radius.circular(5.0),
                                       topRight: Radius.circular(5.0)),
                                 ),
-                                margin: EdgeInsets.only(bottom: 35, right: 20),
+                                margin: EdgeInsets.only(bottom: 38, right: 20),
                                 padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
-                                child: Text(interaktifListData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
+                                child: Text(
+                                  interaktifListData.durasi.substring(0,5),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(color: Colors.white, fontSize: 12),),
                               )
                           )
                       ),

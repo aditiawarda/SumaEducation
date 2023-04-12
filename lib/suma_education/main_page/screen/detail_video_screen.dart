@@ -10,8 +10,11 @@ import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:suma_education/suma_education/main_page/ui_part/book_all.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/interaktif_all.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/interaktif_equipment.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/logout_button.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/tutorial_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/user_bio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,11 +25,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../app_theme/app_theme.dart';
 
 class DetailVideoScreen extends StatefulWidget {
-  const DetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId}) : super(key: key);
+  const DetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId, required this.kategoriKonten}) : super(key: key);
 
   final AnimationController? animationController;
   final String? idContent;
   final String? youtubeId;
+  final String? kategoriKonten;
   @override
   _DetailVideoScreenState createState() => _DetailVideoScreenState();
 }
@@ -101,6 +105,54 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
       ),
     );
 
+    if(widget.kategoriKonten=="2"){
+      listViews.add(
+        InteraktifEquipment(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController!,
+              curve:
+              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController!,
+          linkDownload: "https://suma.geloraaksara.co.id/uploads/equipment/interaktif_1.pdf",
+        ),
+      );
+    }
+
+    if(widget.kategoriKonten=="1"){
+      listViews.add(
+        KreasiListAllData(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController!,
+                  curve: Interval((1 / count) * 3, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController,
+        ),
+      );
+    } else if(widget.kategoriKonten=="2"){
+      listViews.add(
+        InteraktifAllListData(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController!,
+                  curve: Interval((1 / count) * 3, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController,
+        ),
+      );
+    } else if(widget.kategoriKonten=="3"){
+      listViews.add(
+        TutorialAllListData(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController!,
+                  curve: Interval((1 / count) * 3, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController,
+        ),
+      );
+    }
+
   }
 
   Future<bool> getData() async {
@@ -139,6 +191,16 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 90.0),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background_page.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: null /* add child content here */,
+            ),
             Column(
               children: [
                 SizedBox(
@@ -151,7 +213,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
             ),
             getAppBarUI(),
             SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
+              height: 50,
             )
           ],
         ),
@@ -211,9 +273,6 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
                 child: Container(
                   decoration: BoxDecoration(
                     color: AppTheme.white.withOpacity(topBarOpacity),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(32.0),
-                    ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                         color: AppTheme.grey
@@ -260,7 +319,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  ' ',
+                                  'Detail Video',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,
@@ -461,7 +520,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.1',
+                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.3',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.fontName,
                                                                 fontWeight: FontWeight.w500,

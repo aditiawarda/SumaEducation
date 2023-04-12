@@ -123,6 +123,16 @@ class _InteraktifScreenState extends State<InteraktifScreen>
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 90.0),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background_page.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: null /* add child content here */,
+            ),
             Column(
               children: [
                 SizedBox(
@@ -448,7 +458,7 @@ class _InteraktifScreenState extends State<InteraktifScreen>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.1',
+                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.3',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.fontName,
                                                                 fontWeight: FontWeight.w500,
