@@ -841,7 +841,10 @@ class MainMenu extends StatelessWidget {
                                   future: _getNewBook(),
                                   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                                     if (snapshot.connectionState == ConnectionState.waiting) {
-                                      return SizedBox(child: null);
+                                      return SizedBox(
+                                          height: MediaQuery.of(context).size.height*0.6,
+                                          child: null
+                                      );
                                     } else {
                                       if (snapshot.hasError)
                                         return GridView.builder(
@@ -1183,7 +1186,7 @@ Widget itemBuku(BookData book, BuildContext context, AnimationController animati
                                     Image.asset(
                                       'assets/images/no_image_2.png',
                                       width: double.infinity,
-                                      fit: BoxFit.fitWidth,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                   ClipRRect(
@@ -1192,7 +1195,7 @@ Widget itemBuku(BookData book, BuildContext context, AnimationController animati
                                     Image.network(
                                       'https://suma.geloraaksara.co.id/uploads/cover_book/'+book.cover,
                                       width: double.infinity,
-                                      fit: BoxFit.fitWidth,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ],
