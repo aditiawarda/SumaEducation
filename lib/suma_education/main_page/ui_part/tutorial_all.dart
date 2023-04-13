@@ -75,7 +75,7 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.topCenter,
-        padding: EdgeInsets.only(left: 20, right: 20, top: 50),
+        padding: EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 5),
         width: MediaQuery.of(context).size.width,
         child:
         Wrap(
@@ -89,9 +89,9 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 1.1,
+                          childAspectRatio: 1,
                           crossAxisSpacing: 5,
-                          mainAxisSpacing: 13),
+                          mainAxisSpacing: 5),
                       itemCount: tutorialListData.length,
                       itemBuilder: (BuildContext context, int index) {
                         final int count = tutorialListData.length;
@@ -102,9 +102,7 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
                                 curve: Interval((1 / count) * index, 1.0,
                                     curve: Curves.fastOutSlowIn)));
                         animationController?.forward();
-                        var tinggi = MediaQuery.of(context).size.height;
-                        var lebar = MediaQuery.of(context).size.width;
-                        return itemAll(tutorialListData[index], context, lebar, tinggi, animationController!);
+                        return itemVideoAll(tutorialListData[index], context, animationController!);
                       });
                 } else {
                   if (snapshot.hasError)
@@ -113,9 +111,9 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 1.1,
+                            childAspectRatio: 1,
                             crossAxisSpacing: 5,
-                            mainAxisSpacing: 13),
+                            mainAxisSpacing: 5),
                         itemCount: tutorialListData.length,
                         itemBuilder: (BuildContext context, int index) {
                           final int count = tutorialListData.length;
@@ -126,9 +124,7 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
                                   curve: Interval((1 / count) * index, 1.0,
                                       curve: Curves.fastOutSlowIn)));
                           animationController?.forward();
-                          var tinggi = MediaQuery.of(context).size.height;
-                          var lebar = MediaQuery.of(context).size.width;
-                          return itemAll(tutorialListData[index], context, lebar, tinggi, animationController!);
+                          return itemVideoAll(tutorialListData[index], context, animationController!);
                         });
                   else
                     if(tutorialListData.length==0)
@@ -181,28 +177,25 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
                     else
                       return
                         GridView.builder(
-                          padding: EdgeInsets.only(bottom: 50),
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 1.1,
-                              crossAxisSpacing: 5,
-                              mainAxisSpacing: 13),
-                          itemCount: tutorialListData.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final int count = tutorialListData.length;
-                            final Animation<double> animation =
-                            Tween<double>(begin: 0.0, end: 1.0).animate(
-                                CurvedAnimation(
-                                    parent: animationController!,
-                                    curve: Interval((1 / count) * index, 1.0,
-                                        curve: Curves.fastOutSlowIn)));
-                            animationController?.forward();
-                            var tinggi = MediaQuery.of(context).size.height;
-                            var lebar = MediaQuery.of(context).size.width;
-                            return itemAll(tutorialListData[index], context, lebar, tinggi, animationController!);
-                          });
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 1,
+                                crossAxisSpacing: 5,
+                                mainAxisSpacing: 5),
+                            itemCount: tutorialListData.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final int count = tutorialListData.length;
+                              final Animation<double> animation =
+                              Tween<double>(begin: 0.0, end: 1.0).animate(
+                                  CurvedAnimation(
+                                      parent: animationController!,
+                                      curve: Interval((1 / count) * index, 1.0,
+                                          curve: Curves.fastOutSlowIn)));
+                              animationController?.forward();
+                              return itemVideoAll(tutorialListData[index], context, animationController!);
+                            });
                 }
               },
             )
@@ -212,141 +205,100 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
   }
 }
 
-Widget itemAll(TutorialData tutorialData, BuildContext context,var lebar,var tinggi, AnimationController animationController){
+Widget itemVideoAll(TutorialData tutorialData, BuildContext context, AnimationController animationController){
   return
     FadeInUp(
         delay : Duration(milliseconds: 500),
-        child: ZoomTapAnimation(
-            child: GestureDetector(
-                onTap: () {
-                  new Future.delayed(new Duration(milliseconds: 300), () {
-                    Navigator.push<dynamic>(
-                        context,
-                        MaterialPageRoute<dynamic>(
-                          builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: tutorialData.id, youtubeId: tutorialData.youtube_id, kategoriKonten: tutorialData.kategori),
-                        )
-                    );
-                  });
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: lebar/4,
+        child : ZoomTapAnimation(
+          child: GestureDetector(
+            onTap: () {
+              new Future.delayed(new Duration(milliseconds: 300), () {
+                Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: tutorialData.id, youtubeId: tutorialData.youtube_id, kategoriKonten: tutorialData.kategori),
+                    )
+                );
+              });
+            },
+            child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child:
+                Container(
+                  decoration: BoxDecoration(color: Colors.white,
+                      borderRadius: BorderRadius.circular(9)),
                   child:
-                  Stack(
+                  Column(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(7.0),
-                              bottomLeft: Radius.circular(7.0),
-                              bottomRight: Radius.circular(7.0),
-                              topRight: Radius.circular(7.0)),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: AppTheme.grey.withOpacity(0.2),
-                                offset: Offset(0.0, 1.0), //(x,y)
-                                blurRadius: 2.0),
-                          ],
-                        ),
-                        alignment: Alignment.center,
-                        width: double.infinity,
-                        height: 120,
-                        margin: EdgeInsets.only(top: 20, left: 5,right: 5, bottom: 0),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        width: double.infinity,
-                        child:
-                        Column(
-                          children: [
-                            Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  child:
-                                  Image.asset(
-                                      'assets/images/no_image.png',
-                                      width: double.infinity,
-                                      height: 110,
-                                      fit:BoxFit.fill
+                      Wrap(
+                        children: [
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(9),
+                                child:
+                                Image.asset(
+                                  'assets/images/no_image_3.png',
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(9),
+                                child:
+                                Image.network(
+                                  'https://suma.geloraaksara.co.id/uploads/thumbnail/'+tutorialData.thumbnail,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned(
+                                  right: 5,
+                                  top: 10,
+                                  child: new Align(
+                                      alignment: FractionalOffset.bottomRight,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.6),
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(5.0),
+                                              bottomLeft: Radius.circular(5.0),
+                                              bottomRight: Radius.circular(5.0),
+                                              topRight: Radius.circular(5.0)),
+                                        ),
+                                        margin: EdgeInsets.only(right: 5),
+                                        padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
+                                        child: Text(tutorialData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
+                                      )
+                                  )
+                              ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: 38,
+                                  height: 38,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.black.withOpacity(0.5)
+                                  ),
+                                  child: Icon(
+                                      Icons.play_arrow,
+                                      color: Colors.white
                                   ),
                                 ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  child:
-                                  Image.network(
-                                      "https://suma.geloraaksara.co.id/uploads/thumbnail/"+tutorialData.thumbnail,
-                                      width: double.infinity,
-                                      height: 110,
-                                      fit:BoxFit.fill
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 7),
-                            Text(tutorialData.judul,
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: GoogleFonts.roboto(fontSize: 13)
-                            ),
-                          ],
-                        )
-
-                      ),
-                      Container(
-                        height: 10,
-                        margin: EdgeInsets.all(100.0),
-                        decoration: BoxDecoration(
-                            color: Colors.orange,
-                            shape: BoxShape.circle
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 32),
-                        child: Container(
-                          width: 38,
-                          height: 38,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.black.withOpacity(0.5)
+                              ),
+                            ],
                           ),
-                          child: Icon(
-                            Icons.play_arrow,
-                            color: Colors.white
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                          right: 0,
-                          top: 4,
-                          child: new Align(
-                              alignment: FractionalOffset.bottomRight,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.6),
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(5.0),
-                                      bottomLeft: Radius.circular(5.0),
-                                      bottomRight: Radius.circular(5.0),
-                                      topRight: Radius.circular(5.0)),
-                                ),
-                                margin: EdgeInsets.only(bottom: 38, right: 20),
-                                padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
-                                child: Text(tutorialData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
-                              )
-                          )
+                        ],
                       ),
                     ],
-                  )
+                  ) ,
                 )
-            )
+            ),
+          ),
         )
     );
 }

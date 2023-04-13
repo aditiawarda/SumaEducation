@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:animate_do/animate_do.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:email_validator/email_validator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -59,6 +62,7 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
   bool _isObscure2 = true;
   int secondsRemaining = 180;
   bool enableResend = false;
+  bool sendLoad = false;
   late Timer timer;
   Timer? _timer;
 
@@ -86,6 +90,12 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
         }
       },
     );
+  }
+
+  void _load() {
+    setState(() {
+      sendLoad = !sendLoad;
+    });
   }
 
   dispose() {
@@ -161,6 +171,7 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
       email_global = json["email"];
       showModalBottomOTP(context);
       EasyLoading.dismiss();
+      _load();
     } else {
       setState(() {
         _enabledButton = true;
@@ -175,7 +186,8 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
+        return
+          AlertDialog(
           title: Text('Kamu Yakin?'),
           content: SingleChildScrollView(
             child: ListBody(
@@ -284,8 +296,34 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
       ),
       builder: (context) => WillPopScope(
         onWillPop: () async {
-          final shouldPop = await showAlertDialog(context);
-
+          final shouldPop = await
+          //showAlertDialog(context);
+          CoolAlert.show(
+              context: context,
+              title: 'Perhatian',
+              backgroundColor: Colors.lightBlue.shade50,
+              borderRadius: 25,
+              width: 30,
+              loopAnimation: true,
+              type: CoolAlertType.confirm,
+              text: 'Jika Kamu meninggalkan halaman ini, Kamu harus kirim ulang kode OTP.',
+              confirmBtnText: 'OK',
+              cancelBtnText: 'Batal',
+              animType: CoolAlertAnimType.scale,
+              confirmBtnColor: Colors.orange.shade300,
+              onConfirmBtnTap: (){
+                Navigator.of(context, rootNavigator: true).pop('dialog');
+                Navigator.pop(context, true);
+                _code1.text = "";
+                _code2.text = "";
+                _code3.text = "";
+                _code4.text = "";
+                _password.text = "";
+                _password2.text = "";
+                _isObscure = true;
+                _isObscure2 = true;
+              }
+          );
           return shouldPop;
         },
         child: Wrap(
@@ -309,7 +347,7 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                     Container(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(
-                        "Pastikan Password baru Kamu unik ya.",
+                        "Pastikan password baru Kamu unik ya.",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 15),
                       ),
@@ -344,9 +382,9 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                                   color: Colors.green,
                                 ),
                               ),
-                              hintText: 'Masukan Password baru Kamu',
+                              hintText: 'Ketik password baru kamu',
                               suffixIcon: IconButton(
-                                color: Colors.black,
+                                color: Colors.grey,
                                 icon: Icon(_isObscure
                                     ? Icons.visibility
                                     : Icons.visibility_off),
@@ -371,10 +409,10 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                           return TextFormField(
                             validator: (String? value) {
                               if (value!.isEmpty) {
-                                return 'Konfirmasi Password wajib di isi ya.';
+                                return 'Konfirmasi password wajib di isi ya.';
                               }
                               if (_password.text != _password2.text) {
-                                return "Password Tidak Sesuai";
+                                return "Password tidak sesuai";
                               }
                               return null;
                             },
@@ -398,7 +436,7 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                               ),
                               hintText: 'Konfirmasi ulang password kamu',
                               suffixIcon: IconButton(
-                                color: Colors.black,
+                                color: Colors.grey,
                                 icon: Icon(_isObscure2
                                     ? Icons.visibility
                                     : Icons.visibility_off),
@@ -416,40 +454,43 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: 50),
-                      width: 200,
-                      height: 100,
-                      child: InkWell(
-                        onTap: () {
-                          CreateNEWPassword();
-                        },
-                        child: Card(
-                          elevation: 15,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              gradient: LinearGradient(
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
-                                colors: [
-                                  Color(0xFFFA7D09),
-                                  Color(0xFFFF4301),
-                                ],
-                              ),
-                            ),
-                            child: Text(
-                              "SIMPAN",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
+                      margin: EdgeInsets.only(bottom: 5, top: 15),
+                      padding: EdgeInsets.only(left: 27, right: 27),
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      height: 60,
+                      child:
+                      ZoomTapAnimation(
+                          child: GestureDetector(
+                              onTap: () {
+                                CreateNEWPassword();
+                              },
+                              child:
+                              Container(
+                                alignment: Alignment.center,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  color: Colors.orange.shade600,
+                                ),
+                                child:
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'SIMPAN',
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        height: 1.5,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              )
+                          )
                       ),
                     ),
                   ],
@@ -482,8 +523,34 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
       ),
       builder: (context) => WillPopScope(
         onWillPop: () async {
-          final shouldPop = await showAlertDialog(context);
-
+          final shouldPop = await
+          // showAlertDialog(context);
+          CoolAlert.show(
+              context: context,
+              title: 'Perhatian',
+              backgroundColor: Colors.lightBlue.shade50,
+              borderRadius: 25,
+              width: 30,
+              loopAnimation: true,
+              type: CoolAlertType.confirm,
+              text: 'Jika Kamu meninggalkan halaman ini, Kamu harus kirim ulang kode OTP.',
+              confirmBtnText: 'OK',
+              cancelBtnText: 'Batal',
+              animType: CoolAlertAnimType.scale,
+              confirmBtnColor: Colors.orange.shade300,
+              onConfirmBtnTap: (){
+                Navigator.of(context, rootNavigator: true).pop('dialog');
+                Navigator.pop(context, true);
+                _code1.text = "";
+                _code2.text = "";
+                _code3.text = "";
+                _code4.text = "";
+                _password.text = "";
+                _password2.text = "";
+                _isObscure = true;
+                _isObscure2 = true;
+              }
+          );
           return shouldPop;
         },
         child: Wrap(
@@ -495,16 +562,16 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                   Container(
                     padding: EdgeInsets.only(top: 40),
                     child: Text(
-                      "Masukan 4 Digit Kode OTP",
+                      "Masukkan 4 Digit Kode OTP",
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.only(top: 20, left: 15, right: 15),
                     child: Text(
-                      "Masukan 4 Digit Kode OTP yang sudah kamu terima di Email Kamu.",
+                      "Masukkan 4 Digit Kode OTP yang sudah kamu terima di Email Kamu.",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 15),
                     ),
@@ -750,41 +817,43 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 50),
-                    width: 200,
-                    height: 100,
-                    child: InkWell(
-                      onTap: () {
-                        // Navigator.pop(context);
-                        VerifOTP();
-                      },
-                      child: Card(
-                        elevation: 15,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            gradient: LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              colors: [
-                                Color(0xFFFA7D09),
-                                Color(0xFFFF4301),
-                              ],
-                            ),
-                          ),
-                          child: Text(
-                            "VERIFY",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                        ),
-                      ),
+                    margin: EdgeInsets.only(bottom: 5, top: 15),
+                    padding: EdgeInsets.only(left: 27, right: 27),
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    height: 60,
+                    child:
+                    ZoomTapAnimation(
+                        child: GestureDetector(
+                            onTap: () {
+                              VerifOTP();
+                            },
+                            child:
+                            Container(
+                              alignment: Alignment.center,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.orange.shade600,
+                              ),
+                              child:
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'VERIFIKASI',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.5,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            )
+                        )
                     ),
                   ),
                 ],
@@ -833,45 +902,56 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                 ),
                 child: null /* add child content here */,
               ),
-              Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height / 6,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Lupa Password?",
-                      style: TextStyle(
-                        fontSize: 20, color: Colors.white,
+              FadeInUp(
+                delay: Duration(milliseconds: 500),
+                child:
+                Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height / 6,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Lupa Password?",
+                        style: TextStyle(
+                          fontSize: 20, color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(bottom: 15.0),
-                    child: Image(
-                      width: 180,
-                      height: 70,
-                      image: AssetImage("assets/images/ic_forgot.png"),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(bottom: 15.0),
+                      child: Image(
+                        width: 180,
+                        height: 70,
+                        image: AssetImage("assets/images/ic_forgot.png"),
                         fit: BoxFit.fill,
+                      ),
                     ),
-                  ),
-                  Form(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    key: _formKey,
-                    child: Container(
-                      // color: Colors.red,
-                        width: 300,
-                        height: 260,
-                        child: Stack(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(bottom: 50),
-                              child: Card(
-                                elevation: 30,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
+                    Form(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      key: _formKey,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 20, right: 20),
+                          width: double.infinity,
+                          height: 350,
+                          child: Stack(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(bottom: 50),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.white,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      bottomLeft: Radius.circular(30.0),
+                                      bottomRight: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0)),
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: AppTheme.grey.withOpacity(0.2),
+                                        offset: Offset(0.0, 1.0), //(x,y)
+                                        blurRadius: 2.0),
+                                  ],
                                 ),
-                                color: Colors.white,
                                 child: Stack(
                                   children: [
                                     SingleChildScrollView(
@@ -881,111 +961,139 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                                           Container(
                                             padding: EdgeInsets.only(top: 30, left: 30, right: 30),
                                             alignment: Alignment.center,
-                                            child: TextFormField(
-                                              validator: (String? value) {
-                                                if (value!.isEmpty) {
-                                                  return 'Email wajib di isi ya.';
-                                                }
-                                                if (!EmailValidator.validate(value)) {
-                                                  return 'Masukan Email yang Valid ya.';
-                                                }
-                                                return null;
-                                              },
-                                              controller: _Email,
-                                              keyboardType: TextInputType.emailAddress,
+                                            child:
+                                            TextFormField(
                                               decoration: InputDecoration(
-                                                hintText: 'Masukan Email Kamu',
-                                                labelText: 'Email',
-                                                prefixIcon: Align(
-                                                  widthFactor: 1.0,
-                                                  heightFactor: 1.0,
-                                                  child: Icon(
-                                                    Icons.email,
-                                                  ),
+                                                hintText: 'Email',
+                                                hintStyle: GoogleFonts.inter(
+                                                  fontSize: 16.0,
+                                                  color: const Color(0xFF151624).withOpacity(0.5),
+                                                ),
+                                                filled: true,
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(20),
+                                                    borderSide: BorderSide(
+                                                        color: Colors.blueGrey.shade100
+                                                    )),
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(20),
+                                                    borderSide: BorderSide(
+                                                      color: Colors.orange.shade600,
+                                                    )),
+                                                prefixIcon: Icon(
+                                                  Icons.email,
+                                                  color: const Color(0xFF151624).withOpacity(0.5),
+                                                  size: 17,
                                                 ),
                                               ),
+                                              controller: _Email,
+                                              keyboardType: TextInputType.emailAddress,
                                             ),
                                           ),
                                           Container(
-                                            margin: EdgeInsets.only(top: 15),
+                                            margin: EdgeInsets.only(top: 15, left: 10, right: 10),
                                             child: Text(
                                               '*Masukkan email yang terdaftar',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
+                                                color: Colors.blueGrey,
+                                                fontStyle: FontStyle.italic,
                                                 fontSize: 15,
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: MediaQuery.of(context).size.height / 10,
-                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(bottom: 15, top: 15),
+                                            padding: EdgeInsets.only(left: 27, right: 27),
+                                            alignment: Alignment.center,
+                                            width: double.infinity,
+                                            height: 60,
+                                            child:
+                                            ZoomTapAnimation(
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    new Future.delayed(new Duration(milliseconds: 300), () {
+                                                      final bool emailValid =
+                                                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                          .hasMatch(_Email.text);
+                                                      if(emailValid == true){
+                                                        if (_enabledButton == true) {
+                                                          SendEmail();
+                                                          _load();
+                                                          Future.delayed(Duration(seconds: 60), () {
+                                                            UpdateStatusOTP();
+                                                          });
+                                                        } else {
+                                                          return;
+                                                        }
+                                                      } else {
+                                                        CoolAlert.show(
+                                                          context: context,
+                                                          borderRadius: 25,
+                                                          type: CoolAlertType.error,
+                                                          backgroundColor: Colors.red.shade100,
+                                                          confirmBtnColor: Colors.orange.shade300,
+                                                          title: 'Oops...',
+                                                          text: 'Alamat email tidak Valid',
+                                                          width: 30,
+                                                          animType: CoolAlertAnimType.scale,
+                                                          loopAnimation: true,
+                                                        );
+                                                      }
 
+                                                    });
+                                                  },
+                                                  child:
+                                                  Container(
+                                                    alignment: Alignment.center,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20.0),
+                                                      color: Colors.orange.shade600,
+                                                    ),
+                                                    child:
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Container(
+                                                          child: sendLoad ?  Container(
+                                                            margin: EdgeInsets.only(right: 10),
+                                                            child: CircularProgressIndicator(
+                                                              color: Colors.white,
+                                                              strokeWidth: 2.5,
+                                                            ),
+                                                            height: 13.0,
+                                                            width: 13.0,
+                                                          ) : null,
+                                                        ),
+                                                        Text(
+                                                          'KIRIM',
+                                                          style: GoogleFonts.inter(
+                                                            fontSize: 16.0,
+                                                            color: Colors.white,
+                                                            fontWeight: FontWeight.w600,
+                                                            height: 1.5,
+                                                          ),
+                                                          textAlign: TextAlign.center,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                )
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 30),
-                                alignment: Alignment.center,
-                                width: 200,
-                                height: 60,
-                                child:
-                                ZoomTapAnimation(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        new Future.delayed(new Duration(milliseconds: 300), () {
-                                          if (_enabledButton == true) {
-                                            SendEmail();
-                                            Future.delayed(Duration(seconds: 60), () {
-                                              UpdateStatusOTP();
-                                            });
-                                          } else {
-                                            return;
-                                          }
-                                        });
-                                      },
-                                      child: Card(
-                                        elevation: 15,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15.0),
-                                        ),
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(15.0),
-                                            gradient: LinearGradient(
-                                              begin: Alignment.topRight,
-                                              end: Alignment.bottomLeft,
-                                              colors: [
-                                                Color(0xFFFA7D09),
-                                                Color(0xFFFF4301),
-                                              ],
-                                            ),
-                                          ),
-                                          child: Text(
-                                            "SEND",
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                ),
-
-                              ),
-                            )
-                          ],
-                        )
+                            ],
+                          )
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

@@ -6,13 +6,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:async';
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:page_turn/page_turn.dart';
 import 'package:suma_education/suma_education/main_page/model/book_list_data.dart';
 import 'package:suma_education/suma_education/main_page/model/book_page.dart';
@@ -43,50 +42,31 @@ class _MyListScreenState extends State<DetailBukuState> {
         setState(() {})
       });
     }
-    _getBookPage();
+    // _getBookPage();
 
-    _assetsAudioPlayer = AssetsAudioPlayer.newPlayer();
-    openPlayer();
+    // _assetsAudioPlayer = AssetsAudioPlayer.newPlayer();
+    // openPlayer();
 
     super.initState();
   }
 
-  void openPlayer() async {
-    await _assetsAudioPlayer.open(
-      Audio("assets/sounds/sound_book_1.mp3"),
-      autoStart: true,
-      showNotification: false,
-    );
-  }
+  // void openPlayer() async {
+  //   await _assetsAudioPlayer.open(
+  //     Audio("assets/sounds/sound_book_1.mp3"),
+  //     autoStart: true,
+  //     showNotification: false,
+  //   );
+  // }
 
-  void _voiceOverSwitch() {
-    setState(() {
-      _voiceOver = !_voiceOver;
-      _assetsAudioPlayer.playOrPause();
-    });
-  }
-
-  Future _speak(String text) async {
-    await flutterTts.setLanguage("ID");
-    await flutterTts.setPitch(1.19);
-    await flutterTts.speak(text);
-  }
+  // void _voiceOverSwitch() {
+  //   setState(() {
+  //     _voiceOver = !_voiceOver;
+  //     _assetsAudioPlayer.playOrPause();
+  //   });
+  // }
 
   late Uint8List bytes;
   final _controller = GlobalKey<PageTurnState>();
-  late Stream<FileResponse> fileStream;
-
-  void _downloadFile() {
-    setState(() {
-      fileStream = DefaultCacheManager().getFileStream('https://cdn.eurekabookhouse.co.id/ebh/product/all/tubuh.jpg', withProgress: true);
-    });
-  }
-
-  void _getImageConv () async{
-    print (bytes);
-  }
-
-  var pick;
 
   Future<String> _getBookPage() async {
     try {
@@ -113,94 +93,153 @@ class _MyListScreenState extends State<DetailBukuState> {
 
   @override
   build(context) {
-    var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
-    return WillPopScope(
-      onWillPop: () async {
-        new Future.delayed(new Duration(milliseconds: 300), () {
-          Navigator.pop(context);
-        });
-        _assetsAudioPlayer.stop();
-        return false;
-      },
-      child: Scaffold(
-        body:
-        Stack(
-          children: [
-            Container(
-              child: FutureBuilder<String>(
-                future: _getBookPage(), // async work
-                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting: return Text('Loading....');
-                    default:
-                      if (snapshot.hasError)
-                        return Text('Error: ${snapshot.error}');
-                      else
-                        _getBookPage();
-                      return PageTurn(
+    return Scaffold(
+      body:
+      Stack(
+        children: [
+          Container(
+            child: FutureBuilder<String>(
+              future: _getBookPage(),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return
+                    Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child:
+                        Container(
+                          height: 30.0,
+                          width: 30.0,
+                          margin: EdgeInsets.only(right: 10),
+                          child: CircularProgressIndicator(
+                            color: Colors.orange,
+                            strokeWidth: 2.5,
+                          ),
+                        )
+                    );
+                } else {
+                  if (snapshot.hasError)
+                    return
+                      Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child:
+                        Container(
+                          height: 30.0,
+                          width: 30.0,
+                          margin: EdgeInsets.only(right: 10),
+                          child: CircularProgressIndicator(
+                            color: Colors.orange,
+                            strokeWidth: 2.5,
+                          ),
+                        )
+                      );
+                  else
+                  if(bookPage.length==0)
+                    return
+                      Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child:
+                        CachedNetworkImage(
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                          imageUrl: "https://suma.geloraaksara.co.id/uploads/cover_book/"+widget.book.cover,
+                          placeholder: (context, url) => new Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: CircularProgressIndicator(
+                              color: Colors.orange,
+                              strokeWidth: 2.5,
+                            ),
+                            height: 30.0,
+                            width: 30.0,
+                          ),
+                          errorWidget: (context, url, error) => new Icon(Icons.error),
+                        ),
+                      );
+                  else
+                    return
+                      PageTurn(
                         key: _controller,
                         backgroundColor: Colors.white,
                         showDragCutoff: false,
-                        lastPage: Container(child: null),
                         children: <Widget>[
                           for (var i = 0; i < bookPage.length+1; i++)
                             if(i==0)...{
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Container(
-                                      child: ClipRRect(
-                                        child: CachedNetworkImage(
-                                            placeholder: (context, url) => const CircularProgressIndicator(),
-                                            imageUrl: "https://suma.geloraaksara.co.id/uploads/cover_book/"+widget.book.cover,
-                                            height: MediaQuery.of(context).size.height,
-                                            fit:BoxFit.fitWidth
-                                        ),
-                                      )
-                                  )
+                              Container(
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.width,
+                                child:
+                                CachedNetworkImage(
+                                  width: double.infinity,
+                                  fit: BoxFit.fill,
+                                  imageUrl: "https://suma.geloraaksara.co.id/uploads/cover_book/"+widget.book.cover,
+                                  placeholder: (context, url) => new Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: CircularProgressIndicator(
+                                      color: Colors.orange,
+                                      strokeWidth: 2.5,
+                                    ),
+                                    height: 30.0,
+                                    width: 30.0,
+                                  ),
+                                  errorWidget: (context, url, error) => new Icon(Icons.error),
+                                ),
+                                // Image.network(
+                                //     "https://suma.geloraaksara.co.id/uploads/cover_book/"+widget.book.cover,
+                                //     width: double.infinity,
+                                //     fit: BoxFit.fill,
+                                // )
                               ),
                             } else if(i>0)...{
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Container(
-                                      child: ClipRRect(
-                                        child: CachedNetworkImage(
-                                            placeholder: (context, url) => const CircularProgressIndicator(),
-                                            imageUrl: "https://suma.geloraaksara.co.id/uploads/book_page/"+bookPage[i-1].image,
-                                            height: MediaQuery.of(context).size.height,
-                                            fit:BoxFit.fitWidth
-                                        ),
-                                      )
-                                  )
+                              Container(
+                                height: MediaQuery.of(context).size.height,
+                                width: MediaQuery.of(context).size.width,
+                                child:
+                                CachedNetworkImage(
+                                  width: double.infinity,
+                                  fit: BoxFit.fill,
+                                  imageUrl: "https://suma.geloraaksara.co.id/uploads/book_page/"+bookPage[i-1].image,
+                                  placeholder: (context, url) => new Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: CircularProgressIndicator(
+                                      color: Colors.orange,
+                                      strokeWidth: 2.5,
+                                    ),
+                                    height: 30.0,
+                                    width: 30.0,
+                                  ),
+                                  errorWidget: (context, url, error) => new Icon(Icons.error),
+                                ),
+                                // Container(
+                                //     child: Image.network(
+                                //       "https://suma.geloraaksara.co.id/uploads/book_page/"+bookPage[i-1].image,
+                                //       width: double.infinity,
+                                //       fit: BoxFit.fill,
+                                //     ),
+                                // )
                               ),
                             }
                         ],
                       );
-                  }
-                },
-              ),
+                }
+              },
             ),
-            Container(
-              height: 33,
-              color: Colors.orange,
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.orange,
-          child: Icon(
-              _voiceOver ? Icons.volume_up : Icons
-                  .volume_off, color: Colors.white),
-          onPressed: () {
-            _voiceOverSwitch();
-          },
-        ),
-      )
+          ),
+        ],
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.orange,
+      //   child: Icon(
+      //       _voiceOver ? Icons.volume_up : Icons
+      //           .volume_off, color: Colors.white),
+      //   onPressed: () {
+      //     _voiceOverSwitch();
+      //   },
+      // ),
     );
-
   }
 
 }

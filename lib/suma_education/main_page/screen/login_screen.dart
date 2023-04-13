@@ -384,19 +384,6 @@ class _LoginPageState extends State<LoginScreen>
               child: null /* add child content here */,
             ),
             getBackWiget(),
-            Positioned(
-              child: new Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 30),
-                    child:
-                    FadeInUp(
-                      delay: Duration(milliseconds: 500),
-                      child: Text('Suma Learning v 1.1.3', style: TextStyle(color: Colors.blueGrey.withOpacity(0.7), fontSize: 14),),
-                    ),
-                  )
-              )
-            ),
             Container(
               child: SingleChildScrollView(
                 child:
