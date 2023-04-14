@@ -218,12 +218,6 @@ class _ProductAllDataState extends State<ProductAllData>
                                     itemCount: productListData.length,
                                     itemBuilder: (BuildContext context, int index) {
                                       final int count = productListData.length;
-                                      final Animation<double> animation =
-                                      Tween<double>(begin: 0.0, end: 1.0).animate(
-                                          CurvedAnimation(
-                                              parent: animationController!,
-                                              curve: Interval((1 / count) * index, 1.0,
-                                                  curve: Curves.fastOutSlowIn)));
                                       animationController?.forward();
                                       return itemAll(productListData[index], context, animationController!);
                                     });

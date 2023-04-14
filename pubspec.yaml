@@ -96,7 +96,6 @@ dependencies:
     simple_gesture_detector: ^0.2.0
     photo_view: ^0.14.0
     blinking_text: ^1.0.2
-    flutter_share: ^2.0.0
     widget_circular_animator: ^1.0.0
     simple_ripple_animation: ^0.0.3
     dio: ^4.0.0
@@ -104,7 +103,6 @@ dependencies:
     permission_handler: ^8.0.0+2
     assets_audio_player: ^3.0.6
     video_viewer: ^1.2.7
-    cached_video_player: ^2.0.4
 
 dev_dependencies:
     flutter_test:

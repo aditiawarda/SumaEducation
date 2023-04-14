@@ -211,7 +211,7 @@ class MainMenu extends StatelessWidget {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "Hallo, "+namaUser,
+                                                  "Memuat data...",
                                                   textAlign: TextAlign.left,
                                                   overflow: TextOverflow.ellipsis,
                                                   maxLines: 1,

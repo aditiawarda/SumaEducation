@@ -1,21 +1,13 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:getwidget/components/button/gf_button.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
-import 'package:suma_education/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:ripple_animation/ripple_animation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suma_education/suma_education/main_page/model/book_list_data.dart';
 import 'package:suma_education/suma_education/main_page/screen/book_konten_detail.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
-
-import '../../../main.dart';
 
 SharedPreferences? prefs;
 
@@ -78,36 +70,36 @@ class _BookListAllDataState extends State<BookListAllData>
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.topCenter,
-        padding: EdgeInsets.only(left: 15, right: 15, top: 15),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 0),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child:
-        Flexible(
-          child:
+        Wrap(
+          children:[
             FutureBuilder<String>(
-              future: _getBookContent(), // function where you call your api
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
-                if (snapshot.connectionState == ConnectionState.waiting) {
+            future: _getBookContent(), // function where you call your api
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return
+                  Container(
+                      height: MediaQuery.of(context).size.height*0.6,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 30.0,
+                        width: 30.0,
+                        margin: EdgeInsets.only(
+                            right: 10),
+                        child: CircularProgressIndicator(
+                          color: Colors.orange,
+                          strokeWidth: 3,
+                        ),
+                      )
+                  );
+              } else {
+                if (snapshot.hasError)
                   return
-                    Container(
-                        height: MediaQuery.of(context).size.height*0.6,
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.center,
-                        child: Container(
-                          height: 30.0,
-                          width: 30.0,
-                          margin: EdgeInsets.only(
-                              right: 10),
-                          child: CircularProgressIndicator(
-                            color: Colors.orange,
-                            strokeWidth: 3,
-                          ),
-                        )
-                    );
-                } else {
-                  if (snapshot.hasError)
-                    return
-                      FadeInUp(
+                    FadeInUp(
                       delay: Duration(milliseconds: 500),
                       child: Container(
                         margin: EdgeInsets.only(top: 130, bottom: 100),
@@ -152,70 +144,73 @@ class _BookListAllDataState extends State<BookListAllData>
                         ),
                       ),
                     );
-                  else
-                    if(bookListData.length==0)
-                      return
-                      FadeInUp(
-                        delay: Duration(milliseconds: 500),
-                        child: Container(
-                          margin: EdgeInsets.only(top: 130, bottom: 100),
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(bottom: 10),
-                                child: Image.asset("assets/images/empty_data.png", height: 100),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Oops...',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      letterSpacing: 0.5,
-                                      color: Colors.blueGrey.shade200,
-                                    ),
+                else
+                if(bookListData.length==0)
+                  return
+                    FadeInUp(
+                      delay: Duration(milliseconds: 500),
+                      child: Container(
+                        margin: EdgeInsets.only(top: 130, bottom: 100),
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              child: Image.asset("assets/images/empty_data.png", height: 100),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Oops...',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    letterSpacing: 0.5,
+                                    color: Colors.blueGrey.shade200,
                                   ),
-                                  Text(
-                                    'Konten belum tersedia',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12,
-                                      letterSpacing: 0.5,
-                                      color: Colors.blueGrey.shade200,
-                                    ),
+                                ),
+                                Text(
+                                  'Konten belum tersedia',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                    letterSpacing: 0.5,
+                                    color: Colors.blueGrey.shade200,
                                   ),
-                                ],
-                              )
-                            ],
-                          ),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
-                      );
-                    else
-                      return
-                        MasonryGridView.count(
-                          physics: const ScrollPhysics(),
-                          itemCount: bookListData.length,
-                          padding: const EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 15,
-                          crossAxisSpacing: 15,
-                          itemBuilder: (context, index) {
-                            return itemBookAll(bookListData[index], context, widget.animationControllerBottomSheet!);
-                          }
-                        );
-                }
-              },
-            ),
+                      ),
+                    );
+                else
+                  return
+                    GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.741,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5),
+                        itemCount: bookListData.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          animationController?.forward();
+                          return itemBookAll(bookListData[index], context, animationController!);
+                        });
+              }
+            },
+          ),
+          ],
         ),
     );
   }
