@@ -1,15 +1,19 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class InteraktifEquipment extends StatefulWidget {
@@ -30,6 +34,7 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
   AnimationController? animationController;
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool logoutLoad = false;
+  var _openResult = 'Unknown';
 
   late String _localPath;
   late bool _permissionReady;
@@ -84,6 +89,15 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
     }
   }
 
+  _openFile(String filename) async {
+    final filePath = '/storage/emulated/0/Download/Suma/'+filename;
+    final result = await OpenFile.open(filePath);
+
+    setState(() {
+      _openResult = "type=${result.type}  message=${result.message}";
+    });
+  }
+
   @override
   void dispose() {
     animationController?.dispose();
@@ -114,29 +128,52 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
                           await _prepareSaveDir();
                           print(widget.linkDownload!);
 
+                          Random random = new Random();
+                          int randomNumber = random.nextInt(100);
+
+                          var now = new DateTime.now();
+                          var formatter = new DateFormat('yyyy-MM-dd');
+                          String formattedDate = formatter.format(now);
+                          String filename = "interaktif_template_"+formattedDate+"_"+randomNumber.toString()+".pdf";
+
                           CoolAlert.show(
                               context: context,
                               borderRadius: 25,
-                              type: CoolAlertType.success,
+                              type: CoolAlertType.loading,
                               backgroundColor: Colors.lightGreen.shade50,
-                              title: 'Berhasil',
-                              text: "Equipment berhasil didownload",
-                              confirmBtnText: 'OK',
+                              title: 'Downloading',
+                              autoCloseDuration: Duration(milliseconds: 1990),
                               width: 30,
                               loopAnimation: true,
                               animType: CoolAlertAnimType.scale,
-                              confirmBtnColor: Colors.green.shade300,
-                              onConfirmBtnTap: (){
-                                setState(() {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop('dialog');
-                                });
-                              }
                           );
+
+                          new Future.delayed(new Duration(milliseconds: 2000), () {
+                            CoolAlert.show(
+                                context: context,
+                                borderRadius: 25,
+                                type: CoolAlertType.success,
+                                backgroundColor: Colors.lightGreen.shade50,
+                                title: 'Berhasil',
+                                text: "Template berhasil didownload, kamu bisa cek filenya di folder download pada perangkatmu",
+                                width: 30,
+                                loopAnimation: true,
+                                confirmBtnText: 'Lihat',
+                                cancelBtnText: 'Tutup',
+                                animType: CoolAlertAnimType.scale,
+                                confirmBtnColor: Colors.green.shade300,
+                                onCancelBtnTap: (){
+                                  Navigator.of(context, rootNavigator: true).pop('dialog');
+                                },
+                                onConfirmBtnTap: (){
+                                  _openFile(filename);
+                                }
+                            );
+                          });
 
                           try {
                             await Dio().download(widget.linkDownload!,
-                                _localPath + "/" + "interaktif_1.pdf");
+                                _localPath + "/" + filename);
                             print("Download Completed.");
                           } catch (e) {
                             print("Download Failed.\n\n" + e.toString());
@@ -177,5 +214,7 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
       },
     );
   }
+
+
 }
 

@@ -82,151 +82,155 @@ class _ProductAllDataState extends State<ProductAllData>
             child: new Transform(
                 transform: new Matrix4.translationValues(
                     0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-                child: Container(
-                  alignment: Alignment.topCenter,
-                  padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 50),
-                  width: MediaQuery.of(context).size.width,
-                  child:
-                  Wrap(
-                    children: <Widget>[
-                      FutureBuilder<String>(
-                        future: _getKreasiContent(), // function where you call your api
-                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return
-                              Container(
-                                  height: MediaQuery.of(context).size.height*0.6,
-                                  width: MediaQuery.of(context).size.width,
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                    height: 30.0,
-                                    width: 30.0,
-                                    margin: EdgeInsets.only(
-                                        right: 10),
-                                    child: CircularProgressIndicator(
-                                      color: Colors.orange,
-                                      strokeWidth: 3,
-                                    ),
-                                  )
-                              );
-                          } else {
-                            if (snapshot.hasError)
-                              return
-                                FadeInUp(
-                                  delay: Duration(milliseconds: 500),
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 130, bottom: 100),
-                                    alignment: Alignment.center,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(bottom: 10),
-                                          child: Image.asset("assets/images/empty_data.png", height: 100),
+                child:
+                FadeInUp(
+                    delay : Duration(milliseconds: 1000),
+                    child : Container(
+                      alignment: Alignment.topCenter,
+                      padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 30),
+                      width: MediaQuery.of(context).size.width,
+                      child:
+                      Wrap(
+                        children: <Widget>[
+                          FutureBuilder<String>(
+                            future: _getKreasiContent(), // function where you call your api
+                            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
+                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                return
+                                  Container(
+                                      height: MediaQuery.of(context).size.height*0.6,
+                                      width: MediaQuery.of(context).size.width,
+                                      alignment: Alignment.center,
+                                      child: Container(
+                                        height: 30.0,
+                                        width: 30.0,
+                                        margin: EdgeInsets.only(
+                                            right: 10),
+                                        child: CircularProgressIndicator(
+                                          color: Colors.orange,
+                                          strokeWidth: 3,
                                         ),
-                                        Column(
+                                      )
+                                  );
+                              } else {
+                                if (snapshot.hasError)
+                                  return
+                                    FadeInUp(
+                                      delay: Duration(milliseconds: 500),
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 130, bottom: 100),
+                                        alignment: Alignment.center,
+                                        child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              'Oops...',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                                letterSpacing: 0.5,
-                                                color: Colors.blueGrey.shade200,
-                                              ),
+                                            Container(
+                                              margin: EdgeInsets.only(bottom: 10),
+                                              child: Image.asset("assets/images/empty_data.png", height: 100),
                                             ),
-                                            Text(
-                                              'Konten belum tersedia',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12,
-                                                letterSpacing: 0.5,
-                                                color: Colors.blueGrey.shade200,
-                                              ),
-                                            ),
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Oops...',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    fontFamily: AppTheme.fontName,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                    letterSpacing: 0.5,
+                                                    color: Colors.blueGrey.shade200,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Konten belum tersedia',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    fontFamily: AppTheme.fontName,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                    letterSpacing: 0.5,
+                                                    color: Colors.blueGrey.shade200,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
                                           ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                            else
-                            if(productListData.length==0)
-                              return
-                                FadeInUp(
-                                  delay: Duration(milliseconds: 500),
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 130, bottom: 100),
-                                    alignment: Alignment.center,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(bottom: 10),
-                                          child: Image.asset("assets/images/empty_data.png", height: 100),
                                         ),
-                                        Column(
+                                      ),
+                                    );
+                                else
+                                if(productListData.length==0)
+                                  return
+                                    FadeInUp(
+                                      delay: Duration(milliseconds: 500),
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 130, bottom: 100),
+                                        alignment: Alignment.center,
+                                        child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              'Oops...',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                                letterSpacing: 0.5,
-                                                color: Colors.blueGrey.shade200,
-                                              ),
+                                            Container(
+                                              margin: EdgeInsets.only(bottom: 10),
+                                              child: Image.asset("assets/images/empty_data.png", height: 100),
                                             ),
-                                            Text(
-                                              'Konten belum tersedia',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12,
-                                                letterSpacing: 0.5,
-                                                color: Colors.blueGrey.shade200,
-                                              ),
-                                            ),
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Oops...',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    fontFamily: AppTheme.fontName,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                    letterSpacing: 0.5,
+                                                    color: Colors.blueGrey.shade200,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Konten belum tersedia',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    fontFamily: AppTheme.fontName,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                    letterSpacing: 0.5,
+                                                    color: Colors.blueGrey.shade200,
+                                                  ),
+                                                ),
+                                              ],
+                                            )
                                           ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                            else
-                              return
-                                GridView.builder(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        childAspectRatio: 1,
-                                        crossAxisSpacing: 5,
-                                        mainAxisSpacing: 5),
-                                    itemCount: productListData.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      final int count = productListData.length;
-                                      animationController?.forward();
-                                      return itemAll(productListData[index], context, animationController!);
-                                    });
-                          }
-                        },
-                      )
-                    ],
-                  ),
-                )
+                                        ),
+                                      ),
+                                    );
+                                else
+                                  return
+                                    GridView.builder(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            childAspectRatio: 1,
+                                            crossAxisSpacing: 5,
+                                            mainAxisSpacing: 5),
+                                        itemCount: productListData.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          final int count = productListData.length;
+                                          animationController?.forward();
+                                          return itemAll(productListData[index], context, animationController!);
+                                        });
+                              }
+                            },
+                          )
+                        ],
+                      ),
+                    )
+                ),
             ),
           );
       },
@@ -236,59 +240,54 @@ class _ProductAllDataState extends State<ProductAllData>
 
 Widget itemAll(ProductData productData, BuildContext context, AnimationController animationController){
   return
-    FadeInUp(
-        delay : Duration(milliseconds: 500),
-        child : ZoomTapAnimation(
-          child: GestureDetector(
-            onTap: () {
-              new Future.delayed(new Duration(milliseconds: 300), () async {
-                  Navigator.of(context, rootNavigator: true).pop('dialog');
-                  await launch(productData.link);
-              });
-            },
-            child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child:
-                Container(
-                  decoration: BoxDecoration(color: Colors.white,
-                      borderRadius: BorderRadius.circular(9)),
-                  child:
-                  Column(
+    ZoomTapAnimation(
+    onTap: () {
+      new Future.delayed(new Duration(milliseconds: 300), () async {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+        await launch(productData.link);
+      });
+    },
+    child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child:
+        Container(
+          decoration: BoxDecoration(color: Colors.white,
+              borderRadius: BorderRadius.circular(9)),
+          child:
+          Column(
+            children: [
+              Wrap(
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Wrap(
-                        children: [
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(9),
-                                child:
-                                Image.asset(
-                                  'assets/images/no_image_3.png',
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(9),
-                                child:
-                                Image.network(
-                                  'https://suma.geloraaksara.co.id/uploads/produk/'+productData.gambar,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(9),
+                        child:
+                        Image.asset(
+                          'assets/images/no_image_3.png',
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(9),
+                        child:
+                        Image.network(
+                          'https://suma.geloraaksara.co.id/uploads/produk/'+productData.gambar,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ],
-                  ) ,
-                )
-            ),
-          ),
+                  ),
+                ],
+              ),
+            ],
+          ) ,
         )
-    );
+    ),
+  );
 }

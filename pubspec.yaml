@@ -103,6 +103,7 @@ dependencies:
     permission_handler: ^8.0.0+2
     assets_audio_player: ^3.0.6
     video_viewer: ^1.2.7
+    open_file_plus: ^3.3.0
 
 dev_dependencies:
     flutter_test:
