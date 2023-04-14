@@ -5,32 +5,27 @@ import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:material_dialogs/material_dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
-import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:suma_education/suma_education/main_page/ui_part/book_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/interaktif_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/interaktif_equipment.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/logout_button.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/tutorial_all.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/user_bio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/video_detail.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/video_player.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/video_player_main_detail.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme/app_theme.dart';
 
 class DetailVideoScreen extends StatefulWidget {
-  const DetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId, required this.kategoriKonten}) : super(key: key);
+  const DetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId, required this.kategoriKonten, required this.thumbnail}) : super(key: key);
 
   final AnimationController? animationController;
   final String? idContent;
   final String? youtubeId;
   final String? kategoriKonten;
+  final String? thumbnail;
   @override
   _DetailVideoScreenState createState() => _DetailVideoScreenState();
 }
@@ -80,7 +75,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
   }
 
   void addAllListData() {
-    const int count = 5;
+    const int count = 6;
 
     listViews.add(
       VideoPlayerMain(
@@ -91,6 +86,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController,
         youtubeId: widget.youtubeId,
+        thumbnail: widget.thumbnail,
       ),
     );
 
@@ -105,19 +101,6 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
       ),
     );
 
-    if(widget.kategoriKonten=="2"){
-      listViews.add(
-        InteraktifEquipment(
-          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-              parent: widget.animationController!,
-              curve:
-              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-          mainScreenAnimationController: widget.animationController!,
-          linkDownload: "https://suma.geloraaksara.co.id/uploads/equipment/interaktif_1.pdf",
-        ),
-      );
-    }
-
     if(widget.kategoriKonten=="1"){
       listViews.add(
         KreasiListAllData(
@@ -130,6 +113,16 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         ),
       );
     } else if(widget.kategoriKonten=="2"){
+      listViews.add(
+        InteraktifEquipment(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController!,
+              curve:
+              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController!,
+          linkDownload: "https://suma.geloraaksara.co.id/uploads/equipment/interaktif_1.pdf",
+        ),
+      );
       listViews.add(
         InteraktifAllListData(
           mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(

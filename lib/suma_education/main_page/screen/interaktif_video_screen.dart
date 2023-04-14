@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:suma_education/suma_education/main_page/ui_part/interaktif_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/logout_button.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/space_bar.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/user_bio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -73,6 +74,16 @@ class _InteraktifScreenState extends State<InteraktifScreen>
 
   void addAllListData() {
     const int count = 5;
+
+    listViews.add(
+      SpaceBar(
+        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+            Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        mainScreenAnimationController: widget.animationController!,
+      ),
+    );
 
     listViews.add(
       InteraktifAllListData(

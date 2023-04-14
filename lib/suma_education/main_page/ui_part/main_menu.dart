@@ -841,25 +841,69 @@ class MainMenu extends StatelessWidget {
                                   future: _getNewBook(),
                                   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                                     if (snapshot.connectionState == ConnectionState.waiting) {
-                                      return SizedBox(
+                                      return Container(
                                           height: MediaQuery.of(context).size.height*0.6,
-                                          child: null
+                                          width: MediaQuery.of(context).size.width,
+                                          alignment: Alignment.center,
+                                          child: Container(
+                                            height: 30.0,
+                                            width: 30.0,
+                                            margin: EdgeInsets.only(
+                                                right: 10),
+                                            child: CircularProgressIndicator(
+                                              color: Colors.orange,
+                                              strokeWidth: 3,
+                                            ),
+                                          )
                                       );
                                     } else {
                                       if (snapshot.hasError)
-                                        return GridView.builder(
-                                            shrinkWrap: true,
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                childAspectRatio: 0.7427,
-                                                crossAxisSpacing: 10,
-                                                mainAxisSpacing: 20),
-                                            itemCount: book.length,
-                                            itemBuilder: (BuildContext context, int index) {
-                                              animationController?.forward();
-                                              return itemBuku(book[index], context, animationController!);
-                                            });
+                                        return FadeInUp(
+                                          delay: Duration(milliseconds: 500),
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 130),
+                                            padding: EdgeInsets.only(bottom: 100),
+                                            alignment: Alignment.center,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(bottom: 10),
+                                                  child: Image.asset("assets/images/empty_data.png", height: 100),
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      'Data tidak tersedia',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontFamily: AppTheme.fontName,
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 16,
+                                                        letterSpacing: 0.5,
+                                                        color: Colors.blueGrey.shade200,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Data peserta tidak tersedia',
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontFamily: AppTheme.fontName,
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 12,
+                                                        letterSpacing: 0.5,
+                                                        color: Colors.blueGrey.shade200,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        );
                                       else
                                       if(book.length==0)
                                         return

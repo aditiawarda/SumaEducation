@@ -238,14 +238,14 @@ Widget itemVideo(FeedVideoData dataVideo, BuildContext context, AnimationControl
           opacity: animation,
           child: ZoomTapAnimation(
               onTap: () {
-                new Future.delayed(new Duration(milliseconds: 300), () {
-                  Navigator.push<dynamic>(
-                      context,
-                      MaterialPageRoute<dynamic>(
-                        builder: (BuildContext context) => FeedsDetailVideoScreen(animationController: animationController, idContent: dataVideo.id, youtubeId: dataVideo.file),
-                      )
-                  );
-                });
+                // new Future.delayed(new Duration(milliseconds: 300), () {
+                //   Navigator.push<dynamic>(
+                //       context,
+                //       MaterialPageRoute<dynamic>(
+                //         builder: (BuildContext context) => FeedsDetailVideoScreen(animationController: animationController, idContent: dataVideo.id, youtubeId: dataVideo.file),
+                //       )
+                //   );
+                // });
               },
             child: Transform(
               transform: Matrix4.translationValues(100 * (1.0 - animation.value), 0.0, 0.0),

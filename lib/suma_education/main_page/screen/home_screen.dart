@@ -143,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen>
             Column(
               children: [
                 SizedBox(
-                  height: 30,
+                  height : MediaQuery.of(context).viewPadding.top
                 ),
                 Expanded(
                   child: getMainListViewUI()
@@ -187,23 +187,29 @@ class _HomeScreenState extends State<HomeScreen>
               Stack(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 450),
-                    decoration: BoxDecoration(
-                      color: Colors.orange,
+                    height: double.infinity,
+                    width: double.infinity,
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: double.infinity,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
                         image: DecorationImage(
                             image: AssetImage("assets/images/bg_header_img.png"),
                             fit: BoxFit.cover),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(50.0),
-                          bottomRight: Radius.circular(50.0)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: AppTheme.grey.withOpacity(0.2),
-                            offset: Offset(1.1, 1.1),
-                            blurRadius: 4.0),
-                      ],
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(50.0),
+                            bottomRight: Radius.circular(50.0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: AppTheme.grey.withOpacity(0.2),
+                              offset: Offset(1.1, 1.1),
+                              blurRadius: 4.0),
+                        ],
+                      ),
                     ),
-                  ),
+                  )
                 ],
               ),
             );

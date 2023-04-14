@@ -103,77 +103,74 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
               child: new Transform(
                 transform: new Matrix4.translationValues(
                     0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-                child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 24, right: 24, bottom: 0),
-                    child:
-                    ZoomTapAnimation(
-                      child:
-                      GestureDetector(
-                        onTap: () async {
-                          _permissionReady = await _checkPermission();
-                          if (_permissionReady) {
-                            await _prepareSaveDir();
-                            print(widget.linkDownload!);
+                child:
+                Container(
+                    padding: const EdgeInsets.only(left: 20, right: 20, bottom: 0),
+                    margin: EdgeInsets.only(top: 10),
+                    child: ZoomTapAnimation(
+                      onTap: () async {
+                        _permissionReady = await _checkPermission();
+                        if (_permissionReady) {
+                          await _prepareSaveDir();
+                          print(widget.linkDownload!);
 
-                            CoolAlert.show(
-                                context: context,
-                                borderRadius: 25,
-                                type: CoolAlertType.success,
-                                backgroundColor: Colors.lightGreen.shade50,
-                                title: 'Berhasil',
-                                text: "Equipment berhasil didownload",
-                                confirmBtnText: 'OK',
-                                width: 30,
-                                loopAnimation: true,
-                                animType: CoolAlertAnimType.scale,
-                                confirmBtnColor: Colors.green.shade300,
-                                onConfirmBtnTap: (){
-                                  setState(() {
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop('dialog');
-                                  });
-                                }
-                            );
+                          CoolAlert.show(
+                              context: context,
+                              borderRadius: 25,
+                              type: CoolAlertType.success,
+                              backgroundColor: Colors.lightGreen.shade50,
+                              title: 'Berhasil',
+                              text: "Equipment berhasil didownload",
+                              confirmBtnText: 'OK',
+                              width: 30,
+                              loopAnimation: true,
+                              animType: CoolAlertAnimType.scale,
+                              confirmBtnColor: Colors.green.shade300,
+                              onConfirmBtnTap: (){
+                                setState(() {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop('dialog');
+                                });
+                              }
+                          );
 
-                            try {
-                              await Dio().download(widget.linkDownload!,
-                                  _localPath + "/" + "interaktif_1.pdf");
-                              print("Download Completed.");
-                            } catch (e) {
-                              print("Download Failed.\n\n" + e.toString());
-                            }
+                          try {
+                            await Dio().download(widget.linkDownload!,
+                                _localPath + "/" + "interaktif_1.pdf");
+                            print("Download Completed.");
+                          } catch (e) {
+                            print("Download Failed.\n\n" + e.toString());
                           }
-                        },
-                        child: Container(
-                          height: 45,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10.0),
-                                bottomLeft: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0),
-                                topRight: Radius.circular(10.0)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: AppTheme.grey.withOpacity(0.2),
-                                  offset: Offset(0.0, 1.0), //(x,y)
-                                  blurRadius: 1.0),
-                            ],
-                          ),
-                          margin: EdgeInsets.only(bottom: 0),
-                          child:
-                          Container(
-                            padding: EdgeInsets.only(top: 10, bottom: 10, right: 9, left: 9),
-                            child: Center(
-                                child:
-                                Text('Download Template', style: TextStyle(color: Colors.orange.withOpacity(0.7), fontSize: 17)),
-                            ),
+                        }
+                      },
+                      child: Container(
+                        height: 45,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              bottomLeft: Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: AppTheme.grey.withOpacity(0.2),
+                                offset: Offset(0.0, 1.0), //(x,y)
+                                blurRadius: 1.0),
+                          ],
+                        ),
+                        margin: EdgeInsets.only(bottom: 0),
+                        child:
+                        Container(
+                          padding: EdgeInsets.only(top: 10, bottom: 10, right: 9, left: 9),
+                          child: Center(
+                            child:
+                            Text('Download Template', style: TextStyle(color: Colors.orange.withOpacity(0.7), fontSize: 17)),
                           ),
                         ),
                       ),
                     )
-                ),
+                )
               ),
             ),
           );

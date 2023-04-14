@@ -73,135 +73,169 @@ class _ProductAllDataState extends State<ProductAllData>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        alignment: Alignment.topCenter,
-        padding: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 50),
-        width: MediaQuery.of(context).size.width,
-        child:
-        Wrap(
-          children: <Widget>[
-            FutureBuilder<String>(
-              future: _getKreasiContent(), // function where you call your api
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return
-                    GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 1,
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5),
-                        itemCount: productListData.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final int count = productListData.length;
-                          final Animation<double> animation =
-                          Tween<double>(begin: 0.0, end: 1.0).animate(
-                              CurvedAnimation(
-                                  parent: animationController!,
-                                  curve: Interval((1 / count) * index, 1.0,
-                                      curve: Curves.fastOutSlowIn)));
-                          animationController?.forward();
-                          return itemAll(productListData[index], context, animationController!);
-                        });
-                } else {
-                  if (snapshot.hasError)
-                    return GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 1,
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5),
-                        itemCount: productListData.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final int count = productListData.length;
-                          final Animation<double> animation =
-                          Tween<double>(begin: 0.0, end: 1.0).animate(
-                              CurvedAnimation(
-                                  parent: animationController!,
-                                  curve: Interval((1 / count) * index, 1.0,
-                                      curve: Curves.fastOutSlowIn)));
-                          animationController?.forward();
-                          return itemAll(productListData[index], context, animationController!);
-                        });
-                  else
-                    if(productListData.length==0)
-                      return
-                      FadeInUp(
-                        delay: Duration(milliseconds: 500),
-                        child: Container(
-                          margin: EdgeInsets.only(top: 130, bottom: 100),
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+    return AnimatedBuilder(
+      animation: widget.mainScreenAnimationController!,
+      builder: (BuildContext context, Widget? child) {
+        return
+          FadeTransition(
+            opacity: widget.mainScreenAnimation!,
+            child: new Transform(
+                transform: new Matrix4.translationValues(
+                    0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
+                child: Container(
+                  alignment: Alignment.topCenter,
+                  padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 50),
+                  width: MediaQuery.of(context).size.width,
+                  child:
+                  Wrap(
+                    children: <Widget>[
+                      FutureBuilder<String>(
+                        future: _getKreasiContent(), // function where you call your api
+                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return
                               Container(
-                                margin: EdgeInsets.only(bottom: 10),
-                                child: Image.asset("assets/images/empty_data.png", height: 100),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Oops...',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      letterSpacing: 0.5,
-                                      color: Colors.blueGrey.shade200,
+                                  height: MediaQuery.of(context).size.height*0.6,
+                                  width: MediaQuery.of(context).size.width,
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    height: 30.0,
+                                    width: 30.0,
+                                    margin: EdgeInsets.only(
+                                        right: 10),
+                                    child: CircularProgressIndicator(
+                                      color: Colors.orange,
+                                      strokeWidth: 3,
+                                    ),
+                                  )
+                              );
+                          } else {
+                            if (snapshot.hasError)
+                              return
+                                FadeInUp(
+                                  delay: Duration(milliseconds: 500),
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 130, bottom: 100),
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(bottom: 10),
+                                          child: Image.asset("assets/images/empty_data.png", height: 100),
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Oops...',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                                letterSpacing: 0.5,
+                                                color: Colors.blueGrey.shade200,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Konten belum tersedia',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                                letterSpacing: 0.5,
+                                                color: Colors.blueGrey.shade200,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   ),
-                                  Text(
-                                    'Konten belum tersedia',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12,
-                                      letterSpacing: 0.5,
-                                      color: Colors.blueGrey.shade200,
+                                );
+                            else
+                            if(productListData.length==0)
+                              return
+                                FadeInUp(
+                                  delay: Duration(milliseconds: 500),
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 130, bottom: 100),
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(bottom: 10),
+                                          child: Image.asset("assets/images/empty_data.png", height: 100),
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Oops...',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                                letterSpacing: 0.5,
+                                                color: Colors.blueGrey.shade200,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Konten belum tersedia',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                                letterSpacing: 0.5,
+                                                color: Colors.blueGrey.shade200,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    else
-                      return
-                        GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 1,
-                                crossAxisSpacing: 5,
-                                mainAxisSpacing: 5),
-                            itemCount: productListData.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final int count = productListData.length;
-                              final Animation<double> animation =
-                              Tween<double>(begin: 0.0, end: 1.0).animate(
-                                  CurvedAnimation(
-                                      parent: animationController!,
-                                      curve: Interval((1 / count) * index, 1.0,
-                                          curve: Curves.fastOutSlowIn)));
-                              animationController?.forward();
-                              return itemAll(productListData[index], context, animationController!);
-                            });
-                }
-              },
-            )
-          ],
-        ),
+                                );
+                            else
+                              return
+                                GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 1,
+                                        crossAxisSpacing: 5,
+                                        mainAxisSpacing: 5),
+                                    itemCount: productListData.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      final int count = productListData.length;
+                                      final Animation<double> animation =
+                                      Tween<double>(begin: 0.0, end: 1.0).animate(
+                                          CurvedAnimation(
+                                              parent: animationController!,
+                                              curve: Interval((1 / count) * index, 1.0,
+                                                  curve: Curves.fastOutSlowIn)));
+                                      animationController?.forward();
+                                      return itemAll(productListData[index], context, animationController!);
+                                    });
+                          }
+                        },
+                      )
+                    ],
+                  ),
+                )
+            ),
+          );
+      },
     );
   }
 }

@@ -89,31 +89,69 @@ class _BookListAllDataState extends State<BookListAllData>
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return
-                    MasonryGridView.count(
-                        physics: const ScrollPhysics(),
-                        itemCount: bookListData.length,
-                        padding: const EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 15,
-                        crossAxisSpacing: 15,
-                        itemBuilder: (context, index) {
-                          return itemBookAll(bookListData[index], context, widget.animationControllerBottomSheet!);
-                        }
+                    Container(
+                        height: MediaQuery.of(context).size.height*0.6,
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.center,
+                        child: Container(
+                          height: 30.0,
+                          width: 30.0,
+                          margin: EdgeInsets.only(
+                              right: 10),
+                          child: CircularProgressIndicator(
+                            color: Colors.orange,
+                            strokeWidth: 3,
+                          ),
+                        )
                     );
                 } else {
                   if (snapshot.hasError)
                     return
-                      MasonryGridView.count(
-                          physics: const ScrollPhysics(),
-                          itemCount: bookListData.length,
-                          padding: const EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 15,
-                          crossAxisSpacing: 15,
-                          itemBuilder: (context, index) {
-                            return itemBookAll(bookListData[index], context, widget.animationControllerBottomSheet!);
-                          }
-                      );
+                      FadeInUp(
+                      delay: Duration(milliseconds: 500),
+                      child: Container(
+                        margin: EdgeInsets.only(top: 130, bottom: 100),
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              child: Image.asset("assets/images/empty_data.png", height: 100),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Oops...',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    letterSpacing: 0.5,
+                                    color: Colors.blueGrey.shade200,
+                                  ),
+                                ),
+                                Text(
+                                  'Konten belum tersedia',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                    letterSpacing: 0.5,
+                                    color: Colors.blueGrey.shade200,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    );
                   else
                     if(bookListData.length==0)
                       return
@@ -188,70 +226,68 @@ Widget itemBookAll(BookData bookData, BuildContext context, AnimationController 
     FadeInUp(
         delay : Duration(milliseconds: 500),
         child : ZoomTapAnimation(
-          child: GestureDetector(
-            onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => DetailBukuState(
-                          book: bookData,
-                        )
+          onTap: () {
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => DetailBukuState(
+                      book: bookData,
                     )
-                );
-            },
-            child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child:
-                Container(
-                  decoration: BoxDecoration(color: Colors.white,
-                      borderRadius: BorderRadius.circular(9)),
-                  child:
-                  Column(
-                    children: [
-                      Wrap(
-                        children: [
-                          Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(9),
-                                child:
-                                Image.asset(
-                                  'assets/images/no_image_2.png',
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(9),
-                                child:
-                                Image.network(
-                                  'https://suma.geloraaksara.co.id/uploads/cover_book/'+bookData.cover,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      // Container(
-                      //   padding: EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 12),
-                      //   child: Text(bookData.judul,
-                      //       style:
-                      //       GoogleFonts.roboto(
-                      //           color: Colors.blueGrey,
-                      //           fontSize: 14.0,
-                      //           height: 1.5
-                      //       ),
-                      //       textAlign: TextAlign.center,
-                      //   ),
-                      // )
-                    ],
-                  ) ,
                 )
-            ),
+            );
+          },
+          child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child:
+              Container(
+                decoration: BoxDecoration(color: Colors.white,
+                    borderRadius: BorderRadius.circular(9)),
+                child:
+                Column(
+                  children: [
+                    Wrap(
+                      children: [
+                        Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(9),
+                              child:
+                              Image.asset(
+                                'assets/images/no_image_2.png',
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(9),
+                              child:
+                              Image.network(
+                                'https://suma.geloraaksara.co.id/uploads/cover_book/'+bookData.cover,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    // Container(
+                    //   padding: EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 12),
+                    //   child: Text(bookData.judul,
+                    //       style:
+                    //       GoogleFonts.roboto(
+                    //           color: Colors.blueGrey,
+                    //           fontSize: 14.0,
+                    //           height: 1.5
+                    //       ),
+                    //       textAlign: TextAlign.center,
+                    //   ),
+                    // )
+                  ],
+                ) ,
+              )
           ),
         )
     );

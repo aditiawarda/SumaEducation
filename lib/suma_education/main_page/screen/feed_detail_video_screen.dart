@@ -17,17 +17,18 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/video_detail.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/video_detail_feed.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/video_player.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/video_player_main_detail.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme/app_theme.dart';
 
 class FeedsDetailVideoScreen extends StatefulWidget {
-  const FeedsDetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId}) : super(key: key);
+  const FeedsDetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId, required this.thumbnail}) : super(key: key);
 
   final AnimationController? animationController;
   final String? idContent;
   final String? youtubeId;
+  final String? thumbnail;
   @override
   _FeedsDetailVideoScreenState createState() => _FeedsDetailVideoScreenState();
 }
@@ -88,6 +89,7 @@ class _FeedsDetailVideoScreenState extends State<FeedsDetailVideoScreen>
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController,
         youtubeId: widget.youtubeId,
+        thumbnail: widget.thumbnail,
       ),
     );
 
