@@ -6,8 +6,16 @@ import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/page
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/utils/time_parser.dart';
 
 /// widget to show the time and the moves counter
+
+
+class R extends S {
+  static of(BuildContext context) {
+    return S.current;
+  }
+}
 class TimeAndMoves extends StatelessWidget {
   const TimeAndMoves({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
