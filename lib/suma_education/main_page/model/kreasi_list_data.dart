@@ -6,8 +6,9 @@ class KreasiData {
   String thumbnail;
   String durasi;
   String youtube_id;
+  String source;
   String kategori;
   String created_at;
 
-  KreasiData(this.id, this.judul, this.thumbnail, this.durasi, this.youtube_id, this.kategori, this.created_at);
+  KreasiData(this.id, this.judul, this.thumbnail, this.durasi, this.youtube_id, this.source, this.kategori, this.created_at);
 }

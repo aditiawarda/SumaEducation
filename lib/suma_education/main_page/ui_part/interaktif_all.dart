@@ -53,10 +53,11 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
         var thumbnail = dataInteraktif['data'][i]['thumbnail'];
         var durasi = dataInteraktif['data'][i]['durasi'];
         var youtube_id = dataInteraktif['data'][i]['youtube_id'];
+        var source = dataInteraktif['data'][i]['source'];
         var kategori = dataInteraktif['data'][i]['kategori'];
         var created_at = dataInteraktif['data'][i]['created_at'];
 
-        interaktifListData.add(InteraktifData(id, judul, thumbnail, durasi, youtube_id, kategori, created_at));
+        interaktifListData.add(InteraktifData(id, judul, thumbnail, durasi, youtube_id, source, kategori, created_at));
       }
     } catch (e) {
       print("Error");
@@ -233,7 +234,7 @@ Widget itemVideoAll(InteraktifData interaktifListData, BuildContext context, Ani
               Navigator.push<dynamic>(
                   context,
                   MaterialPageRoute<dynamic>(
-                    builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: interaktifListData.id, youtubeId: interaktifListData.youtube_id, kategoriKonten: interaktifListData.kategori, thumbnail: interaktifListData.thumbnail,),
+                    builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: interaktifListData.id, youtubeId: interaktifListData.youtube_id, kategoriKonten: interaktifListData.kategori, thumbnail: interaktifListData.thumbnail, source: interaktifListData.source,),
                   )
               );
             });

@@ -6,13 +6,14 @@ import 'package:video_viewer/video_viewer.dart';
 
 class VideoPlayerMain extends StatefulWidget {
   const VideoPlayerMain(
-      {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation, required this.youtubeId, required this.thumbnail})
+      {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation, required this.youtubeId, required this.thumbnail, required this.source})
       : super(key: key);
 
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
   final String? youtubeId;
   final String? thumbnail;
+  final String? source;
 
   @override
   _VideoPlayerMainState createState() => _VideoPlayerMainState();
@@ -82,31 +83,6 @@ class _VideoPlayerMainState extends State<VideoPlayerMain>
                               builder: (_, data) {
                                 if (data.connectionState == ConnectionState.waiting) {
                                   return
-                                    data.hasData
-                                        ?
-                                    ClipRRect(
-                                        borderRadius: BorderRadius.circular(8.0),
-                                        child: VideoViewer(
-                                          controller: _controller,
-                                          autoPlay: true,
-                                          defaultAspectRatio: 16 / 9,
-                                          source: {
-                                            "SubRip Text": VideoSource(
-                                              video: VideoPlayerController
-                                                  .network(
-                                                "https://suma.geloraaksara.co.id/uploads/video/gapprint.mp4",
-                                              ),
-                                            )
-                                          },
-                                          onFullscreenFixLandscape: true,
-                                          style: VideoViewerStyle(
-                                            thumbnail: Image.network(
-                                              "https://suma.geloraaksara.co.id/uploads/thumbnail/"+widget.thumbnail!,
-                                            ),
-                                          ),
-                                        )
-                                    )
-                                        :
                                     ClipRRect(
                                         borderRadius: BorderRadius.circular(8.0),
                                         child: Container(
@@ -129,31 +105,6 @@ class _VideoPlayerMainState extends State<VideoPlayerMain>
                                 } else {
                                   if (data.hasError)
                                     return
-                                      data.hasData
-                                          ?
-                                      ClipRRect(
-                                          borderRadius: BorderRadius.circular(8.0),
-                                          child: VideoViewer(
-                                            controller: _controller,
-                                            autoPlay: true,
-                                            defaultAspectRatio: 16 / 9,
-                                            source: {
-                                              "SubRip Text": VideoSource(
-                                                video: VideoPlayerController
-                                                    .network(
-                                                  "https://suma.geloraaksara.co.id/uploads/video/gapprint.mp4",
-                                                ),
-                                              )
-                                            },
-                                            onFullscreenFixLandscape: true,
-                                            style: VideoViewerStyle(
-                                              thumbnail: Image.network(
-                                                "https://suma.geloraaksara.co.id/uploads/thumbnail/"+widget.thumbnail!,
-                                              ),
-                                            ),
-                                          )
-                                      )
-                                          :
                                       ClipRRect(
                                           borderRadius: BorderRadius.circular(8.0),
                                           child: Container(
@@ -187,7 +138,7 @@ class _VideoPlayerMainState extends State<VideoPlayerMain>
                                               "SubRip Text": VideoSource(
                                                 video: VideoPlayerController
                                                     .network(
-                                                  "https://suma.geloraaksara.co.id/uploads/video/gapprint.mp4",
+                                                  "https://suma.geloraaksara.co.id/uploads/video/"+widget.source!,
                                                 ),
                                               )
                                             },

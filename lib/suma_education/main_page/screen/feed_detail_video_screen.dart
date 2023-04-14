@@ -90,6 +90,7 @@ class _FeedsDetailVideoScreenState extends State<FeedsDetailVideoScreen>
         mainScreenAnimationController: widget.animationController,
         youtubeId: widget.youtubeId,
         thumbnail: widget.thumbnail,
+        source: "tes",
       ),
     );
 

@@ -50,9 +50,10 @@ class _KreasiListAllDataState extends State<KreasiListAllData>
         var thumbnail = dataKreasi['data'][i]['thumbnail'];
         var durasi = dataKreasi['data'][i]['durasi'];
         var youtube_id = dataKreasi['data'][i]['youtube_id'];
+        var source = dataKreasi['data'][i]['source'];
         var kategori = dataKreasi['data'][i]['kategori'];
         var created_at = dataKreasi['data'][i]['created_at'];
-        kreasiListData.add(KreasiData(id, judul, thumbnail, durasi, youtube_id, kategori, created_at));
+        kreasiListData.add(KreasiData(id, judul, thumbnail, durasi, youtube_id, source, kategori, created_at));
       }
     } catch (e) {
       print("Error");
@@ -228,7 +229,7 @@ Widget itemVideoAll(KreasiData kreasiData, BuildContext context, AnimationContro
               Navigator.push<dynamic>(
                   context,
                   MaterialPageRoute<dynamic>(
-                    builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: kreasiData.id, youtubeId: kreasiData.youtube_id, kategoriKonten: kreasiData.kategori, thumbnail: kreasiData.thumbnail),
+                    builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: kreasiData.id, youtubeId: kreasiData.youtube_id, kategoriKonten: kreasiData.kategori, thumbnail: kreasiData.thumbnail, source: kreasiData.source,),
                   )
               );
             });

@@ -19,13 +19,15 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../app_theme/app_theme.dart';
 
 class DetailVideoScreen extends StatefulWidget {
-  const DetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId, required this.kategoriKonten, required this.thumbnail}) : super(key: key);
+  const DetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId, required this.kategoriKonten, required this.thumbnail, required this.source}) : super(key: key);
 
   final AnimationController? animationController;
   final String? idContent;
   final String? youtubeId;
   final String? kategoriKonten;
   final String? thumbnail;
+  final String? source;
+
   @override
   _DetailVideoScreenState createState() => _DetailVideoScreenState();
 }
@@ -87,6 +89,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         mainScreenAnimationController: widget.animationController,
         youtubeId: widget.youtubeId,
         thumbnail: widget.thumbnail,
+        source: widget.source,
       ),
     );
 

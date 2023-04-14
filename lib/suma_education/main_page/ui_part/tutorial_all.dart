@@ -54,10 +54,11 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
         var thumbnail = dataTutorial['data'][i]['thumbnail'];
         var durasi = dataTutorial['data'][i]['durasi'];
         var youtube_id = dataTutorial['data'][i]['youtube_id'];
+        var source = dataTutorial['data'][i]['source'];
         var kategori = dataTutorial['data'][i]['kategori'];
         var created_at = dataTutorial['data'][i]['created_at'];
 
-        tutorialListData.add(TutorialData(id, judul, thumbnail, durasi, youtube_id, kategori, created_at));
+        tutorialListData.add(TutorialData(id, judul, thumbnail, durasi, youtube_id, source, kategori, created_at));
       }
     } catch (e) {
       print("Error");
@@ -235,7 +236,7 @@ Widget itemVideoAll(TutorialData tutorialData, BuildContext context, AnimationCo
               Navigator.push<dynamic>(
                   context,
                   MaterialPageRoute<dynamic>(
-                    builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: tutorialData.id, youtubeId: tutorialData.youtube_id, kategoriKonten: tutorialData.kategori, thumbnail: tutorialData.thumbnail,),
+                    builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: tutorialData.id, youtubeId: tutorialData.youtube_id, kategoriKonten: tutorialData.kategori, thumbnail: tutorialData.thumbnail, source: tutorialData.source,),
                   )
               );
             });

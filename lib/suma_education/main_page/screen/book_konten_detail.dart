@@ -136,7 +136,7 @@ class _MyListScreenState extends State<DetailBukuState> {
                         child:
                         CachedNetworkImage(
                           width: double.infinity,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.fitWidth,
                           imageUrl: "https://suma.geloraaksara.co.id/uploads/cover_book/"+widget.book.cover,
                           placeholder: (context, url) => new Container(
                             margin: EdgeInsets.only(right: 10),
@@ -162,7 +162,7 @@ class _MyListScreenState extends State<DetailBukuState> {
                                   child:
                                   CachedNetworkImage(
                                     width: double.infinity,
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.fitWidth,
                                     imageUrl: "https://suma.geloraaksara.co.id/uploads/cover_book/"+widget.book.cover,
                                     placeholder: (context, url) => Container(
                                         alignment: Alignment.center,
@@ -189,7 +189,7 @@ class _MyListScreenState extends State<DetailBukuState> {
                                   child:
                                   CachedNetworkImage(
                                     width: double.infinity,
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.fitWidth,
                                     imageUrl: "https://suma.geloraaksara.co.id/uploads/book_page/"+bookPage[i-1].image,
                                     placeholder: (context, url) => Container(
                                         alignment: Alignment.center,
