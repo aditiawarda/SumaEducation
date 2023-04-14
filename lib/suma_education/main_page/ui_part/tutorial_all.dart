@@ -52,13 +52,14 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
         var id = dataTutorial['data'][i]['id'];
         var judul = dataTutorial['data'][i]['judul'];
         var thumbnail = dataTutorial['data'][i]['thumbnail'];
+        var square_thumbnail = dataTutorial['data'][i]['square_thumbnail'];
         var durasi = dataTutorial['data'][i]['durasi'];
         var youtube_id = dataTutorial['data'][i]['youtube_id'];
         var source = dataTutorial['data'][i]['source'];
         var kategori = dataTutorial['data'][i]['kategori'];
         var created_at = dataTutorial['data'][i]['created_at'];
 
-        tutorialListData.add(TutorialData(id, judul, thumbnail, durasi, youtube_id, source, kategori, created_at));
+        tutorialListData.add(TutorialData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, kategori, created_at));
       }
     } catch (e) {
       print("Error");
@@ -212,7 +213,6 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
                                   mainAxisSpacing: 5),
                               itemCount: tutorialListData.length,
                               itemBuilder: (BuildContext context, int index) {
-                                final int count = tutorialListData.length;
                                 animationController?.forward();
                                 return itemVideoAll(tutorialListData[index], context, animationController!);
                               });
@@ -270,7 +270,7 @@ Widget itemVideoAll(TutorialData tutorialData, BuildContext context, AnimationCo
                               borderRadius: BorderRadius.circular(9),
                               child:
                               Image.network(
-                                'https://suma.geloraaksara.co.id/uploads/thumbnail/'+tutorialData.thumbnail,
+                                'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+tutorialData.square_thumbnail,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
                               ),

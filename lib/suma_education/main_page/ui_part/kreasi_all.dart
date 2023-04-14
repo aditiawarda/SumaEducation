@@ -48,12 +48,13 @@ class _KreasiListAllDataState extends State<KreasiListAllData>
         var id = dataKreasi['data'][i]['id'];
         var judul = dataKreasi['data'][i]['judul'];
         var thumbnail = dataKreasi['data'][i]['thumbnail'];
+        var square_thumbnail = dataKreasi['data'][i]['square_thumbnail'];
         var durasi = dataKreasi['data'][i]['durasi'];
         var youtube_id = dataKreasi['data'][i]['youtube_id'];
         var source = dataKreasi['data'][i]['source'];
         var kategori = dataKreasi['data'][i]['kategori'];
         var created_at = dataKreasi['data'][i]['created_at'];
-        kreasiListData.add(KreasiData(id, judul, thumbnail, durasi, youtube_id, source, kategori, created_at));
+        kreasiListData.add(KreasiData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, kategori, created_at));
       }
     } catch (e) {
       print("Error");
@@ -263,7 +264,7 @@ Widget itemVideoAll(KreasiData kreasiData, BuildContext context, AnimationContro
                               borderRadius: BorderRadius.circular(9),
                               child:
                               Image.network(
-                                'https://suma.geloraaksara.co.id/uploads/thumbnail/'+kreasiData.thumbnail,
+                                'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+kreasiData.square_thumbnail,
                                 width: double.infinity,
                                 fit: BoxFit.fill,
                               ),

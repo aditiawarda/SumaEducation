@@ -51,13 +51,14 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
         var id = dataInteraktif['data'][i]['id'];
         var judul = dataInteraktif['data'][i]['judul'];
         var thumbnail = dataInteraktif['data'][i]['thumbnail'];
+        var square_thumbnail = dataInteraktif['data'][i]['square_thumbnail'];
         var durasi = dataInteraktif['data'][i]['durasi'];
         var youtube_id = dataInteraktif['data'][i]['youtube_id'];
         var source = dataInteraktif['data'][i]['source'];
         var kategori = dataInteraktif['data'][i]['kategori'];
         var created_at = dataInteraktif['data'][i]['created_at'];
 
-        interaktifListData.add(InteraktifData(id, judul, thumbnail, durasi, youtube_id, source, kategori, created_at));
+        interaktifListData.add(InteraktifData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, kategori, created_at));
       }
     } catch (e) {
       print("Error");
@@ -268,7 +269,7 @@ Widget itemVideoAll(InteraktifData interaktifListData, BuildContext context, Ani
                               borderRadius: BorderRadius.circular(9),
                               child:
                               Image.network(
-                                'https://suma.geloraaksara.co.id/uploads/thumbnail/'+interaktifListData.thumbnail,
+                                'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+interaktifListData.square_thumbnail,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
                               ),
