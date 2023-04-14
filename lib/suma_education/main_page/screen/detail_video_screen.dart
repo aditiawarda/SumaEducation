@@ -9,6 +9,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:suma_education/suma_education/main_page/ui_part/interaktif_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/interaktif_equipment.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all_other.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/text_video_lainnya.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/tutorial_all.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

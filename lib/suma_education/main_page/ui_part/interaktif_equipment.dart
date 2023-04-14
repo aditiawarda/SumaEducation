@@ -158,7 +158,7 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
                                 text: "Template berhasil didownload, kamu bisa cek filenya di folder download pada perangkatmu",
                                 width: 30,
                                 loopAnimation: true,
-                                confirmBtnText: 'Lihat',
+                                confirmBtnText: 'Buka Template',
                                 cancelBtnText: 'Tutup',
                                 animType: CoolAlertAnimType.scale,
                                 confirmBtnColor: Colors.green.shade300,
