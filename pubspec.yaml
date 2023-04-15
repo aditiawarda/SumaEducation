@@ -104,6 +104,7 @@ dependencies:
     assets_audio_player: ^3.0.6
     video_viewer: ^1.2.7
     open_file_plus: ^3.3.0
+    audioplayers: ^3.0.1
 
 dev_dependencies:
     flutter_test:

@@ -11,7 +11,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:just_audio/just_audio.dart';
 import 'package:page_turn/page_turn.dart';
 import 'package:suma_education/suma_education/main_page/model/book_list_data.dart';
 import 'package:suma_education/suma_education/main_page/model/book_page.dart';
@@ -33,6 +35,9 @@ class _MyListScreenState extends State<DetailBukuState> {
   bool _voiceOver = true;
   List<BookPage> bookPage = [];
   late AssetsAudioPlayer _assetsAudioPlayer;
+  // AudioPlayer voiceOver = AudioPlayer();
+  // var voiceOver = AudioPlayer();
+  final player = AudioPlayer();
 
   @override
   initState() {
@@ -47,6 +52,7 @@ class _MyListScreenState extends State<DetailBukuState> {
 
     super.initState();
   }
+
 
   void openPlayer() async {
     await _assetsAudioPlayer.open(
@@ -80,6 +86,16 @@ class _MyListScreenState extends State<DetailBukuState> {
       print("Error");
     }
     return 'true';
+  }
+
+  void _toggle() {
+      _voiceOver = !_voiceOver;
+
+      if(_voiceOver==true){
+        player.play();
+      } else {
+        player.pause();
+      }
   }
 
   @override
@@ -187,27 +203,62 @@ class _MyListScreenState extends State<DetailBukuState> {
                                   height: MediaQuery.of(context).size.height,
                                   width: MediaQuery.of(context).size.width,
                                   child:
-                                  CachedNetworkImage(
-                                    width: double.infinity,
-                                    fit: BoxFit.fitWidth,
-                                    imageUrl: "https://suma.geloraaksara.co.id/uploads/book_page/"+bookPage[i-1].image,
-                                    placeholder: (context, url) => Container(
-                                        alignment: Alignment.center,
-                                        height: MediaQuery.of(context).size.height,
-                                        width: MediaQuery.of(context).size.width,
-                                        child:
-                                        Container(
-                                          height: 30.0,
-                                          width: 30.0,
-                                          margin: EdgeInsets.only(right: 10),
-                                          child: CircularProgressIndicator(
-                                            color: Colors.orange,
-                                            strokeWidth: 2.5,
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        CachedNetworkImage(
+                                          width: double.infinity,
+                                          fit: BoxFit.fitWidth,
+                                          imageUrl: "https://suma.geloraaksara.co.id/uploads/book_page/"+bookPage[i-1].image,
+                                          placeholder: (context, url) => Container(
+                                              alignment: Alignment.center,
+                                              height: MediaQuery.of(context).size.height,
+                                              width: MediaQuery.of(context).size.width,
+                                              child:
+                                              Container(
+                                                height: 30.0,
+                                                width: 30.0,
+                                                margin: EdgeInsets.only(right: 10),
+                                                child: CircularProgressIndicator(
+                                                  color: Colors.orange,
+                                                  strokeWidth: 2.5,
+                                                ),
+                                              )
                                           ),
-                                        )
+                                          errorWidget: (context, url, error) => new Icon(Icons.error),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(bottom: 20),
+                                          alignment: Alignment.bottomCenter,
+                                          height: MediaQuery.of(context).size.height,
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              IconButton(
+                                                  icon: Icon(
+                                                    _voiceOver ? Icons.pause : Icons.play_arrow, color: const Color(0xFF151624).withOpacity(0.5),),
+                                                  onPressed: () async {
+                                                    player.setUrl('https://suma.geloraaksara.co.id/uploads/voice_over/book_vo_1.mp3');
+                                                    setState(() {
+                                                      _toggle();
+                                                    });
+                                                  }),
+                                              IconButton(
+                                                  icon: Icon(Icons.pause),
+                                                  onPressed: () {
+                                                    player.pause();
+                                                  }),
+                                              IconButton(
+                                                  icon: Icon(Icons.stop),
+                                                  onPressed: () {
+                                                    player.stop();
+                                                  }),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    errorWidget: (context, url, error) => new Icon(Icons.error),
-                                  ),
                                 ),
                               }
                           ],
