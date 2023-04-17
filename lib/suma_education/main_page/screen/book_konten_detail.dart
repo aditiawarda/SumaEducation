@@ -45,12 +45,13 @@ class _MyListScreenState extends State<DetailBukuState> {
     setState(() {
       if(widget.book.voice_cover!=null){
         player.setUrl('https://suma.geloraaksara.co.id/uploads/voice_over/cover/'+widget.book.voice_cover);
+        player.setVolume(1.0);
         player.play();
       }
 
       if(widget.book.backsound!=null){
         backsound.setUrl('https://suma.geloraaksara.co.id/uploads/voice_over/backsound/'+widget.book.backsound);
-        backsound.setVolume(30);
+        backsound.setVolume(0.5);
         backsound.play();
       }
     });
