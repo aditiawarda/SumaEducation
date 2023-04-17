@@ -51,8 +51,11 @@ class _BookListAllDataState extends State<BookListAllData>
         var deskripsi = dataBook['data'][i]['deskripsi'];
         var cover = dataBook['data'][i]['cover'];
         var created_at = dataBook['data'][i]['created_at'];
+        var jumlah_halaman = dataBook['data'][i]['jumlah_halaman'];
+        var voice_cover = dataBook['data'][i]['voice_cover'];
+        var backsound = dataBook['data'][i]['backsound'];
 
-        bookListData.add(BookData(id, judul, deskripsi, cover, created_at));
+        bookListData.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound));
       }
     } catch (e) {
       print("Error");

@@ -805,6 +805,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  page_view_dot_indicator:
+    dependency: "direct main"
+    description:
+      name: page_view_dot_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   pageview_navigation_panel:
     dependency: "direct main"
     description:

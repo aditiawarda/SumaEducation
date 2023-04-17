@@ -6,6 +6,9 @@ class BookData {
   String deskripsi;
   String cover;
   String created_at;
+  String jumlah_halaman;
+  String voice_cover;
+  String backsound;
 
-  BookData(this.id, this.judul, this.deskripsi, this.cover, this.created_at);
+  BookData(this.id, this.judul, this.deskripsi, this.cover, this.created_at, this.jumlah_halaman, this.voice_cover, this.backsound);
 }

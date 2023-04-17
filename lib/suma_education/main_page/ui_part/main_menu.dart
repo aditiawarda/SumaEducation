@@ -77,13 +77,16 @@ class MainMenu extends StatelessWidget {
         var deskripsi = dataBookNew['data'][i]['deskripsi'];
         var cover = dataBookNew['data'][i]['cover'];
         var created_at = dataBookNew['data'][i]['created_at'];
-        book.add(BookData(id, judul, deskripsi, cover, created_at));
+        var jumlah_halaman = dataBookNew['data'][i]['jumlah_halaman'];
+        var voice_cover = dataBookNew['data'][i]['voice_cover'];
+        var backsound = dataBookNew['data'][i]['backsound'];
+
+        book.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound));
       }
     } catch (e) {
       print("Error");
     }
     return 'true';
-
   }
 
   @override
