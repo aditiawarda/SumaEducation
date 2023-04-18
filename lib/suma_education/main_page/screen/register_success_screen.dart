@@ -125,7 +125,7 @@ class _LoginPageState extends State<RegisterSuccessScreen>
                     child:
                     FadeInUp(
                       delay: Duration(milliseconds: 500),
-                      child: Text('Suma App v 1.1.5', style: TextStyle(color: Colors.blueGrey.withOpacity(0.7), fontSize: 14),),
+                      child: Text('Suma App v 1.1.6', style: TextStyle(color: Colors.blueGrey.withOpacity(0.7), fontSize: 14),),
                     ),
                   )
               )

@@ -18,17 +18,18 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/video_detail.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/video_detail_feed.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/video_player_main_detail.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/video_player_main_feed.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_theme/app_theme.dart';
 
 class FeedsDetailVideoScreen extends StatefulWidget {
-  const FeedsDetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.youtubeId, required this.thumbnail}) : super(key: key);
+  const FeedsDetailVideoScreen({Key? key, this.animationController, required this.idContent, required this.thumbnail, required this.source}) : super(key: key);
 
   final AnimationController? animationController;
   final String? idContent;
-  final String? youtubeId;
   final String? thumbnail;
+  final String? source;
   @override
   _FeedsDetailVideoScreenState createState() => _FeedsDetailVideoScreenState();
 }
@@ -81,16 +82,15 @@ class _FeedsDetailVideoScreenState extends State<FeedsDetailVideoScreen>
     const int count = 5;
 
     listViews.add(
-      VideoPlayerMain(
+      VideoPlayerMainFeed(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
                 curve: Interval((1 / count) * 3, 1.0,
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController,
-        youtubeId: widget.youtubeId,
         thumbnail: widget.thumbnail,
-        source: "tes",
+        source: widget.source,
       ),
     );
 
@@ -475,7 +475,7 @@ class _FeedsDetailVideoScreenState extends State<FeedsDetailVideoScreen>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma App merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.5',
+                                                        child: Text('Suma App merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.6',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.fontName,
                                                                 fontWeight: FontWeight.w500,

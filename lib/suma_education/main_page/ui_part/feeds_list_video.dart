@@ -56,9 +56,10 @@ class _FeedsListVideoState extends State<FeedsListVideo>
         var id = dataVideo['data'][i]['id'].toString();
         var judul = dataVideo['data'][i]['judul'].toString();
         var durasi = dataVideo['data'][i]['durasi'].toString();
+        var thumbnail = dataVideo['data'][i]['thumbnail'].toString();
         var file = dataVideo['data'][i]['file'].toString();
 
-        feedsVideo.add(FeedVideoData(id, judul, durasi, file));
+        feedsVideo.add(FeedVideoData(id, judul, durasi, thumbnail, file));
       }
     } catch (e) {
       print("Error");
@@ -106,45 +107,99 @@ class _FeedsListVideoState extends State<FeedsListVideo>
                       future: _getFeedsVideo(), // function where you call your api
                       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return ListView.builder(
-                            padding: const EdgeInsets.only(
-                                top: 0, bottom: 5, right: 16, left: 16),
-                            itemCount: feedsVideo.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context, int index) {
-                              final int count = feedsVideo.length;
-                              final Animation<double> animation =
-                              Tween<double>(begin: 0.0, end: 1.0).animate(
-                                  CurvedAnimation(
-                                      parent: animationController!,
-                                      curve: Interval((1 / count) * index, 1.0,
-                                          curve: Curves.fastOutSlowIn)));
-                              animationController?.forward();
-
-                              return itemVideo(feedsVideo[index], context, animationController!, animation, index.toString());
-
-                            },
+                          return
+                            FadeInUp(
+                            delay: Duration(milliseconds: 300),
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset("assets/images/empty_data.png",
+                                      height: 80),
+                                  Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Oops...',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15,
+                                              letterSpacing: 0.5,
+                                              color: Colors.blueGrey.shade200,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Konten belum tersedia',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 11,
+                                              letterSpacing: 0.5,
+                                              color: Colors.blueGrey.shade200,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                  )
+                                ],
+                              ),
+                            ),
                           );
                         } else {
                           if (snapshot.hasError)
-                            return ListView.builder(
-                              padding: const EdgeInsets.only(
-                                  top: 0, bottom: 5, right: 16, left: 16),
-                              itemCount: feedsVideo.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext context, int index) {
-                                final int count = feedsVideo.length;
-                                final Animation<double> animation =
-                                Tween<double>(begin: 0.0, end: 1.0).animate(
-                                    CurvedAnimation(
-                                        parent: animationController!,
-                                        curve: Interval((1 / count) * index, 1.0,
-                                            curve: Curves.fastOutSlowIn)));
-                                animationController?.forward();
-
-                                return itemVideo(feedsVideo[index], context, animationController!, animation, index.toString());
-
-                              },
+                            return
+                              FadeInUp(
+                              delay: Duration(milliseconds: 300),
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset("assets/images/empty_data.png",
+                                        height: 80),
+                                    Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Oops...',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 15,
+                                                letterSpacing: 0.5,
+                                                color: Colors.blueGrey.shade200,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Konten belum tersedia',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 11,
+                                                letterSpacing: 0.5,
+                                                color: Colors.blueGrey.shade200,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                    )
+                                  ],
+                                ),
+                              ),
                             );
                           else
                           if (feedsVideo.length==0)
@@ -209,9 +264,7 @@ class _FeedsListVideoState extends State<FeedsListVideo>
                                         curve: Interval((1 / count) * index, 1.0,
                                             curve: Curves.fastOutSlowIn)));
                                 animationController?.forward();
-
                                 return itemVideo(feedsVideo[index], context, animationController!, animation, index.toString());
-
                               },
                             ); // snapshot.data  :- get your object which is pass from your downloadData() function
                         }
@@ -238,14 +291,14 @@ Widget itemVideo(FeedVideoData dataVideo, BuildContext context, AnimationControl
           opacity: animation,
           child: ZoomTapAnimation(
               onTap: () {
-                // new Future.delayed(new Duration(milliseconds: 300), () {
-                //   Navigator.push<dynamic>(
-                //       context,
-                //       MaterialPageRoute<dynamic>(
-                //         builder: (BuildContext context) => FeedsDetailVideoScreen(animationController: animationController, idContent: dataVideo.id, youtubeId: dataVideo.file),
-                //       )
-                //   );
-                // });
+                new Future.delayed(new Duration(milliseconds: 300), () {
+                  Navigator.push<dynamic>(
+                      context,
+                      MaterialPageRoute<dynamic>(
+                        builder: (BuildContext context) => FeedsDetailVideoScreen(animationController: animationController, idContent: dataVideo.id, thumbnail: dataVideo.thumbnail, source: dataVideo.file),
+                      )
+                  );
+                });
               },
             child: Transform(
               transform: Matrix4.translationValues(100 * (1.0 - animation.value), 0.0, 0.0),
@@ -287,7 +340,7 @@ Widget itemVideo(FeedVideoData dataVideo, BuildContext context, AnimationControl
                                   borderRadius: BorderRadius.circular(6.0),
                                   child:
                                   Image.network(
-                                      "https://suma.geloraaksara.co.id/uploads/thumbnail/gapprint.jpg",
+                                      "https://suma.geloraaksara.co.id/uploads/thumbnail/"+dataVideo.thumbnail,
                                       width: double.infinity,
                                       height: double.infinity,
                                       fit: BoxFit.fitHeight

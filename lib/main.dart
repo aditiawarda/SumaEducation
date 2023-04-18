@@ -57,7 +57,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   AnimationController? animationController;
-  String? versionUse = '1.1.5';
+  String? versionUse = '1.1.6';
   String? currentVersion = '';
   bool load = false;
 
@@ -279,7 +279,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     Row(
                       children: <Widget>[
                         SizedBox(width: 20),
-                        Image.asset('assets/images/sa_logo_main.png', height: 80, width: 80),
+                        Image.asset('assets/images/sl_logo_app.png', height: 80, width: 80),
                         Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child:

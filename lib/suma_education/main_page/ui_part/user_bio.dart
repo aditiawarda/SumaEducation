@@ -158,7 +158,7 @@ class UserBio extends StatelessWidget {
                                               shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                               image: DecorationImage(
                                                   image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/'+fotoProfil!),
-                                                  fit: BoxFit.fill
+                                                  fit: BoxFit.fitWidth
                                               ),
                                             ),
                                           );

@@ -78,7 +78,7 @@ class _VideoDetailFeedState extends State<VideoDetailFeed>
                     0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                 child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 24, right: 24, top: 0, bottom: 18),
+                        left: 15, right: 15, bottom: 18),
                     child:
                     Container(
                       padding: EdgeInsets.only(top: 15, bottom: 15, right: 17, left: 17),
@@ -101,10 +101,84 @@ class _VideoDetailFeedState extends State<VideoDetailFeed>
                         future: _getDetailKonten(), // function where you call your api
                         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
                           if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Container(child: null);
+                            return
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Memuat data...",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: GoogleFonts.roboto(
+                                        color: Colors.blueGrey,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 1, right: 1, top: 8, bottom: 6),
+                                    child: Container(
+                                      height: 2,
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.background.withOpacity(0.5),
+                                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 5, right: 5),
+                                    child: Text("Memuat data...",
+                                      maxLines: 5,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.roboto(
+                                          fontSize: 14,
+                                          color: Colors.blueGrey.withOpacity(0.8)
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              );
                           } else {
                             if (snapshot.hasError)
-                              return Container(child: null);
+                              return
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Memuat data...",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: GoogleFonts.roboto(
+                                          color: Colors.blueGrey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 1, right: 1, top: 8, bottom: 6),
+                                      child: Container(
+                                        height: 2,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.background.withOpacity(0.5),
+                                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 5, right: 5),
+                                      child: Text("Memuat data...",
+                                        maxLines: 5,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 14,
+                                            color: Colors.blueGrey.withOpacity(0.8)
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                );
                             else
                               return
                                 Column(
