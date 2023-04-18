@@ -6,7 +6,6 @@
 
 import 'dart:convert';
 import 'dart:async';
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,13 +28,13 @@ class DetailBukuState extends StatefulWidget {
 class _MyListScreenState extends State<DetailBukuState> {
 
   final FlutterTts flutterTts = FlutterTts();
-  bool _voiceOver = false;
   List<BookPage> bookPage = [];
-  late AssetsAudioPlayer _assetsAudioPlayer;
   final player = AudioPlayer();
   final backsound = AudioPlayer();
   late int selectedPage;
   late final PageController _pageController;
+
+  bool end = false;
 
   @override
   initState() {
@@ -52,20 +51,33 @@ class _MyListScreenState extends State<DetailBukuState> {
       if(widget.book.backsound!=null){
         backsound.setUrl('https://suma.geloraaksara.co.id/uploads/voice_over/backsound/'+widget.book.backsound);
         backsound.setVolume(0.5);
+        backsound.setLoopMode(LoopMode.one);
         backsound.play();
       }
     });
 
+    // Timer.periodic(Duration(seconds: 2), (Timer timer) {
+    //   if (selectedPage == int.parse(widget.book.jumlah_halaman)) {
+    //     end = true;
+    //   } else if (selectedPage == 0) {
+    //     end = false;
+    //   }
+    //
+    //   if (end == false) {
+    //     selectedPage++;
+    //   } else {
+    //     selectedPage--;
+    //   }
+    //
+    //   _pageController.animateToPage(
+    //     selectedPage,
+    //     duration: Duration(milliseconds: 1000),
+    //     curve: Curves.easeIn,
+    //   );
+    //
+    // });
+
     super.initState();
-  }
-
-
-  void openPlayer() async {
-    await _assetsAudioPlayer.open(
-      Audio("assets/sounds/sound_book_1.mp3"),
-      autoStart: true,
-      showNotification: false,
-    );
   }
 
   Future<String> _getBookPage() async {
@@ -93,6 +105,15 @@ class _MyListScreenState extends State<DetailBukuState> {
   }
 
   @override
+  void dispose() {
+    player.stop();
+    backsound.stop();
+    player.dispose();
+    backsound.dispose();
+    super.dispose();
+  }
+
+  @override
   build(context) {
     final pageCount = int.parse(widget.book.jumlah_halaman);
     return
@@ -112,7 +133,6 @@ class _MyListScreenState extends State<DetailBukuState> {
                     onPageChanged: (page) {
                       setState(() {
                         selectedPage = page;
-
                         if(page==0){
                           player.setUrl('https://suma.geloraaksara.co.id/uploads/voice_over/cover/'+bookPage[page].voice_over);
                           player.play();
@@ -130,7 +150,6 @@ class _MyListScreenState extends State<DetailBukuState> {
                             }
                           }
                         }
-
                       });
                     },
                     children: List.generate(pageCount, (index) {
@@ -290,10 +309,11 @@ class _MyListScreenState extends State<DetailBukuState> {
                   child: PageViewDotIndicator(
                     currentItem: selectedPage,
                     count: pageCount,
-                    unselectedColor: Colors.black26,
+                    unselectedColor: Colors.black26.withOpacity(0.2),
                     selectedColor: Colors.orange,
                     duration: Duration(milliseconds: 200),
                     boxShape: BoxShape.circle,
+                    size: Size.fromRadius(10),
                   ),
                 ),
                 SizedBox(

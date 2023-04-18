@@ -267,8 +267,8 @@ Widget itemVideoAll(KreasiData kreasiData, BuildContext context, AnimationContro
                               ),
                             ),
                             Positioned(
-                                right: 5,
-                                top: 10,
+                                right: 3,
+                                bottom: 8,
                                 child: new Align(
                                     alignment: FractionalOffset.bottomRight,
                                     child: Container(

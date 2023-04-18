@@ -269,8 +269,8 @@ Widget itemVideoAll(TutorialData tutorialData, BuildContext context, AnimationCo
                               ),
                             ),
                             Positioned(
-                                right: 5,
-                                top: 10,
+                                right: 3,
+                                bottom: 8,
                                 child: new Align(
                                     alignment: FractionalOffset.bottomRight,
                                     child: Container(
