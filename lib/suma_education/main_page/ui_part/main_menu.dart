@@ -12,6 +12,7 @@ import 'package:suma_education/suma_education/main_page/games/puzzle/src/inject_
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/my_app.dart';
 import 'package:suma_education/suma_education/main_page/games/tictactoe/main.dart';
 import 'package:suma_education/suma_education/main_page/model/book_list_data.dart';
+import 'package:suma_education/suma_education/main_page/model/keyword_list.dart';
 import 'package:suma_education/suma_education/main_page/model/menu_data.dart';
 import 'package:suma_education/suma_education/main_page/screen/book_content_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/book_konten_detail.dart';
@@ -28,6 +29,7 @@ SharedPreferences? prefs;
 String namaUser = "";
 String fotoProfil = "";
 List<BookData> book = [];
+List<KeywordList> keywordList = [];
 final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 class MainMenu extends StatelessWidget {
@@ -52,6 +54,10 @@ class MainMenu extends StatelessWidget {
       String status = json["status"];
       if (status == "Success") {
         fotoProfil = json["filename"];
+        for (var i = 0; i < json['keyword'].length; i++) {
+          var judul = json['keyword'][i]['judul'];
+          keywordList.add(KeywordList(judul));
+        }
         print(fotoProfil.toString());
       } else {
         print("error");
@@ -114,7 +120,7 @@ class MainMenu extends StatelessWidget {
                       Container(
                           height: 100,
                           width: double.infinity,
-                          margin: EdgeInsets.only(bottom: 10, top: 10),
+                          margin: EdgeInsets.only(bottom: 10, top: 10, left: 5, right: 5),
                           child:
                               Row(
                                 children: [
@@ -226,41 +232,13 @@ class MainMenu extends StatelessWidget {
                                                 ),
                                                 AnimatedTextKit(
                                                   animatedTexts: [
-                                                    TypewriterAnimatedText('Berkreasi bersama Suma',
+                                                    TypewriterAnimatedText('Memuat data...',
                                                       textStyle: const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 12.0,
                                                       ),
                                                       speed: const Duration(milliseconds: 100),
-                                                    ),
-                                                    TypewriterAnimatedText('Menggambar dengan teknik baru',
-                                                      textStyle: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12.0,
-                                                      ),
-                                                      speed: const Duration(milliseconds: 100),
-                                                    ),
-                                                    TypewriterAnimatedText('Cerita Suma menangkap ikan',
-                                                      textStyle: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12.0,
-                                                      ),
-                                                      speed: const Duration(milliseconds: 100),
-                                                    ),
-                                                    TypewriterAnimatedText('Lindung suka pisang',
-                                                      textStyle: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12.0,
-                                                      ),
-                                                      speed: const Duration(milliseconds: 100),
-                                                    ),
-                                                    TypewriterAnimatedText('Paima si paling tangguh',
-                                                      textStyle: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12.0,
-                                                      ),
-                                                      speed: const Duration(milliseconds: 100),
-                                                    ),
+                                                    )
                                                   ],
                                                   totalRepeatCount: 100,
                                                   pause: const Duration(milliseconds: 1000),
@@ -276,7 +254,7 @@ class MainMenu extends StatelessWidget {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Hallo, "+namaUser,
+                                                    "Gagal terhubung...",
                                                     textAlign: TextAlign.left,
                                                     overflow: TextOverflow.ellipsis,
                                                     maxLines: 1,
@@ -289,35 +267,7 @@ class MainMenu extends StatelessWidget {
                                                   ),
                                                   AnimatedTextKit(
                                                     animatedTexts: [
-                                                      TypewriterAnimatedText('Berkreasi bersama Suma',
-                                                        textStyle: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12.0,
-                                                        ),
-                                                        speed: const Duration(milliseconds: 100),
-                                                      ),
-                                                      TypewriterAnimatedText('Menggambar dengan teknik baru',
-                                                        textStyle: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12.0,
-                                                        ),
-                                                        speed: const Duration(milliseconds: 100),
-                                                      ),
-                                                      TypewriterAnimatedText('Cerita Suma menangkap ikan',
-                                                        textStyle: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12.0,
-                                                        ),
-                                                        speed: const Duration(milliseconds: 100),
-                                                      ),
-                                                      TypewriterAnimatedText('Lindung suka pisang',
-                                                        textStyle: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12.0,
-                                                        ),
-                                                        speed: const Duration(milliseconds: 100),
-                                                      ),
-                                                      TypewriterAnimatedText('Paima si paling tangguh',
+                                                      TypewriterAnimatedText('Gagal terhubung...',
                                                         textStyle: const TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 12.0,
@@ -352,43 +302,17 @@ class MainMenu extends StatelessWidget {
                                                     ),
                                                     AnimatedTextKit(
                                                       animatedTexts: [
-                                                        TypewriterAnimatedText('Berkreasi bersama Suma',
-                                                          textStyle: const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12.0,
+                                                        for(int i=0; i<keywordList.length; i++)...{
+                                                          TypewriterAnimatedText(keywordList[i].judul,
+                                                            textStyle: const TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 12.0,
+                                                            ),
+                                                            speed: const Duration(milliseconds: 100),
                                                           ),
-                                                          speed: const Duration(milliseconds: 100),
-                                                        ),
-                                                        TypewriterAnimatedText('Menggambar dengan teknik baru',
-                                                          textStyle: const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12.0,
-                                                          ),
-                                                          speed: const Duration(milliseconds: 100),
-                                                        ),
-                                                        TypewriterAnimatedText('Cerita Suma menangkap ikan',
-                                                          textStyle: const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12.0,
-                                                          ),
-                                                          speed: const Duration(milliseconds: 100),
-                                                        ),
-                                                        TypewriterAnimatedText('Lindung suka pisang',
-                                                          textStyle: const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12.0,
-                                                          ),
-                                                          speed: const Duration(milliseconds: 100),
-                                                        ),
-                                                        TypewriterAnimatedText('Paima si paling tangguh',
-                                                          textStyle: const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12.0,
-                                                          ),
-                                                          speed: const Duration(milliseconds: 100),
-                                                        ),
+                                                        },
                                                       ],
-                                                      totalRepeatCount: 100,
+                                                      repeatForever: true,
                                                       pause: const Duration(milliseconds: 1000),
                                                       displayFullTextOnTap: true,
                                                       stopPauseOnTap: true,
@@ -1078,7 +1002,7 @@ class MainMenu extends StatelessWidget {
                                         },
                                         child: Container(
                                           padding: EdgeInsets.all(10),
-                                          height: 120,
+                                          height: 150,
                                           width: double.infinity,
                                           decoration: BoxDecoration(
                                             color: Colors.pink.shade50,
@@ -1130,10 +1054,10 @@ class MainMenu extends StatelessWidget {
                                           mainTICTAC(context);
                                         },
                                         child: Container(
-                                          height: 120,
+                                          height: 150,
                                           width: double.infinity,
                                           padding: EdgeInsets.all(10),
-                                          margin: EdgeInsets.only(left: 15, right: 10),
+                                          margin: EdgeInsets.only(left: 15),
                                           decoration: BoxDecoration(
                                             color: Colors.teal.shade50,
                                             borderRadius: BorderRadius.only(
