@@ -56,9 +56,8 @@ class _VideoPlayerMainState extends State<VideoPlayerMain>
                 child:
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 20, right: 20, top: 25, bottom: 10),
-                  child:  Container(
-                      height: 210,
+                      left: 15, right: 15, top: 25, bottom: 10),
+                  child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: AppTheme.white,

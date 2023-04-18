@@ -39,7 +39,7 @@ class MainMade extends StatelessWidget {
                     0.0, 30 * (1.0 - animation!.value), 0.0),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 24, right: 24, top: 10, bottom: 0),
+                      left: 15, right: 15, top: 10, bottom: 0),
                   child:
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,

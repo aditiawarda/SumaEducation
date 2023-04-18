@@ -86,7 +86,7 @@ class _BookListAllDataState extends State<BookListAllData>
                     delay : Duration(milliseconds: 500),
                     child : Container(
                       alignment: Alignment.topCenter,
-                      padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 30),
+                      padding: EdgeInsets.only(left: 15, right: 15, bottom: 30),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,
                       child:
@@ -215,9 +215,9 @@ class _BookListAllDataState extends State<BookListAllData>
                                         physics: const NeverScrollableScrollPhysics(),
                                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
-                                            childAspectRatio: 0.741,
-                                            crossAxisSpacing: 5,
-                                            mainAxisSpacing: 5),
+                                            childAspectRatio: 0.732,
+                                            crossAxisSpacing: 10,
+                                            mainAxisSpacing: 10),
                                         itemCount: bookListData.length,
                                         itemBuilder: (BuildContext context, int index) {
                                           animationController?.forward();
@@ -250,58 +250,64 @@ Widget itemBookAll(BookData bookData, BuildContext context, AnimationController 
             )
         );
       },
-      child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child:
-          Container(
-            decoration: BoxDecoration(color: Colors.white,
-                borderRadius: BorderRadius.circular(9)),
-            child:
-            Column(
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              bottomLeft: Radius.circular(10.0),
+              bottomRight: Radius.circular(10.0),
+              topRight: Radius.circular(10.0)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: AppTheme.grey.withOpacity(0.2),
+                offset: Offset(0.0, 1.0), //(x,y)
+                blurRadius: 2.0),
+          ],
+        ),
+        child:
+        Column(
+          children: [
+            Wrap(
               children: [
-                Wrap(
+                Stack(
                   children: [
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(9),
-                          child:
-                          Image.asset(
-                            'assets/images/no_image_2.png',
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(9),
-                          child:
-                          Image.network(
-                            'https://suma.geloraaksara.co.id/uploads/cover_book/'+bookData.cover,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ],
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:
+                      Image.asset(
+                        'assets/images/no_image_2.png',
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:
+                      Image.network(
+                        'https://suma.geloraaksara.co.id/uploads/cover_book/'+bookData.cover,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ],
                 ),
-                // Container(
-                //   padding: EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 12),
-                //   child: Text(bookData.judul,
-                //       style:
-                //       GoogleFonts.roboto(
-                //           color: Colors.blueGrey,
-                //           fontSize: 14.0,
-                //           height: 1.5
-                //       ),
-                //       textAlign: TextAlign.center,
-                //   ),
-                // )
               ],
-            ) ,
-          )
-      ),
+            ),
+            // Container(
+            //   padding: EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 12),
+            //   child: Text(bookData.judul,
+            //       style:
+            //       GoogleFonts.roboto(
+            //           color: Colors.blueGrey,
+            //           fontSize: 14.0,
+            //           height: 1.5
+            //       ),
+            //       textAlign: TextAlign.center,
+            //   ),
+            // )
+          ],
+        ) ,
+      )
     );
 }

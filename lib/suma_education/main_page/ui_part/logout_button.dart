@@ -74,7 +74,7 @@ class _LogoutButtonState extends State<LogoutButton>
                     0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                 child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 24, right: 24, top: 5, bottom: 18),
+                        left: 15, right: 15, top: 5, bottom: 18),
                     child:
                     ZoomTapAnimation(
                       child:

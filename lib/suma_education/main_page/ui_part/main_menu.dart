@@ -105,14 +105,13 @@ class MainMenu extends StatelessWidget {
                 child:
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 24, right: 24, top: 16),
+                      left: 15, right: 15, top: 16),
                   child:
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                          padding: EdgeInsets.only(left: 7, right: 7),
                           height: 100,
                           width: double.infinity,
                           margin: EdgeInsets.only(bottom: 10, top: 10),
@@ -962,9 +961,9 @@ class MainMenu extends StatelessWidget {
                                             physics: const NeverScrollableScrollPhysics(),
                                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                                 crossAxisCount: 2,
-                                                childAspectRatio: 0.7427,
-                                                crossAxisSpacing: 10,
-                                                mainAxisSpacing: 20),
+                                                childAspectRatio: 0.7325,
+                                                crossAxisSpacing: 15,
+                                                mainAxisSpacing: 15),
                                             itemCount: book.length,
                                             itemBuilder: (BuildContext context, int index) {
                                               animationController?.forward();
@@ -1212,47 +1211,53 @@ Widget itemBuku(BookData book, BuildContext context, AnimationController animati
                   );
                 },
                 // you can add more gestures...
-                child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child:
-                    Container(
-                      decoration: BoxDecoration(color: Colors.white,
-                          borderRadius: BorderRadius.circular(9)),
-                      child:
-                      Column(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                        bottomRight: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: AppTheme.grey.withOpacity(0.2),
+                          offset: Offset(0.0, 1.0), //(x,y)
+                          blurRadius: 2.0),
+                    ],
+                  ),
+                  child:
+                  Column(
+                    children: [
+                      Wrap(
                         children: [
-                          Wrap(
+                          Stack(
                             children: [
-                              Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(9),
-                                    child:
-                                    Image.asset(
-                                      'assets/images/no_image_2.png',
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(9),
-                                    child:
-                                    Image.network(
-                                      'https://suma.geloraaksara.co.id/uploads/cover_book/'+book.cover,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ],
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child:
+                                Image.asset(
+                                  'assets/images/no_image_2.png',
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child:
+                                Image.network(
+                                  'https://suma.geloraaksara.co.id/uploads/cover_book/'+book.cover,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ],
                           ),
                         ],
-                      ) ,
-                    )
-                ),
+                      ),
+                    ],
+                  ) ,
+                )
               ),
             )
           ),

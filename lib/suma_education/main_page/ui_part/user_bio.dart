@@ -63,7 +63,7 @@ class UserBio extends StatelessWidget {
                     0.0, 30 * (1.0 - animation!.value), 0.0),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 24, right: 24, top: 32, bottom: 10),
+                      left: 15, right: 15, top: 32, bottom: 10),
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(

@@ -207,8 +207,8 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               childAspectRatio: 1,
-                              crossAxisSpacing: 5,
-                              mainAxisSpacing: 5),
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10),
                           itemCount: interaktifListData.length,
                           itemBuilder: (BuildContext context, int index) {
                             animationController?.forward();
@@ -238,83 +238,89 @@ Widget itemVideoAll(InteraktifData interaktifListData, BuildContext context, Ani
               );
             });
           },
-          child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child:
-              Container(
-                decoration: BoxDecoration(color: Colors.white,
-                    borderRadius: BorderRadius.circular(9)),
-                child:
-                Column(
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppTheme.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(10.0),
+                  bottomRight: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: AppTheme.grey.withOpacity(0.2),
+                    offset: Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 2.0),
+              ],
+            ),
+            child:
+            Column(
+              children: [
+                Wrap(
                   children: [
-                    Wrap(
+                    Stack(
+                      alignment: Alignment.center,
                       children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(9),
-                              child:
-                              Image.asset(
-                                'assets/images/no_image_3.png',
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(9),
-                              child:
-                              Image.network(
-                                'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+interaktifListData.square_thumbnail,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                                right: 3,
-                                bottom: 8,
-                                child: new Align(
-                                    alignment: FractionalOffset.bottomRight,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.6),
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(5.0),
-                                            bottomLeft: Radius.circular(5.0),
-                                            bottomRight: Radius.circular(5.0),
-                                            topRight: Radius.circular(5.0)),
-                                      ),
-                                      margin: EdgeInsets.only(right: 5),
-                                      padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
-                                      child: Text(interaktifListData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
-                                    )
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child:
+                          Image.asset(
+                            'assets/images/no_image_3.png',
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child:
+                          Image.network(
+                            'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+interaktifListData.square_thumbnail,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                            right: 3,
+                            bottom: 8,
+                            child: new Align(
+                                alignment: FractionalOffset.bottomRight,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.6),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(5.0),
+                                        bottomLeft: Radius.circular(5.0),
+                                        bottomRight: Radius.circular(5.0),
+                                        topRight: Radius.circular(5.0)),
+                                  ),
+                                  margin: EdgeInsets.only(right: 5),
+                                  padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
+                                  child: Text(interaktifListData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
                                 )
+                            )
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: 38,
+                            height: 38,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black.withOpacity(0.5)
                             ),
-                            Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                width: 38,
-                                height: 38,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.black.withOpacity(0.5)
-                                ),
-                                child: Icon(
-                                    Icons.play_arrow,
-                                    color: Colors.white
-                                ),
-                              ),
+                            child: Icon(
+                                Icons.play_arrow,
+                                color: Colors.white
                             ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
                   ],
-                ) ,
-              )
-          ),
+                ),
+              ],
+            ) ,
+          )
         )
     );
 }

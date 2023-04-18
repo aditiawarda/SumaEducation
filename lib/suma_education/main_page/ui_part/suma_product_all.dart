@@ -87,7 +87,7 @@ class _ProductAllDataState extends State<ProductAllData>
                     delay : Duration(milliseconds: 1000),
                     child : Container(
                       alignment: Alignment.topCenter,
-                      padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 30),
+                      padding: EdgeInsets.only(left: 15, right: 15, bottom: 30),
                       width: MediaQuery.of(context).size.width,
                       child:
                       Wrap(
