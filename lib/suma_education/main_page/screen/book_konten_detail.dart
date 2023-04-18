@@ -133,7 +133,7 @@ class _MyListScreenState extends State<DetailBukuState> {
                     onPageChanged: (page) {
                       setState(() {
                         selectedPage = page;
-                        if(page==0){
+                        if(page==0){ // Cover
                           player.setUrl('https://suma.geloraaksara.co.id/uploads/voice_over/cover/'+bookPage[page].voice_over);
                           player.play();
                         } else {
@@ -228,7 +228,7 @@ class _MyListScreenState extends State<DetailBukuState> {
                                             child:
                                             CachedNetworkImage(
                                               width: double.infinity,
-                                              fit: BoxFit.fitWidth,
+                                              fit: BoxFit.contain,
                                               imageUrl: "https://suma.geloraaksara.co.id/uploads/cover_book/"+widget.book.cover,
                                               placeholder: (context, url) => Container(
                                                     height: double.infinity,
@@ -268,7 +268,7 @@ class _MyListScreenState extends State<DetailBukuState> {
                                               CachedNetworkImage(
                                                 height: double.infinity,
                                                 width: double.infinity,
-                                                fit: BoxFit.fitWidth,
+                                                fit: BoxFit.contain,
                                                 imageUrl: "https://suma.geloraaksara.co.id/uploads/book_page/" +
                                                     bookPage[index].image,
                                                 placeholder: (context, url) =>

@@ -132,7 +132,7 @@ class UserBio extends StatelessWidget {
                                           shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                           image: DecorationImage(
                                               image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
-                                              fit: BoxFit.fitWidth
+                                              fit: BoxFit.fill
                                           ),
                                         ),
                                       );
@@ -145,7 +145,7 @@ class UserBio extends StatelessWidget {
                                             shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                             image: DecorationImage(
                                                 image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
-                                                fit: BoxFit.fitWidth
+                                                fit: BoxFit.fill
                                             ),
                                           ),
                                         );
@@ -158,7 +158,7 @@ class UserBio extends StatelessWidget {
                                               shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                               image: DecorationImage(
                                                   image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/'+fotoProfil!),
-                                                  fit: BoxFit.fitWidth
+                                                  fit: BoxFit.fill
                                               ),
                                             ),
                                           );

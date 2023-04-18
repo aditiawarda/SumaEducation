@@ -137,7 +137,7 @@ class MainMenu extends StatelessWidget {
                                               shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                               image: DecorationImage(
                                                   image: AssetImage('assets/images/default_profile.jpg'),
-                                                  fit: BoxFit.fitWidth
+                                                  fit: BoxFit.fill
                                               ),
                                             ),
                                           ),
@@ -167,7 +167,7 @@ class MainMenu extends StatelessWidget {
                                                     shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                                     image: DecorationImage(
                                                         image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
-                                                        fit: BoxFit.fitWidth
+                                                        fit: BoxFit.fill
                                                     ),
                                                   ),
                                                 );
@@ -181,7 +181,7 @@ class MainMenu extends StatelessWidget {
                                                       shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                                       image: DecorationImage(
                                                           image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
-                                                          fit: BoxFit.fitWidth
+                                                          fit: BoxFit.fill
                                                       ),
                                                     ),
                                                   );
@@ -195,7 +195,7 @@ class MainMenu extends StatelessWidget {
                                                         shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                                         image: DecorationImage(
                                                             image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/'+fotoProfil),
-                                                            fit: BoxFit.fitWidth
+                                                            fit: BoxFit.fill
                                                         ),
                                                       ),
                                                     );
@@ -492,7 +492,7 @@ class MainMenu extends StatelessWidget {
                                                     'assets/images/ic_kreasi.png',
                                                     width: double.infinity,
                                                     height: double.infinity,
-                                                    fit: BoxFit.cover,
+                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
                                                 Positioned(
@@ -576,7 +576,7 @@ class MainMenu extends StatelessWidget {
                                                     'assets/images/ic_interaktif.png',
                                                     width: double.infinity,
                                                     height: double.infinity,
-                                                    fit: BoxFit.cover,
+                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
                                                 Positioned(
@@ -659,7 +659,7 @@ class MainMenu extends StatelessWidget {
                                                     'assets/images/ic_tutorial.png',
                                                     width: double.infinity,
                                                     height: double.infinity,
-                                                    fit: BoxFit.cover,
+                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
                                                 Positioned(
@@ -1025,7 +1025,7 @@ class MainMenu extends StatelessWidget {
                                               'assets/images/games_1.png',
                                               width: double.infinity,
                                               height: double.infinity,
-                                              fit: BoxFit.cover,
+                                              fit: BoxFit.fill,
                                             ),
                                           ),
                                         ),
@@ -1079,7 +1079,7 @@ class MainMenu extends StatelessWidget {
                                               'assets/images/games_2.png',
                                               width: double.infinity,
                                               height: double.infinity,
-                                              fit: BoxFit.cover,
+                                              fit: BoxFit.fill,
                                             ),
                                           ),
                                         ),
