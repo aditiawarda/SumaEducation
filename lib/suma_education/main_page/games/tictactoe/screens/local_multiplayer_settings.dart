@@ -109,7 +109,7 @@ class _LocalMultiplayerSettingsState extends State<LocalMultiplayerSettings> {
                                           title: 'Oops...',
                                           text: 'Pick your side before continue',
                                           width: 30,
-                                          loopAnimation: true,
+                                          loopAnimation: false,
                                         );
                                       }
                                     },
