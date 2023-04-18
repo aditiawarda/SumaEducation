@@ -86,7 +86,7 @@ class _LogoutButtonState extends State<LogoutButton>
                               backgroundColor: Colors.lightBlue.shade50,
                               borderRadius: 25,
                               width: 30,
-                              loopAnimation: true,
+                              loopAnimation: false,
                               type: CoolAlertType.confirm,
                               text: 'Apakah kamu yakin untuk Logout?',
                               confirmBtnText: 'OK',

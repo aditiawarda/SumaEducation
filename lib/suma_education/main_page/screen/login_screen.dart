@@ -200,7 +200,7 @@ class _LoginPageState extends State<LoginScreen>
               context: context,
               borderRadius: 25,
               width: 30,
-              loopAnimation: true,
+              loopAnimation: false,
               type: CoolAlertType.error,
               animType: CoolAlertAnimType.scale,
               backgroundColor: Colors.red.shade100,
@@ -219,7 +219,7 @@ class _LoginPageState extends State<LoginScreen>
               title: 'Oops...',
               text: 'Harap isi email',
               width: 30,
-              loopAnimation: true,
+              loopAnimation: false,
             );
           }
         } else {
@@ -234,7 +234,7 @@ class _LoginPageState extends State<LoginScreen>
               title: 'Oops...',
               text: 'Harap isi password',
               width: 30,
-              loopAnimation: true,
+              loopAnimation: false,
             );
           } else {
             _load();
@@ -330,7 +330,7 @@ class _LoginPageState extends State<LoginScreen>
           text: message,
           width: 30,
           animType: CoolAlertAnimType.scale,
-          loopAnimation: true,
+          loopAnimation: false,
         );
 
       }
@@ -348,7 +348,7 @@ class _LoginPageState extends State<LoginScreen>
         text: 'Tidak terhubung ke server',
         width: 30,
         animType: CoolAlertAnimType.scale,
-        loopAnimation: true,
+        loopAnimation: false,
       );
 
       print("Error");
