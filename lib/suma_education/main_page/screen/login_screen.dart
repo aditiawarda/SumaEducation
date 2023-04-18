@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginScreen>
 
   Widget _logoApp() {
     return Container(
-      child: Image.asset('assets/images/sl_logo.png',
+      child: Image.asset('assets/images/sl_logo_app.png',
         width: 170,
         height: 170,
         fit: BoxFit.cover,
@@ -377,7 +377,7 @@ class _LoginPageState extends State<LoginScreen>
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/background_before_login.png"),
+                  image: AssetImage("assets/images/background_main.png"),
                   fit: BoxFit.cover,
                 ),
               ),

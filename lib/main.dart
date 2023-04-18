@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
     ));
     return
       MaterialApp(
-        title: 'Suma Learning',
+        title: 'Suma App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.orange,
@@ -279,7 +279,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     Row(
                       children: <Widget>[
                         SizedBox(width: 20),
-                        Image.asset('assets/images/sa_logo.png', height: 80, width: 80),
+                        Image.asset('assets/images/sa_logo_main.png', height: 80, width: 80),
                         Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child:
@@ -306,7 +306,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 Container(
                                   width: MediaQuery.of(context).size.width*0.6,
                                   padding: EdgeInsets.only(right: 5),
-                                  child: Text('Suma Learning App v '+currentVersion!+' telah hadir di Google Play Store.',
+                                  child: Text('Suma App v '+currentVersion!+' telah tersedia di Google Play Store.',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
                                       style: TextStyle(
@@ -404,7 +404,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 children: [
                                   FadeInUp(
                                     delay : Duration(milliseconds: 1000),
-                                    child : Image.asset('assets/images/sl_logo.png', height: 200, width: 200),
+                                    child : Image.asset('assets/images/sl_logo_app.png', height: 200, width: 200),
                                   ),
                                 ],
                               ),

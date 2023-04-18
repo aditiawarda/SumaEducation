@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen>
                       decoration: BoxDecoration(
                         color: Colors.orange,
                         image: DecorationImage(
-                            image: AssetImage("assets/images/bg_header_img.png"),
+                            image: AssetImage("assets/images/bg_header_main.png"),
                             fit: BoxFit.cover),
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(50.0),
@@ -475,7 +475,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma Learning merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.5',
+                                                        child: Text('Suma App merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.5',
                                                           style: TextStyle(
                                                             fontFamily: AppTheme.fontName,
                                                             fontWeight: FontWeight.w500,

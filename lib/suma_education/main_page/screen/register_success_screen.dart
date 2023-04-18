@@ -111,7 +111,7 @@ class _LoginPageState extends State<RegisterSuccessScreen>
       Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/background_before_login.png"),
+                image: AssetImage("assets/images/background_main.png"),
                 fit: BoxFit.none)),
         height: height,
         child: Stack(
@@ -125,7 +125,7 @@ class _LoginPageState extends State<RegisterSuccessScreen>
                     child:
                     FadeInUp(
                       delay: Duration(milliseconds: 500),
-                      child: Text('Suma Learning v 1.1.2', style: TextStyle(color: Colors.blueGrey.withOpacity(0.7), fontSize: 14),),
+                      child: Text('Suma App v 1.1.5', style: TextStyle(color: Colors.blueGrey.withOpacity(0.7), fontSize: 14),),
                     ),
                   )
               )

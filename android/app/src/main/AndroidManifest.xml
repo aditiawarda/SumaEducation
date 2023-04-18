@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:label="Suma Learning"
+        android:label="Suma App"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:name="${applicationName}"

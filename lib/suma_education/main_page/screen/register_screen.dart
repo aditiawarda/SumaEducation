@@ -1510,7 +1510,7 @@ class _LoginPageState extends State<RegisterScreen>
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/background_before_login.png"),
+                  image: AssetImage("assets/images/background_main.png"),
                   fit: BoxFit.cover,
                 ),
               ),

@@ -1078,7 +1078,6 @@ class MainMenu extends StatelessWidget {
                                         },
                                         child: Container(
                                           padding: EdgeInsets.all(10),
-                                          margin: EdgeInsets.only(right: 15, left: 10),
                                           height: 120,
                                           width: double.infinity,
                                           decoration: BoxDecoration(
