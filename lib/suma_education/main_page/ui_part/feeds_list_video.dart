@@ -248,7 +248,7 @@ class _FeedsListVideoState extends State<FeedsListVideo>
                                 animationController?.forward();
                                 return itemVideo(feedsVideo[index], context, animationController!, animation, index.toString());
                               },
-                            ); // snapshot.data  :- get your object which is pass from your downloadData() function
+                            );
                         }
                       },
                     ),
@@ -284,112 +284,107 @@ Widget itemVideo(FeedVideoData dataVideo, BuildContext context, AnimationControl
               },
             child: Transform(
               transform: Matrix4.translationValues(100 * (1.0 - animation.value), 0.0, 0.0),
-              child: SizedBox(
+              child: Container(
                 width: 230,
-                child: Stack(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 32, left: 8, right: 8, bottom: 16),
-                      child: Container(
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: AppTheme.grey.withOpacity(0.2),
-                                offset: Offset(0.0, 1.0), //(x,y)
-                                blurRadius: 2.0),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 30, left: 8, right: 8, bottom: 16),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: AppTheme.grey.withOpacity(0.2),
+                              offset: Offset(0.0, 1.0), //(x,y)
+                              blurRadius: 2.0),
+                        ],
+                        gradient: LinearGradient(
+                          colors: <HexColor>[
+                            HexColor("#FFFFFF"),
+                            HexColor("#FFFFFF"),
                           ],
-                          gradient: LinearGradient(
-                            colors: <HexColor>[
-                                HexColor("#FFFFFF"),
-                                HexColor("#FFFFFF"),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(8.0),
-                            bottomLeft: Radius.circular(8.0),
-                            topLeft: Radius.circular(8.0),
-                            topRight: Radius.circular(8.0),
-                          ),
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        child:
-                            Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(6.0),
-                                  child:
-                                  Image.network(
-                                      "https://suma.geloraaksara.co.id/uploads/thumbnail/"+dataVideo.thumbnail,
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      fit: BoxFit.fitHeight
-                                  ),
-                                ),
-                                Container(
-                                  width: double.infinity,
-                                  margin: EdgeInsets.only(top: 40),
-                                  child: Container(
-                                    width: 38,
-                                    height: 38,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.black.withOpacity(0.5)
-                                    ),
-                                    child: Icon(
-                                        Icons.play_arrow,
-                                        color: Colors.white
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                    child: new Align(
-                                        alignment: FractionalOffset.topRight,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(0.6),
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(5.0),
-                                                bottomLeft: Radius.circular(5.0),
-                                                bottomRight: Radius.circular(5.0),
-                                                topRight: Radius.circular(5.0)),
-                                          ),
-                                          margin: EdgeInsets.only(top: 5, right: 5),
-                                          padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
-                                          child: Text(dataVideo.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
-                                        )
-                                    )
-                                ),
-                                Positioned(
-                                    child: new Align(
-                                        alignment: FractionalOffset.bottomLeft,
-                                        child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(0.6),
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(0.0),
-                                                bottomLeft: Radius.circular(5.0),
-                                                bottomRight: Radius.circular(5.0),
-                                                topRight: Radius.circular(0.0)),
-                                          ),
-                                          margin: EdgeInsets.only(bottom: 1, right: 1, left: 1),
-                                          padding: EdgeInsets.only(left: 5, right: 5, bottom: 2, top: 2),
-                                          child: Text(dataVideo.judul,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: TextStyle(color: Colors.white, fontSize: 12),
-                                          ),
-                                        )
-                                    )
-                                ),
-                              ],
-                            )
+                        borderRadius: const BorderRadius.only(
+                          bottomRight: Radius.circular(8.0),
+                          bottomLeft: Radius.circular(8.0),
+                          topLeft: Radius.circular(8.0),
+                          topRight: Radius.circular(8.0),
+                        ),
                       ),
-                    ),
-                  ],
+                      child:
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child:
+                            Image.network(
+                                "https://suma.geloraaksara.co.id/uploads/thumbnail/"+dataVideo.thumbnail,
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.fitHeight
+                            ),
+                          ),
+                          Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(top: 40),
+                            child: Container(
+                              width: 38,
+                              height: 38,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.black.withOpacity(0.5)
+                              ),
+                              child: Icon(
+                                  Icons.play_arrow,
+                                  color: Colors.white
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                              child: new Align(
+                                  alignment: FractionalOffset.topRight,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.6),
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(5.0),
+                                          bottomLeft: Radius.circular(5.0),
+                                          bottomRight: Radius.circular(5.0),
+                                          topRight: Radius.circular(5.0)),
+                                    ),
+                                    margin: EdgeInsets.only(top: 5, right: 5),
+                                    padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
+                                    child: Text(dataVideo.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
+                                  )
+                              )
+                          ),
+                          Positioned(
+                              child: new Align(
+                                  alignment: FractionalOffset.bottomLeft,
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.6),
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(0.0),
+                                          bottomLeft: Radius.circular(5.0),
+                                          bottomRight: Radius.circular(5.0),
+                                          topRight: Radius.circular(0.0)),
+                                    ),
+                                    margin: EdgeInsets.only(bottom: 1, right: 1, left: 1),
+                                    padding: EdgeInsets.only(left: 5, right: 5, bottom: 2, top: 2),
+                                    child: Text(dataVideo.judul,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(color: Colors.white, fontSize: 12),
+                                    ),
+                                  )
+                              )
+                          ),
+                        ],
+                      )
+                  ),
                 ),
               ),
             )
