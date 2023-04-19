@@ -234,8 +234,7 @@ class _FeedsListVideoState extends State<FeedsListVideo>
                               );
                           else
                             return ListView.builder(
-                              padding: const EdgeInsets.only(
-                                  top: 0, bottom: 5, right: 16, left: 16),
+                              padding: const EdgeInsets.only(bottom: 5, right: 10, left: 10),
                               itemCount: feedsVideo.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {

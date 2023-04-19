@@ -217,8 +217,8 @@ class _ProductAllDataState extends State<ProductAllData>
                                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
                                             childAspectRatio: 1,
-                                            crossAxisSpacing: 5,
-                                            mainAxisSpacing: 5),
+                                            crossAxisSpacing: 10,
+                                            mainAxisSpacing: 10),
                                         itemCount: productListData.length,
                                         itemBuilder: (BuildContext context, int index) {
                                           animationController?.forward();
