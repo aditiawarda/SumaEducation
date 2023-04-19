@@ -375,9 +375,23 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     final SharedPreferences prefs = await _prefs;
     print(prefs.getBool('login'));
     if (prefs.getBool('login') == true) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MainPage()
+          ),
+          ModalRoute.withName("/Home")
+      );
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(animationController: animationController,)));
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(animationController: animationController,)));
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => LoginScreen(animationController: animationController,)
+          ),
+          ModalRoute.withName("/Login")
+      );
     }
   }
 

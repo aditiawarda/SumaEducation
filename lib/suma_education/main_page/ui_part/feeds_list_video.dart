@@ -108,55 +108,38 @@ class _FeedsListVideoState extends State<FeedsListVideo>
                       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return
-                            FadeInUp(
-                            delay: Duration(milliseconds: 300),
-                            child: Container(
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset("assets/images/empty_data.png",
-                                      height: 80),
-                                  Container(
-                                      margin: EdgeInsets.only(left: 10),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Oops...',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15,
-                                              letterSpacing: 0.5,
-                                              color: Colors.blueGrey.shade200,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Konten belum tersedia',
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 11,
-                                              letterSpacing: 0.5,
-                                              color: Colors.blueGrey.shade200,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                  )
-                                ],
+                            FadeInRight(
+                              delay: Duration(milliseconds: 300),
+                              child: Container(
+                                height: double.infinity,
+                                width: double.infinity,
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    height: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height,
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width,
+                                    child:
+                                    Container(
+                                      height: 30.0,
+                                      width: 30.0,
+                                      margin: EdgeInsets.only(right: 10),
+                                      child: CircularProgressIndicator(
+                                        color: Colors.orange,
+                                        strokeWidth: 2.5,
+                                      ),
+                                    )
+                                ),
                               ),
-                            ),
                           );
                         } else {
                           if (snapshot.hasError)
                             return
-                              FadeInUp(
+                              FadeInRight(
                               delay: Duration(milliseconds: 300),
                               child: Container(
                                 alignment: Alignment.center,
@@ -204,7 +187,7 @@ class _FeedsListVideoState extends State<FeedsListVideo>
                           else
                           if (feedsVideo.length==0)
                             return
-                              FadeInUp(
+                              FadeInRight(
                                 delay: Duration(milliseconds: 300),
                                 child: Container(
                                   alignment: Alignment.center,

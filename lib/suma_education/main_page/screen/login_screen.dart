@@ -307,12 +307,19 @@ class _LoginPageState extends State<LoginScreen>
         await prefs.setString('data_no_telp', no_telp);
 
         new Future.delayed(new Duration(milliseconds: 500), () {
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => MainPage(),
-              )
+                  builder: (context) => MainPage()
+              ),
+              ModalRoute.withName("/Home")
           );
+          // Navigator.pushReplacement(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (BuildContext context) => MainPage(),
+          //     )
+          // );
         });
 
       } else {

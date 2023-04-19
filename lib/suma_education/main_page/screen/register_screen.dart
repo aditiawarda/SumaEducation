@@ -1436,12 +1436,25 @@ class _LoginPageState extends State<RegisterScreen>
         print('Registrasi berhasil');
 
         new Future.delayed(new Duration(milliseconds: 500), () {
-          Navigator.push<dynamic>(
+          Navigator.pushReplacement(
               context,
-              MaterialPageRoute<dynamic>(
+              MaterialPageRoute(
                 builder: (BuildContext context) => RegisterSuccessScreen(animationController: widget.animationController),
               )
           );
+          // Navigator.pushAndRemoveUntil(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => RegisterSuccessScreen(animationController: widget.animationController)
+          //     ),
+          //     ModalRoute.withName("/Home")
+          // );
+          // Navigator.push<dynamic>(
+          //     context,
+          //     MaterialPageRoute<dynamic>(
+          //       builder: (BuildContext context) => RegisterSuccessScreen(animationController: widget.animationController),
+          //     )
+          // );
         });
 
       } else {

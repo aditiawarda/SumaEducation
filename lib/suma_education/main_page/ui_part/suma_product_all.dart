@@ -97,20 +97,33 @@ class _ProductAllDataState extends State<ProductAllData>
                             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
                               if (snapshot.connectionState == ConnectionState.waiting) {
                                 return
-                                  Container(
-                                      height: MediaQuery.of(context).size.height*0.6,
-                                      width: MediaQuery.of(context).size.width,
-                                      alignment: Alignment.center,
+                                  FadeInUp(
+                                    delay: Duration(milliseconds: 300),
+                                    child: Container(
+                                      height: double.infinity,
+                                      width: double.infinity,
                                       child: Container(
-                                        height: 30.0,
-                                        width: 30.0,
-                                        margin: EdgeInsets.only(
-                                            right: 10),
-                                        child: CircularProgressIndicator(
-                                          color: Colors.orange,
-                                          strokeWidth: 3,
-                                        ),
-                                      )
+                                          alignment: Alignment.center,
+                                          height: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .height,
+                                          width: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width,
+                                          child:
+                                          Container(
+                                            height: 30.0,
+                                            width: 30.0,
+                                            margin: EdgeInsets.only(right: 10),
+                                            child: CircularProgressIndicator(
+                                              color: Colors.orange,
+                                              strokeWidth: 2.5,
+                                            ),
+                                          )
+                                      ),
+                                    ),
                                   );
                               } else {
                                 if (snapshot.hasError)
@@ -243,7 +256,6 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
     ZoomTapAnimation(
     onTap: () {
       new Future.delayed(new Duration(milliseconds: 300), () async {
-        Navigator.of(context, rootNavigator: true).pop('dialog');
         await launch(productData.link);
       });
     },

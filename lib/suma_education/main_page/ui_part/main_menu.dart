@@ -137,7 +137,7 @@ class MainMenu extends StatelessWidget {
                                               shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                               image: DecorationImage(
                                                   image: AssetImage('assets/images/default_profile.jpg'),
-                                                  fit: BoxFit.fill
+                                                  fit: BoxFit.fitWidth
                                               ),
                                             ),
                                           ),
