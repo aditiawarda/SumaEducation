@@ -128,10 +128,9 @@ class UserBio extends StatelessWidget {
                                         width: 90,
                                         height: 90,
                                         decoration: BoxDecoration(
-                                          color: Colors.orange,
                                           shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                           image: DecorationImage(
-                                              image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                              image: AssetImage('assets/images/default_profile.jpg'),
                                               fit: BoxFit.fill
                                           ),
                                         ),
@@ -144,7 +143,7 @@ class UserBio extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                             image: DecorationImage(
-                                                image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                                image: AssetImage('assets/images/default_profile.jpg'),
                                                 fit: BoxFit.fill
                                             ),
                                           ),

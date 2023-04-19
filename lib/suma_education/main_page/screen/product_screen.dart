@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/components/button/gf_button.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
@@ -15,6 +16,7 @@ import 'package:suma_education/suma_education/main_page/ui_part/user_bio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../../app_theme/app_theme.dart';
 
@@ -122,16 +124,6 @@ class _ProductScreenState extends State<ProductScreen>
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
-            // Container(
-            //   margin: const EdgeInsets.only(top: 90.0),
-            //   decoration: BoxDecoration(
-            //     image: DecorationImage(
-            //       image: AssetImage("assets/images/background_page.png"),
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            //   child: null /* add child content here */,
-            // ),
             Column(
               children: [
                 SizedBox(
@@ -250,7 +242,6 @@ class _ProductScreenState extends State<ProductScreen>
                               onSelected: (int size) {
                                 print(size);
                                 if (size==1){
-
                                   showModalBottomSheet<void>(
                                       context: context,
                                       backgroundColor: Colors.transparent,
@@ -259,7 +250,6 @@ class _ProductScreenState extends State<ProductScreen>
                                         return
                                           SlideInUp(
                                             child: Container(
-                                              height: 190,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius: BorderRadius.only(
@@ -281,7 +271,7 @@ class _ProductScreenState extends State<ProductScreen>
                                                   Container(
                                                     width: 80,
                                                     height: 3,
-                                                    margin: EdgeInsets.only(top: 3, bottom: 15),
+                                                    margin: EdgeInsets.only(top: 20, bottom: 15),
                                                     decoration: BoxDecoration(
                                                       color: Colors.grey.withOpacity(0.5),
                                                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -324,6 +314,7 @@ class _ProductScreenState extends State<ProductScreen>
                                                                         fontFamily: AppTheme.fontName,
                                                                         fontWeight: FontWeight.w500,
                                                                         fontSize: 16,
+                                                                        height: 1.5,
                                                                         letterSpacing: 0.0,
                                                                         color: AppTheme.grey.withOpacity(0.6)
                                                                     )
@@ -335,48 +326,76 @@ class _ProductScreenState extends State<ProductScreen>
                                                       ),
                                                     ],
                                                   ),
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: [
-                                                      Container(
-                                                        padding: EdgeInsets.only(left: 20, right: 10),
-                                                        width: MediaQuery.of(context).size.width*0.5,
-                                                        child: GFButton(
-                                                          color: Colors.grey,
-                                                          textStyle: TextStyle(fontSize: 15),
-                                                          onPressed: (){
-                                                            Navigator.of(context, rootNavigator: true).pop('dialog');
-                                                          },
-                                                          text: "Batal",
-                                                          blockButton: true,
+                                                  Container(
+                                                      margin: EdgeInsets.only(top: 15),
+                                                      alignment: Alignment.center,
+                                                      width: MediaQuery.of(context).size.width,
+                                                      height: 40,
+                                                      child:
+                                                      ZoomTapAnimation(
+                                                        onTap: () async {
+                                                          Navigator.of(context, rootNavigator: true).pop('dialog');
+                                                          await launch("https://wa.me/6285721603080?text=Hello");
+                                                        },
+                                                        child: Container(
+                                                          margin: EdgeInsets.only(left: 20, right: 20),
+                                                          alignment: Alignment.center,
+                                                          width: MediaQuery.of(context).size.width,
+                                                          height: 40,
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(20.0),
+                                                            color: Colors.orange.shade600,
+                                                          ),
+                                                          child: Text(
+                                                            'Hubungkan',
+                                                            style: GoogleFonts.inter(
+                                                              fontSize: 14.0,
+                                                              color: Colors.white,
+                                                              fontWeight: FontWeight.w600,
+                                                            ),
+                                                            textAlign: TextAlign.center,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      Container(
-                                                        padding: EdgeInsets.only(right: 20),
-                                                        width: MediaQuery.of(context).size.width*0.5,
-                                                        child: GFButton(
-                                                          color: Colors.orange,
-                                                          textStyle: TextStyle(fontSize: 15),
-                                                          onPressed: () async {
-                                                            Navigator.of(context, rootNavigator: true).pop('dialog');
-                                                            await launch("https://wa.me/6285721603080?text=Hello");
-                                                          },
-                                                          text: "Hubungkan",
-                                                          blockButton: true,
+                                                      )
+                                                  ),
+                                                  Container(
+                                                      margin: EdgeInsets.only(top: 10, bottom: 20),
+                                                      alignment: Alignment.center,
+                                                      width: MediaQuery.of(context).size.width,
+                                                      height: 40,
+                                                      child:
+                                                      ZoomTapAnimation(
+                                                        onTap: () {
+                                                          Navigator.of(context, rootNavigator: true).pop('dialog');
+                                                        },
+                                                        child: Container(
+                                                          margin: EdgeInsets.only(left: 20, right: 20),
+                                                          alignment: Alignment.center,
+                                                          width: MediaQuery.of(context).size.width,
+                                                          height: 40,
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(20.0),
+                                                            color: Colors.orange.shade50,
+                                                          ),
+                                                          child: Text(
+                                                            'Batal',
+                                                            style: GoogleFonts.inter(
+                                                              fontSize: 14.0,
+                                                              color: Colors.orange,
+                                                              fontWeight: FontWeight.w600,
+                                                            ),
+                                                            textAlign: TextAlign.center,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  )
+                                                      )
+                                                  ),
                                                 ],
                                               ),
                                             ),
                                           );
                                       }
                                   );
-
                                 } else if (size==2) {
-
                                   showModalBottomSheet<void>(
                                       context: context,
                                       backgroundColor: Colors.transparent,
@@ -384,8 +403,7 @@ class _ProductScreenState extends State<ProductScreen>
                                       builder: (BuildContext context) {
                                         return
                                           SlideInUp(
-                                            child:  Container(
-                                              height: 260,
+                                            child: Container(
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius: BorderRadius.only(
@@ -407,7 +425,7 @@ class _ProductScreenState extends State<ProductScreen>
                                                   Container(
                                                     width: 80,
                                                     height: 3,
-                                                    margin: EdgeInsets.only(top: 3, bottom: 15),
+                                                    margin: EdgeInsets.only(top: 20, bottom: 15),
                                                     decoration: BoxDecoration(
                                                       color: Colors.grey.withOpacity(0.5),
                                                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -442,6 +460,7 @@ class _ProductScreenState extends State<ProductScreen>
                                                                 fontFamily: AppTheme.fontName,
                                                                 fontWeight: FontWeight.w500,
                                                                 fontSize: 16,
+                                                                height: 1.5,
                                                                 letterSpacing: 0.0,
                                                                 color: AppTheme.grey.withOpacity(0.6)
                                                             )
@@ -450,17 +469,35 @@ class _ProductScreenState extends State<ProductScreen>
                                                     ],
                                                   ),
                                                   Container(
-                                                    padding: EdgeInsets.only(left: 20, right: 20),
-                                                    width: MediaQuery.of(context).size.width,
-                                                    child: GFButton(
-                                                      color: Colors.grey,
-                                                      textStyle: TextStyle(fontSize: 15),
-                                                      onPressed: (){
-                                                        Navigator.of(context, rootNavigator: true).pop('dialog');
-                                                      },
-                                                      text: "Tutup",
-                                                      blockButton: true,
-                                                    ),
+                                                      margin: EdgeInsets.only(top: 5, bottom: 20),
+                                                      alignment: Alignment.center,
+                                                      width: MediaQuery.of(context).size.width,
+                                                      height: 40,
+                                                      child:
+                                                      ZoomTapAnimation(
+                                                        onTap: () {
+                                                          Navigator.of(context, rootNavigator: true).pop('dialog');
+                                                        },
+                                                        child: Container(
+                                                          margin: EdgeInsets.only(left: 20, right: 20),
+                                                          alignment: Alignment.center,
+                                                          width: MediaQuery.of(context).size.width,
+                                                          height: 40,
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(20.0),
+                                                            color: Colors.orange.shade600,
+                                                          ),
+                                                          child: Text(
+                                                            'Tutup',
+                                                            style: GoogleFonts.inter(
+                                                              fontSize: 14.0,
+                                                              color: Colors.white,
+                                                              fontWeight: FontWeight.w600,
+                                                            ),
+                                                            textAlign: TextAlign.center,
+                                                          ),
+                                                        ),
+                                                      )
                                                   ),
                                                 ],
                                               ),
@@ -468,7 +505,6 @@ class _ProductScreenState extends State<ProductScreen>
                                           );
                                       }
                                   );
-
                                 }
                               },
                               itemBuilder: (BuildContext context) => <PopupMenuItem<int>>[

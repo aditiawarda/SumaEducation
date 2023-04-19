@@ -7,6 +7,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
@@ -14,6 +15,7 @@ import 'package:suma_education/suma_education/main_page/bottom_navigation_view/m
 import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -103,7 +105,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               SlideInUp(
                 delay: Duration(milliseconds: 200),
                 child:  Container(
-                  height: 190,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -125,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       Container(
                         width: 80,
                         height: 3,
-                        margin: EdgeInsets.only(top: 3, bottom: 15),
+                        margin: EdgeInsets.only(top: 20, bottom: 15),
                         decoration: BoxDecoration(
                           color: Colors.grey.withOpacity(0.5),
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -167,6 +168,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         style: TextStyle(
                                             fontFamily: AppTheme.fontName,
                                             fontWeight: FontWeight.w500,
+                                            height: 1.5,
                                             fontSize: 16,
                                             letterSpacing: 0.0,
                                             color: AppTheme.grey.withOpacity(0.6)
@@ -179,41 +181,71 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 20, right: 10),
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: GFButton(
-                              color: Colors.grey,
-                              textStyle: TextStyle(fontSize: 15),
-                              onPressed: (){
-                                Navigator.pop(context);
-                                Timer(Duration(seconds: 2), () => { SystemNavigator.pop() });
-                              },
-                              text: "Tutup",
-                              blockButton: true,
+                      Container(
+                          margin: EdgeInsets.only(top: 15),
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          height: 40,
+                          child:
+                          ZoomTapAnimation(
+                            onTap: () async {
+                              Navigator.pop(context);
+                              _load();
+                              Timer(Duration(seconds: 3), () => { _getVersionApp() });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.orange.shade600,
+                              ),
+                              child: Text(
+                                'Coba Hubungkan',
+                                style: GoogleFonts.inter(
+                                  fontSize: 14.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(right: 20),
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: GFButton(
-                              color: Colors.orange,
-                              textStyle: TextStyle(fontSize: 15),
-                              onPressed: () async {
-                                Navigator.pop(context);
-                                _load();
-                                Timer(Duration(seconds: 3), () => { _getVersionApp() });
-                              },
-                              text: "Refresh",
-                              blockButton: true,
+                          )
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(top: 10, bottom: 20),
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          height: 40,
+                          child:
+                          ZoomTapAnimation(
+                            onTap: () async {
+                              Navigator.pop(context);
+                              Timer(Duration(seconds: 2), () => { SystemNavigator.pop() });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.orange.shade50,
+                              ),
+                              child: Text(
+                                'Tutup',
+                                style: GoogleFonts.inter(
+                                  fontSize: 14.0,
+                                  color: Colors.orange,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                        ],
-                      )
+                          )
+                      ),
                     ],
                   ),
                 ),
@@ -248,7 +280,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             SlideInUp(
               delay: Duration(milliseconds: 200),
               child: Container(
-                height: 190,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -263,102 +294,138 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         blurRadius: 3.0),
                   ],
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Container(
-                      width: 80,
-                      height: 3,
-                      margin: EdgeInsets.only(top: 3, bottom: 15),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.5),
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      ),
-                    ),
-                    Row(
+                child:
+                Wrap(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        SizedBox(width: 20),
-                        Image.asset('assets/images/sl_logo_app.png', height: 80, width: 80),
-                        Padding(
-                            padding: const EdgeInsets.only(left: 20),
+                        Container(
+                          width: 80,
+                          height: 3,
+                          margin: EdgeInsets.only(top: 20, bottom: 15),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.5),
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          ),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(width: 20),
+                            Image.asset('assets/images/sl_logo_app.png', height: 80, width: 80),
+                            Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child:
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: Text('Update Aplikasi',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 18,
+                                              letterSpacing: 0.0,
+                                              color: AppTheme.grey.withOpacity(0.7)
+                                          )
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width*0.6,
+                                      padding: EdgeInsets.only(right: 5),
+                                      child: Text('Suma App v '+currentVersion!+' telah tersedia di Google Play Store.',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              fontFamily: AppTheme.fontName,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              letterSpacing: 0,
+                                              height: 1.5,
+                                              color: AppTheme.grey.withOpacity(0.6)
+                                          )
+                                      ),
+                                    ),
+                                    SizedBox(width: 35),
+                                  ],
+                                )
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 15),
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          height: 40,
+                          child:
+                          ZoomTapAnimation(
+                            onTap: () async {
+                              Navigator.pop(context);
+                              await launch(link);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.orange.shade600,
+                              ),
+                              child: Text(
+                                'Update Sekarang',
+                                style: GoogleFonts.inter(
+                                  fontSize: 14.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(top: 10, bottom: 20),
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            height: 40,
                             child:
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  child: Text('Update Aplikasi',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18,
-                                          letterSpacing: 0.0,
-                                          color: AppTheme.grey.withOpacity(0.6)
-                                      )
+                            ZoomTapAnimation(
+                              onTap: () async {
+                                Navigator.pop(context);
+                                _load();
+                                Timer(Duration(seconds: 1), () => { masuk() });
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: 20, right: 20),
+                                alignment: Alignment.center,
+                                width: MediaQuery.of(context).size.width,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  color: Colors.orange.shade50,
+                                ),
+                                child: Text(
+                                  'Nanti',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 14.0,
+                                    color: Colors.orange,
+                                    fontWeight: FontWeight.w600,
                                   ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width*0.6,
-                                  padding: EdgeInsets.only(right: 5),
-                                  child: Text('Suma App v '+currentVersion!+' telah tersedia di Google Play Store.',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          letterSpacing: 0.0,
-                                          color: AppTheme.grey.withOpacity(0.6)
-                                      )
-                                  ),
-                                ),
-                                SizedBox(width: 35),
-                              ],
+                              ),
                             )
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 20, right: 10),
-                          width: MediaQuery.of(context).size.width*0.5,
-                          child: GFButton(
-                            color: Colors.grey,
-                            textStyle: TextStyle(fontSize: 15),
-                            onPressed: (){
-                              Navigator.pop(context);
-                              _load();
-                              Timer(Duration(seconds: 1), () => { masuk() });
-                            },
-                            text: "Nanti",
-                            blockButton: true,
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(right: 20),
-                          width: MediaQuery.of(context).size.width*0.5,
-                          child: GFButton(
-                            color: Colors.orange,
-                            textStyle: TextStyle(fontSize: 15),
-                            onPressed: () async {
-                              Navigator.pop(context);
-                              await launch(link);
-                            },
-                            text: "Update",
-                            blockButton: true,
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ),

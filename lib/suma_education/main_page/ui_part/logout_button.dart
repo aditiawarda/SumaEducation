@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
@@ -104,11 +105,9 @@ class _LogoutButtonState extends State<LogoutButton>
                           height: 45,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(colors: [
-                              AppTheme.white.withOpacity(0.7),
-                              Colors.deepOrange.shade50
+                              AppTheme.white,
+                              Colors.white
                             ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                            border: Border.all(color: Colors.deepOrange.withOpacity(0.8)),
-                            color: Colors.deepOrange.shade50,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10.0),
                                 bottomLeft: Radius.circular(10.0),
@@ -116,7 +115,7 @@ class _LogoutButtonState extends State<LogoutButton>
                                 topRight: Radius.circular(10.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                  color: AppTheme.grey.withOpacity(0.3),
+                                  color: AppTheme.grey.withOpacity(0.2),
                                   offset: Offset(0.0, 1.0), //(x,y)
                                   blurRadius: 3.0),
                             ],
@@ -131,17 +130,32 @@ class _LogoutButtonState extends State<LogoutButton>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.only(right: 10),
-                                      child: logoutLoad ? SizedBox(
+                                      child: logoutLoad ? Container(
+                                        height: 13.0,
+                                        width: 13.0,
+                                        margin: EdgeInsets.only(right: 10),
                                         child: CircularProgressIndicator(
                                           color: Colors.deepOrange.withOpacity(0.8),
                                           strokeWidth: 2.5,
                                         ),
-                                        height: 13.0,
-                                        width: 13.0,
-                                      ) : null,
+                                      ) : Container(
+                                        margin: EdgeInsets.only(right: 6),
+                                        child:  Icon(
+                                          Icons.logout,
+                                          size: 22,
+                                          color: Colors.redAccent,
+                                        ),
+                                      ),
                                     ),
-                                    Text('Logout', style: TextStyle(color: Colors.deepOrange.withOpacity(0.8), fontSize: 17)),
+                                    Text(
+                                      'Logout',
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16.0,
+                                        color: Colors.deepOrange,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ],
                                 )
                             ),

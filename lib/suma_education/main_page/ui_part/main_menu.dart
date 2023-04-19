@@ -167,7 +167,7 @@ class MainMenu extends StatelessWidget {
                                                     color: Colors.orange,
                                                     shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                                     image: DecorationImage(
-                                                        image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                                        image: AssetImage('assets/images/default_profile.jpg'),
                                                         fit: BoxFit.fitWidth
                                                     ),
                                                   ),
@@ -181,7 +181,7 @@ class MainMenu extends StatelessWidget {
                                                     decoration: BoxDecoration(
                                                       shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                                       image: DecorationImage(
-                                                          image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/default.jpg'),
+                                                          image: AssetImage('assets/images/default_profile.jpg'),
                                                           fit: BoxFit.fitWidth
                                                       ),
                                                     ),
