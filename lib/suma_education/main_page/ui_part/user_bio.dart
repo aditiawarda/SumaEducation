@@ -165,6 +165,29 @@ class UserBio extends StatelessWidget {
                                   },
                                 ),
                               ),
+                              Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    width: 90,
+                                    height: 90,
+                                    padding: EdgeInsets.only(right: 4, bottom: 2),
+                                    alignment: Alignment.bottomRight,
+                                    child:
+                                    Container(
+                                      width: 20,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.black.withOpacity(0.5)
+                                      ),
+                                      child: Icon(
+                                          Icons.camera_alt_rounded,
+                                          color: Colors.white,
+                                        size: 12,
+                                      ),
+                                    ),
+                                  )
+                              )
                             ],
                           ),
                           Padding(
