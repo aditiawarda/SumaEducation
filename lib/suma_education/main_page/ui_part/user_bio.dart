@@ -67,7 +67,7 @@ class UserBio extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage("assets/images/bg_header_img.png"),
+                          image: AssetImage("assets/images/bg_header_main.png"),
                           fit: BoxFit.cover),
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10.0),
