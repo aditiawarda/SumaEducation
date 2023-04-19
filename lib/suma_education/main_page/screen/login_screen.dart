@@ -270,7 +270,6 @@ class _LoginPageState extends State<LoginScreen>
                 fontSize: 16.0,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
-                height: 1.5,
               ),
               textAlign: TextAlign.center,
             ),
