@@ -195,7 +195,7 @@ class MainMenu extends StatelessWidget {
                                                       decoration: BoxDecoration(
                                                         shape: BoxShape.circle, border: Border.all(color: Colors.white),
                                                         image: DecorationImage(
-                                                            image: NetworkImage('https://suma.geloraaksara.co.id/assets/img/avatar/'+fotoProfil),
+                                                            image: NetworkImage('https://suma.geloraaksara.co.id/uploads/profile_pic/'+fotoProfil),
                                                             fit: BoxFit.fitWidth
                                                         ),
                                                       ),
