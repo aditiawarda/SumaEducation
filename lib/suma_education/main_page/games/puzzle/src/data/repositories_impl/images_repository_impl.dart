@@ -20,12 +20,12 @@ const puzzleOptions = <PuzzleImage>[
   PuzzleImage(
     name: 'Tio',
     assetPath: 'assets/animals/2_tio.jpeg',
-    soundPath: 'assets/sounds/cat.mp3',
+    soundPath: 'assets/sounds/lion.mp3',
   ),
   PuzzleImage(
     name: 'Mia',
     assetPath: 'assets/animals/3_mia.jpeg',
-    soundPath: 'assets/sounds/dog.mp3',
+    soundPath: 'assets/sounds/fox.mp3',
   ),
   PuzzleImage(
     name: 'Paima',
@@ -35,12 +35,12 @@ const puzzleOptions = <PuzzleImage>[
   PuzzleImage(
     name: 'Lindung',
     assetPath: 'assets/animals/5_lindung.jpeg',
-    soundPath: 'assets/sounds/koala.mp3',
+    soundPath: 'assets/sounds/monkey.mp3',
   ),
   PuzzleImage(
     name: 'Eddie',
     assetPath: 'assets/animals/6_eddie.jpeg',
-    soundPath: 'assets/sounds/monkey.mp3',
+    soundPath: 'assets/sounds/lion.mp3',
   ),
   PuzzleImage(
     name: 'Arini',
