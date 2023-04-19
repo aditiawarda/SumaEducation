@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -284,28 +285,28 @@ Widget itemBookAll(BookData bookData, BuildContext context, AnimationController 
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child:
-                      Image.network(
-                        'https://suma.geloraaksara.co.id/uploads/cover_book/'+bookData.cover,
-                        width: double.infinity,
+                      CachedNetworkImage(
                         fit: BoxFit.cover,
+                        imageUrl: 'https://suma.geloraaksara.co.id/uploads/cover_book/'+bookData.cover,
+                        placeholder: (context, url) => Container(
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 30.0,
+                            width: 30.0,
+                            margin: EdgeInsets.only(right: 10),
+                            child: CircularProgressIndicator(
+                              color: Colors.orange,
+                              strokeWidth: 2.5,
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => new Icon(Icons.error),
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            // Container(
-            //   padding: EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 12),
-            //   child: Text(bookData.judul,
-            //       style:
-            //       GoogleFonts.roboto(
-            //           color: Colors.blueGrey,
-            //           fontSize: 14.0,
-            //           height: 1.5
-            //       ),
-            //       textAlign: TextAlign.center,
-            //   ),
-            // )
           ],
         ) ,
       )

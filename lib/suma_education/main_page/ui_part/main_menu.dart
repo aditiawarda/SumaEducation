@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:intl/intl.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
@@ -1118,7 +1119,7 @@ Widget itemBuku(BookData book, BuildContext context, AnimationController animati
   return
     FadeInUp(
         delay : Duration(milliseconds: 100),
-        child :  FadeTransition(
+        child : FadeTransition(
           opacity: animationController,
           child: Transform(
             transform: Matrix4.translationValues(0.0, 30 * (1.0 - animationController.value), 0.0),
@@ -1155,6 +1156,7 @@ Widget itemBuku(BookData book, BuildContext context, AnimationController animati
                       Wrap(
                         children: [
                           Stack(
+                            alignment: Alignment.center,
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -1168,10 +1170,22 @@ Widget itemBuku(BookData book, BuildContext context, AnimationController animati
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child:
-                                Image.network(
-                                  'https://suma.geloraaksara.co.id/uploads/cover_book/'+book.cover,
-                                  width: double.infinity,
+                                CachedNetworkImage(
                                   fit: BoxFit.cover,
+                                  imageUrl: 'https://suma.geloraaksara.co.id/uploads/cover_book/'+book.cover,
+                                  placeholder: (context, url) => Container(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      height: 30.0,
+                                      width: 30.0,
+                                      margin: EdgeInsets.only(right: 10),
+                                      child: CircularProgressIndicator(
+                                        color: Colors.orange,
+                                        strokeWidth: 2.5,
+                                      ),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) => new Icon(Icons.error),
                                 ),
                               ),
                             ],

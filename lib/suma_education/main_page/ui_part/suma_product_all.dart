@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/main.dart';
@@ -97,33 +98,20 @@ class _ProductAllDataState extends State<ProductAllData>
                             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
                               if (snapshot.connectionState == ConnectionState.waiting) {
                                 return
-                                  FadeInUp(
-                                    delay: Duration(milliseconds: 300),
-                                    child: Container(
-                                      height: double.infinity,
-                                      width: double.infinity,
+                                  Container(
+                                      height: MediaQuery.of(context).size.height*0.6,
+                                      width: MediaQuery.of(context).size.width,
+                                      alignment: Alignment.center,
                                       child: Container(
-                                          alignment: Alignment.center,
-                                          height: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .height,
-                                          width: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width,
-                                          child:
-                                          Container(
-                                            height: 30.0,
-                                            width: 30.0,
-                                            margin: EdgeInsets.only(right: 10),
-                                            child: CircularProgressIndicator(
-                                              color: Colors.orange,
-                                              strokeWidth: 2.5,
-                                            ),
-                                          )
-                                      ),
-                                    ),
+                                        height: 30.0,
+                                        width: 30.0,
+                                        margin: EdgeInsets.only(
+                                            right: 10),
+                                        child: CircularProgressIndicator(
+                                          color: Colors.orange,
+                                          strokeWidth: 3,
+                                        ),
+                                      )
                                   );
                               } else {
                                 if (snapshot.hasError)
@@ -233,7 +221,6 @@ class _ProductAllDataState extends State<ProductAllData>
                                             mainAxisSpacing: 5),
                                         itemCount: productListData.length,
                                         itemBuilder: (BuildContext context, int index) {
-                                          final int count = productListData.length;
                                           animationController?.forward();
                                           return itemAll(productListData[index], context, animationController!);
                                         });
@@ -254,52 +241,66 @@ class _ProductAllDataState extends State<ProductAllData>
 Widget itemAll(ProductData productData, BuildContext context, AnimationController animationController){
   return
     ZoomTapAnimation(
-    onTap: () {
-      new Future.delayed(new Duration(milliseconds: 300), () async {
-        await launch(productData.link);
-      });
-    },
-    child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      onTap: () {
+        new Future.delayed(new Duration(milliseconds: 300), () async {
+          await launch(productData.link);
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              bottomLeft: Radius.circular(10.0),
+              bottomRight: Radius.circular(10.0),
+              topRight: Radius.circular(10.0)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: AppTheme.grey.withOpacity(0.2),
+                offset: Offset(0.0, 1.0), //(x,y)
+                blurRadius: 2.0),
+          ],
         ),
         child:
-        Container(
-          decoration: BoxDecoration(color: Colors.white,
-              borderRadius: BorderRadius.circular(9)),
-          child:
-          Column(
-            children: [
-              Wrap(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(9),
-                        child:
-                        Image.asset(
-                          'assets/images/no_image_3.png',
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(9),
-                        child:
-                        Image.network(
-                          'https://suma.geloraaksara.co.id/uploads/produk/'+productData.gambar,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ],
+        Wrap(
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(9),
+                  child:
+                  Image.asset(
+                    'assets/images/no_image_3.png',
+                    width: double.infinity,
+                    fit: BoxFit.fill,
                   ),
-                ],
-              ),
-            ],
-          ) ,
-        )
-    ),
-  );
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child:
+                  CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: 'https://suma.geloraaksara.co.id/uploads/produk/'+productData.gambar,
+                    placeholder: (context, url) => Container(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 30.0,
+                        width: 30.0,
+                        margin: EdgeInsets.only(right: 10),
+                        child: CircularProgressIndicator(
+                          color: Colors.orange,
+                          strokeWidth: 2.5,
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => new Icon(Icons.error),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
 }

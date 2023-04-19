@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -250,72 +251,80 @@ Widget itemVideoAll(TutorialData tutorialData, BuildContext context, AnimationCo
               ],
             ),
             child:
-            Column(
+            Wrap(
               children: [
-                Wrap(
+                Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child:
-                          Image.asset(
-                            'assets/images/no_image_3.png',
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child:
-                          Image.network(
-                            'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+tutorialData.square_thumbnail,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned(
-                            right: 3,
-                            bottom: 8,
-                            child: new Align(
-                                alignment: FractionalOffset.bottomRight,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.6),
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(5.0),
-                                        bottomLeft: Radius.circular(5.0),
-                                        bottomRight: Radius.circular(5.0),
-                                        topRight: Radius.circular(5.0)),
-                                  ),
-                                  margin: EdgeInsets.only(right: 5),
-                                  padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
-                                  child: Text(tutorialData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
-                                )
-                            )
-                        ),
-                        Align(
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:
+                      Image.asset(
+                        'assets/images/no_image_3.png',
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:
+                      CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: 'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+tutorialData.square_thumbnail,
+                        placeholder: (context, url) => Container(
                           alignment: Alignment.center,
                           child: Container(
-                            width: 38,
-                            height: 38,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black.withOpacity(0.5)
-                            ),
-                            child: Icon(
-                                Icons.play_arrow,
-                                color: Colors.white
+                            height: 30.0,
+                            width: 30.0,
+                            margin: EdgeInsets.only(right: 10),
+                            child: CircularProgressIndicator(
+                              color: Colors.orange,
+                              strokeWidth: 2.5,
                             ),
                           ),
                         ),
-                      ],
+                        errorWidget: (context, url, error) => new Icon(Icons.error),
+                      ),
+                    ),
+                    Positioned(
+                        right: 3,
+                        bottom: 8,
+                        child: new Align(
+                            alignment: FractionalOffset.bottomRight,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.6),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(5.0),
+                                    bottomLeft: Radius.circular(5.0),
+                                    bottomRight: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0)),
+                              ),
+                              margin: EdgeInsets.only(right: 5),
+                              padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
+                              child: Text(tutorialData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
+                            )
+                        )
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: 38,
+                        height: 38,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black.withOpacity(0.5)
+                        ),
+                        child: Icon(
+                            Icons.play_arrow,
+                            color: Colors.white
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ],
-            ) ,
+            ),
           )
         )
     );
