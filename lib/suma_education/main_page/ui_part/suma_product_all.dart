@@ -94,8 +94,8 @@ class _ProductAllDataState extends State<ProductAllData>
                       Wrap(
                         children: <Widget>[
                           FutureBuilder<String>(
-                            future: _getKreasiContent(), // function where you call your api
-                            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
+                            future: _getKreasiContent(),
+                            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                               if (snapshot.connectionState == ConnectionState.waiting) {
                                 return
                                   Container(
