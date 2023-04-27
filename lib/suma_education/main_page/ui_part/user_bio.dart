@@ -228,8 +228,7 @@ class _UserBioState extends State<UserBio>
         compressFormat: ImageCompressFormat.jpg,
       );
 
-      if (picture == null)
-        return;
+      if (picture == null) return;
 
       final imageTemporary = File(cropped!.path);
 

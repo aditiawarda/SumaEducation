@@ -1005,6 +1005,7 @@ class MainMenu extends StatelessWidget {
                                           padding: EdgeInsets.all(10),
                                           height: 150,
                                           width: double.infinity,
+                                          margin: EdgeInsets.only(right: 10),
                                           decoration: BoxDecoration(
                                             color: Colors.pink.shade50,
                                             borderRadius: BorderRadius.only(
@@ -1026,7 +1027,7 @@ class MainMenu extends StatelessWidget {
                                               'assets/images/games_1.png',
                                               width: double.infinity,
                                               height: double.infinity,
-                                              fit: BoxFit.fill,
+                                              fit: BoxFit.contain,
                                             ),
                                           ),
                                         ),
@@ -1058,7 +1059,7 @@ class MainMenu extends StatelessWidget {
                                           height: 150,
                                           width: double.infinity,
                                           padding: EdgeInsets.all(10),
-                                          margin: EdgeInsets.only(left: 15),
+                                          margin: EdgeInsets.only(left: 10),
                                           decoration: BoxDecoration(
                                             color: Colors.teal.shade50,
                                             borderRadius: BorderRadius.only(
@@ -1080,7 +1081,7 @@ class MainMenu extends StatelessWidget {
                                               'assets/images/games_2.png',
                                               width: double.infinity,
                                               height: double.infinity,
-                                              fit: BoxFit.fill,
+                                              fit: BoxFit.contain,
                                             ),
                                           ),
                                         ),

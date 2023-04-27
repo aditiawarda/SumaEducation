@@ -11,11 +11,8 @@
     <uses-permission android:name="android.permission.GALLERY" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <permission android:protectionLevel="signature" android:name="com.example.permission.C2D_MESSAGE" />
-    <uses-permission android:name="com.example.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
