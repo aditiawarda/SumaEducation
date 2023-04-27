@@ -105,6 +105,7 @@ dependencies:
     open_file_plus: ^3.3.0
     audioplayers: ^3.0.1
     page_view_dot_indicator: ^2.1.0
+    visibility_detector: ^0.3.3
 
 dev_dependencies:
     flutter_test:

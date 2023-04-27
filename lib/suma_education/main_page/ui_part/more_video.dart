@@ -60,7 +60,19 @@ class _MoreVideoState extends State<MoreVideo>
                     style: TextStyle(
                         color: Colors.orange,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16
+                        fontSize: 16,
+                        shadows: <Shadow>[
+                          Shadow(
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 5.0,
+                            color: Colors.white,
+                          ),
+                          Shadow(
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 10.0,
+                            color: Colors.white,
+                          ),
+                        ],
                     ),
                   ),
                 ),
@@ -101,7 +113,7 @@ class _MoreVideoState extends State<MoreVideo>
                       style: TextStyle(
                           color: Colors.blueGrey,
                           fontWeight: FontWeight.normal,
-                          fontSize: 16
+                          fontSize: 15
                       ),
                     ),
                   ),

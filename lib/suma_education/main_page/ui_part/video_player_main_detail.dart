@@ -1,8 +1,10 @@
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:video_viewer/video_viewer.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class VideoPlayerMain extends StatefulWidget {
   const VideoPlayerMain(
@@ -38,6 +40,7 @@ class _VideoPlayerMainState extends State<VideoPlayerMain>
 
   @override
   void dispose() {
+    _controller.pause();
     super.dispose();
   }
 
@@ -129,25 +132,36 @@ class _VideoPlayerMainState extends State<VideoPlayerMain>
                                           ?
                                       ClipRRect(
                                           borderRadius: BorderRadius.circular(8.0),
-                                          child: VideoViewer(
-                                            controller: _controller,
-                                            autoPlay: true,
-                                            defaultAspectRatio: 16 / 9,
-                                            source: {
-                                              "SubRip Text": VideoSource(
-                                                video: VideoPlayerController
-                                                    .network(
-                                                  "https://suma.geloraaksara.co.id/uploads/video/"+widget.source!,
-                                                ),
-                                              )
+                                          child:
+                                          VisibilityDetector(
+                                            key: ObjectKey(VideoPlayerMain),
+                                            onVisibilityChanged: (visibility){
+                                              if (visibility.visibleFraction == 0 && this.mounted) {
+                                                _controller.pause();
+                                              } else {
+                                                _controller.play();
+                                              }
                                             },
-                                            onFullscreenFixLandscape: true,
-                                            style: VideoViewerStyle(
-                                              thumbnail: Image.network(
-                                                "https://suma.geloraaksara.co.id/uploads/thumbnail/"+widget.thumbnail!,
+                                            child: VideoViewer(
+                                              controller: _controller,
+                                              autoPlay: true,
+                                              defaultAspectRatio: 16 / 9,
+                                              source: {
+                                                "SubRip Text": VideoSource(
+                                                  video: VideoPlayerController
+                                                      .network(
+                                                    "https://suma.geloraaksara.co.id/uploads/video/"+widget.source!,
+                                                  ),
+                                                )
+                                              },
+                                              onFullscreenFixLandscape: true,
+                                              style: VideoViewerStyle(
+                                                thumbnail: Image.network(
+                                                  "https://suma.geloraaksara.co.id/uploads/thumbnail/"+widget.thumbnail!,
+                                                ),
                                               ),
-                                            ),
-                                          )
+                                            )
+                                          ),
                                       )
                                           :
                                       ClipRRect(

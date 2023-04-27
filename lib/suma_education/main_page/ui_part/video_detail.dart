@@ -78,7 +78,7 @@ class _VideoDetailState extends State<VideoDetail>
                   left: 15, right: 15),
               child:
               Container(
-                margin: EdgeInsets.only(bottom: widget.paddingBottom!),
+                margin: EdgeInsets.only(bottom: widget.paddingBottom),
                 padding: EdgeInsets.only(top: 15, bottom: 15, right: 17, left: 17),
                 decoration: BoxDecoration(
                   color: AppTheme.white,
