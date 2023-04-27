@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -13,11 +14,12 @@ SharedPreferences? prefs;
 
 class KreasiListAllDataOther extends StatefulWidget {
   const KreasiListAllDataOther(
-      {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
+      {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation, required this.playId})
       : super(key: key);
 
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
+  final String? playId;
 
   @override
   _KreasiListAllDataOtherState createState() => _KreasiListAllDataOtherState();
@@ -37,9 +39,9 @@ class _KreasiListAllDataOtherState extends State<KreasiListAllDataOther>
 
   Future<String> _getKreasiContent() async {
     try {
-      var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/get_content_kreasi"),
+      var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/get_content_kreasi_other"),
           body: {
-            "id_user": "request",
+            "id_play": widget.playId,
           });
       kreasiListData = [];
       var dataKreasi = json.decode(response.body);
@@ -71,186 +73,149 @@ class _KreasiListAllDataOtherState extends State<KreasiListAllDataOther>
   @override
   Widget build(BuildContext context) {
     return
-      AnimatedBuilder(
-        animation: animationController!,
-        builder: (BuildContext context, Widget? child) {
-          return
-            FadeInUp(
-                delay : Duration(milliseconds: 800),
-                child : Container(
-                  margin: EdgeInsets.only(top: 15),
-                  alignment: Alignment.topCenter,
-                  padding: EdgeInsets.only(left: 15, right: 15, bottom: 50),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      Colors.white,
-                      Colors.transparent.withOpacity(0.0)
-                    ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.0),
-                        topRight: Radius.circular(30.0)),
-                  ),
-                  child:
-                  Column(
-                    children: [
+      Container(
+        alignment: Alignment.topCenter,
+        padding: EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 5),
+        width: MediaQuery.of(context).size.width,
+        child:
+        Wrap(
+            children: <Widget>[
+              FutureBuilder<String>(
+                future: _getKreasiContent(), // function where you call your api
+                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return
                       Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
-                        child: Text(
-                          'VIDEO KREASI LAINNYA',
-                          style: TextStyle(
-                              color: Colors.blueAccent,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16
+                          height: MediaQuery.of(context).size.height*0.6,
+                          width: MediaQuery.of(context).size.width,
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 30.0,
+                            width: 30.0,
+                            margin: EdgeInsets.only(
+                                right: 10),
+                            child: CircularProgressIndicator(
+                              color: Colors.orange,
+                              strokeWidth: 3,
+                            ),
+                          )
+                      );
+                  } else {
+                    if (snapshot.hasError)
+                      return
+                        FadeInUp(
+                          delay: Duration(milliseconds: 500),
+                          child: Container(
+                            margin: EdgeInsets.only(top: 130, bottom: 100),
+                            alignment: Alignment.center,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 10),
+                                  child: Image.asset("assets/images/empty_data.png", height: 100),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Oops...',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        letterSpacing: 0.5,
+                                        color: Colors.blueGrey.shade200,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Konten belum tersedia',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        letterSpacing: 0.5,
+                                        color: Colors.blueGrey.shade200,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
-                      Wrap(
-                          children: <Widget>[
-                            FutureBuilder<String>(
-                              future: _getKreasiContent(), // function where you call your api
-                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return
-                                    Container(
-                                        height: MediaQuery.of(context).size.height*0.6,
-                                        width: MediaQuery.of(context).size.width,
-                                        alignment: Alignment.center,
-                                        child: Container(
-                                          height: 30.0,
-                                          width: 30.0,
-                                          margin: EdgeInsets.only(
-                                              right: 10),
-                                          child: CircularProgressIndicator(
-                                            color: Colors.orange,
-                                            strokeWidth: 3,
-                                          ),
-                                        )
-                                    );
-                                } else {
-                                  if (snapshot.hasError)
-                                    return
-                                      FadeInUp(
-                                        delay: Duration(milliseconds: 500),
-                                        child: Container(
-                                          margin: EdgeInsets.only(top: 130, bottom: 100),
-                                          alignment: Alignment.center,
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.only(bottom: 10),
-                                                child: Image.asset("assets/images/empty_data.png", height: 100),
-                                              ),
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    'Oops...',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      fontFamily: AppTheme.fontName,
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 16,
-                                                      letterSpacing: 0.5,
-                                                      color: Colors.blueGrey.shade200,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    'Konten belum tersedia',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      fontFamily: AppTheme.fontName,
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 12,
-                                                      letterSpacing: 0.5,
-                                                      color: Colors.blueGrey.shade200,
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                  else
-                                  if(kreasiListData.length==0)
-                                    return
-                                      FadeInUp(
-                                        delay: Duration(milliseconds: 500),
-                                        child: Container(
-                                          margin: EdgeInsets.only(top: 130, bottom: 100),
-                                          alignment: Alignment.center,
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.only(bottom: 10),
-                                                child: Image.asset("assets/images/empty_data.png", height: 100),
-                                              ),
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    'Oops...',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      fontFamily: AppTheme.fontName,
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 16,
-                                                      letterSpacing: 0.5,
-                                                      color: Colors.blueGrey.shade200,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    'Konten belum tersedia',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      fontFamily: AppTheme.fontName,
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 12,
-                                                      letterSpacing: 0.5,
-                                                      color: Colors.blueGrey.shade200,
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                  else
-                                    return GridView.builder(
-                                        shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            childAspectRatio: 1,
-                                            crossAxisSpacing: 5,
-                                            mainAxisSpacing: 5),
-                                        itemCount: kreasiListData.length,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          animationController?.forward();
-                                          return itemVideoAll(kreasiListData[index], context, animationController!);
-                                        });
-                                }
-                              },
-                            )
-                          ]
-                      ),
-                    ],
-                  ),
-                )
-            );
-        },
+                        );
+                    else
+                    if(kreasiListData.length==0)
+                      return
+                        FadeInUp(
+                          delay: Duration(milliseconds: 500),
+                          child: Container(
+                            margin: EdgeInsets.only(top: 130, bottom: 100),
+                            alignment: Alignment.center,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 10),
+                                  child: Image.asset("assets/images/empty_data.png", height: 100),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Oops...',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        letterSpacing: 0.5,
+                                        color: Colors.blueGrey.shade200,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Konten belum tersedia',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        letterSpacing: 0.5,
+                                        color: Colors.blueGrey.shade200,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                    else
+                      return GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 1,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10),
+                          itemCount: kreasiListData.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            animationController?.forward();
+                            return itemVideoAll(kreasiListData[index], context, animationController!);
+                          });
+                  }
+                },
+              )
+            ]
+        ),
       );
-
   }
 }
 
@@ -269,82 +234,96 @@ Widget itemVideoAll(KreasiData kreasiData, BuildContext context, AnimationContro
               );
             });
           },
-          child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child:
-              Container(
-                decoration: BoxDecoration(color: Colors.white,
-                    borderRadius: BorderRadius.circular(9)),
-                child:
-                Column(
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppTheme.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(10.0),
+                  bottomRight: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: AppTheme.grey.withOpacity(0.2),
+                    offset: Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 2.0),
+              ],
+            ),
+            child:
+            Wrap(
+              children: [
+                Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Wrap(
-                      children: [
-                        Stack(
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:
+                      Image.asset(
+                        'assets/images/no_image_3.png',
+                        width: double.infinity,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:
+                      CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: 'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+kreasiData.square_thumbnail,
+                        placeholder: (context, url) => Container(
                           alignment: Alignment.center,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(9),
-                              child:
-                              Image.asset(
-                                'assets/images/no_image_3.png',
-                                width: double.infinity,
-                                fit: BoxFit.fill,
-                              ),
+                          child: Container(
+                            height: 30.0,
+                            width: 30.0,
+                            margin: EdgeInsets.only(right: 10),
+                            child: CircularProgressIndicator(
+                              color: Colors.orange,
+                              strokeWidth: 2.5,
                             ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(9),
-                              child:
-                              Image.network(
-                                'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+kreasiData.square_thumbnail,
-                                width: double.infinity,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            Positioned(
-                                right: 5,
-                                top: 10,
-                                child: new Align(
-                                    alignment: FractionalOffset.bottomRight,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.6),
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(5.0),
-                                            bottomLeft: Radius.circular(5.0),
-                                            bottomRight: Radius.circular(5.0),
-                                            topRight: Radius.circular(5.0)),
-                                      ),
-                                      margin: EdgeInsets.only(right: 5),
-                                      padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
-                                      child: Text(kreasiData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
-                                    )
-                                )
-                            ),
-                            Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                width: 38,
-                                height: 38,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.black.withOpacity(0.5)
-                                ),
-                                child: Icon(
-                                    Icons.play_arrow,
-                                    color: Colors.white
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ],
+                        errorWidget: (context, url, error) => new Icon(Icons.error),
+                      ),
+                    ),
+                    Positioned(
+                        right: 3,
+                        bottom: 8,
+                        child: new Align(
+                            alignment: FractionalOffset.bottomRight,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.6),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(5.0),
+                                    bottomLeft: Radius.circular(5.0),
+                                    bottomRight: Radius.circular(5.0),
+                                    topRight: Radius.circular(5.0)),
+                              ),
+                              margin: EdgeInsets.only(right: 5),
+                              padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
+                              child: Text(kreasiData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
+                            )
+                        )
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: 38,
+                        height: 38,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black.withOpacity(0.5)
+                        ),
+                        child: Icon(
+                            Icons.play_arrow,
+                            color: Colors.white
+                        ),
+                      ),
                     ),
                   ],
-                ) ,
-              )
+                ),
+              ],
+            ),
           ),
         )
     );

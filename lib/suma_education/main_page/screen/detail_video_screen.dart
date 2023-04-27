@@ -8,13 +8,16 @@ import 'package:getwidget/components/button/gf_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/interaktif_all.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/interaktif_all_other.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/interaktif_equipment.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all_other.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/more_video.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/text_video_lainnya.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/tutorial_all.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/tutorial_all_other.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/video_detail.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/video_player_main_detail.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -98,29 +101,51 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
       ),
     );
 
-    listViews.add(
-      VideoDetail(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve:
-            Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController!,
-        idContent: widget.idContent!,
-      ),
-    );
-
     if(widget.kategoriKonten=="1"){
       listViews.add(
-        KreasiListAllData(
+        VideoDetail(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController!,
+              curve:
+              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController!,
+          idContent: widget.idContent!,
+          paddingBottom: 30,
+        ),
+      );
+      listViews.add(
+        MoreVideo(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController!,
+              curve:
+              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController!,
+          idCategory: widget.kategoriKonten!,
+        ),
+      );
+      listViews.add(
+        KreasiListAllDataOther(
           mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
               CurvedAnimation(
                   parent: widget.animationController!,
                   curve: Interval((1 / count) * 3, 1.0,
                       curve: Curves.fastOutSlowIn))),
           mainScreenAnimationController: widget.animationController,
+          playId: widget.idContent!,
         ),
       );
     } else if(widget.kategoriKonten=="2"){
+      listViews.add(
+        VideoDetail(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController!,
+              curve:
+              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController!,
+          idContent: widget.idContent!,
+          paddingBottom: 5,
+        ),
+      );
       listViews.add(
         InteraktifEquipment(
           mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -132,24 +157,57 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         ),
       );
       listViews.add(
-        InteraktifAllListData(
+        MoreVideo(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController!,
+              curve:
+              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController!,
+          idCategory: widget.kategoriKonten!,
+        ),
+      );
+      listViews.add(
+        InteraktifAllListDataOther(
           mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
               CurvedAnimation(
                   parent: widget.animationController!,
                   curve: Interval((1 / count) * 3, 1.0,
                       curve: Curves.fastOutSlowIn))),
           mainScreenAnimationController: widget.animationController,
+          playId: widget.kategoriKonten!,
         ),
       );
     } else if(widget.kategoriKonten=="3"){
       listViews.add(
-        TutorialAllListData(
+        VideoDetail(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController!,
+              curve:
+              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController!,
+          idContent: widget.idContent!,
+          paddingBottom: 30,
+        ),
+      );
+      listViews.add(
+        MoreVideo(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+              parent: widget.animationController!,
+              curve:
+              Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController!,
+          idCategory: widget.kategoriKonten!,
+        ),
+      );
+      listViews.add(
+        TutorialAllListDataOther(
           mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
               CurvedAnimation(
                   parent: widget.animationController!,
                   curve: Interval((1 / count) * 3, 1.0,
                       curve: Curves.fastOutSlowIn))),
           mainScreenAnimationController: widget.animationController,
+          playId: widget.kategoriKonten!,
         ),
       );
     }

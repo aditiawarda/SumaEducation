@@ -119,7 +119,7 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
                     0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                 child:
                 Container(
-                    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 0),
+                    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 30),
                     margin: EdgeInsets.only(top: 10),
                     child: ZoomTapAnimation(
                       onTap: () async {
