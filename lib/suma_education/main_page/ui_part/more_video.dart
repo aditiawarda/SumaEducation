@@ -65,12 +65,12 @@ class _MoreVideoState extends State<MoreVideo>
                           Shadow(
                             offset: Offset(0.0, 0.0),
                             blurRadius: 5.0,
-                            color: Colors.white,
+                            color: Colors.white.withOpacity(0.6),
                           ),
                           Shadow(
                             offset: Offset(0.0, 0.0),
                             blurRadius: 10.0,
-                            color: Colors.white,
+                            color: Colors.white.withOpacity(0.6),
                           ),
                         ],
                     ),
