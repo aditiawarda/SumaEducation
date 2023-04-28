@@ -121,7 +121,7 @@ class _ProductScreenState extends State<ProductScreen>
     return Container(
       color: AppTheme.background,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
             Column(

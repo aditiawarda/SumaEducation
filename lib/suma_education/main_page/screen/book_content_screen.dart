@@ -122,19 +122,9 @@ class _BookContentScreenState extends State<BookContentScreen>
     return Container(
       color: AppTheme.background,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(top: 90.0),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/background_page.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: null /* add child content here */,
-            ),
             Column(
               children: [
                 SizedBox(

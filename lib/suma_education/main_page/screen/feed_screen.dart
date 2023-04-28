@@ -12,6 +12,8 @@ import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:suma_education/suma_education/main_page/ui_part/feeds_list_video.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/logout_button.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/story_feed.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/timeline_feed.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/user_bio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -76,16 +78,37 @@ class _FeedScreenState extends State<FeedScreen>
     const int count = 5;
 
     listViews.add(
-      FeedsListVideo(
+      StoryFeed(
+        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+            Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        mainScreenAnimationController: widget.animationController!,
+      ),
+    );
+
+    listViews.add(
+      TimelineFeed(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
                 curve: Interval((1 / count) * 3, 1.0,
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController,
-        idRequest: "209",
       ),
     );
+
+    // listViews.add(
+    //   FeedsListVideo(
+    //     mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+    //         CurvedAnimation(
+    //             parent: widget.animationController!,
+    //             curve: Interval((1 / count) * 3, 1.0,
+    //                 curve: Curves.fastOutSlowIn))),
+    //     mainScreenAnimationController: widget.animationController,
+    //     idRequest: "209",
+    //   ),
+    // );
 
   }
 
@@ -122,19 +145,9 @@ class _FeedScreenState extends State<FeedScreen>
     return Container(
       color: AppTheme.background,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(top: 90.0),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/background_page.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: null /* add child content here */,
-            ),
             Column(
               children: [
                 SizedBox(
@@ -207,9 +220,6 @@ class _FeedScreenState extends State<FeedScreen>
                 child: Container(
                   decoration: BoxDecoration(
                     color: AppTheme.white.withOpacity(topBarOpacity),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(32.0),
-                    ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                           color: AppTheme.grey

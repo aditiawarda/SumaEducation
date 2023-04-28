@@ -118,26 +118,9 @@ class _HomeScreenState extends State<HomeScreen>
     return Container(
       color: AppTheme.background,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
-            FadeTransition(
-              opacity: widget.animationController!,
-              child: Transform(
-                  transform: Matrix4.translationValues(0.0, 30 * (1.0 - widget.animationController!.value), 0.0),
-                  child:
-                  Container(
-                    margin: const EdgeInsets.only(top: 90.0),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/background_page.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: null /* add child content here */,
-                  )
-              ),
-            ),
             getBackWiget(),
             Column(
               children: [
