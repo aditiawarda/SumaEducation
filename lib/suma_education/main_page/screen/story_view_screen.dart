@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
+import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/suma_education/main_page/model/story_data.dart';
 import 'package:suma_education/suma_education/main_page/model/story_viewer_data.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -21,7 +23,7 @@ class StoryView extends StatefulWidget {
   State<StoryView> createState() => _StoryViewState();
 }
 
-class _StoryViewState extends State<StoryView> {
+class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   double percent = 0.0;
@@ -34,6 +36,7 @@ class _StoryViewState extends State<StoryView> {
   String myReaction = "";
   List<StoryData> stories = [];
   List<StoryViewerData> viewer_stories = [];
+  AnimationController? animationControllerBottomSheet;
 
   void startTimer(){
     _timer = Timer.periodic(Duration(microseconds: 10*1000), (timer) {
@@ -215,6 +218,7 @@ class _StoryViewState extends State<StoryView> {
 
   @override
   void initState(){
+    animationControllerBottomSheet = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     _getuser();
     startTimer();
     asViewer();
@@ -232,19 +236,48 @@ class _StoryViewState extends State<StoryView> {
 
   Future _viewerStories(){
     return
-      showBarModalBottomSheet(
-        backgroundColor: Colors.white,
-        context: context,
-        builder: (context) => SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: listViewer(tinggifix),
-          ),
-        ),
-      ).whenComplete(() {
-        startTimer();
-      });
+      showModalBottomSheet<void>(
+          context: context,
+          backgroundColor: Colors.transparent,
+          transitionAnimationController: animationControllerBottomSheet,
+          builder: (BuildContext context) {
+            return
+              SlideInUp(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        bottomLeft: Radius.circular(0.0),
+                        bottomRight: Radius.circular(0.0),
+                        topRight: Radius.circular(20.0)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: AppTheme.grey.withOpacity(0.5),
+                          offset: Offset(0.0, 1.0), //(x,y)
+                          blurRadius: 3.0),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Container(
+                        width: 80,
+                        height: 3,
+                        margin: EdgeInsets.only(top: 20, bottom: 15),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.5),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                      ),
+                      listViewer(tinggifix)
+                    ],
+                  ),
+                ),
+              );
+          }
+      );
   }
 
   Future _reactionStories(){
@@ -480,18 +513,19 @@ class _StoryViewState extends State<StoryView> {
 
   Widget listViewer(var tinggi){
     return Container(
-        height: tinggi,
         child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+              margin: EdgeInsets.only(left: 20, right: 20),
               child: ListView.builder(
-                padding: EdgeInsets.only(top: 10, bottom: 20),
-                  itemCount: viewer_stories.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return
-                      itemListViewer(viewer_stories[index], context);
-                  }
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                    itemCount: viewer_stories.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return
+                        itemListViewer(viewer_stories[index], context);
+                    }
               ),
             ),
             Align(
