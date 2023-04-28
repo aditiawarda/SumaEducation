@@ -277,7 +277,9 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                 ),
               );
           }
-      );
+      ).whenComplete(() {
+        startTimer();
+      });
   }
 
   Future _reactionStories(){
@@ -516,7 +518,7 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
         child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20),
+              margin: EdgeInsets.only(left: 20, right: 20, bottom: 15),
               child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -539,7 +541,6 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   Widget itemListViewer(StoryViewerData viewer_stories, BuildContext context){
     DateTime now = DateTime.now();
     String currentDate = DateFormat('yyyy-MM-dd').format(now);
-
     return Container(
       width: lebarfix,
       height: tinggifix/10,
