@@ -321,6 +321,8 @@ class _StoryFeedState extends State<StoryFeed>
                     Stack(
                       children: [
                         Container(
+                          height: double.infinity,
+                          width: double.infinity,
                           child: FutureBuilder<String>(
                             future: _getDataStory(), // function where you call your api
                             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
