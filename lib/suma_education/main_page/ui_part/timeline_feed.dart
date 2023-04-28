@@ -215,7 +215,7 @@ class _TimelineFeedState extends State<TimelineFeed>
                                         shrinkWrap: true,
                                         physics: const NeverScrollableScrollPhysics(),
                                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 1,
+                                            crossAxisCount: 2,
                                             childAspectRatio: 1,
                                             crossAxisSpacing: 10,
                                             mainAxisSpacing: 10),

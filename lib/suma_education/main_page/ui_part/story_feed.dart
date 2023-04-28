@@ -321,7 +321,7 @@ class _StoryFeedState extends State<StoryFeed>
                     Stack(
                       children: [
                         Container(
-                          height: double.infinity,
+                          height: 105,
                           width: double.infinity,
                           child: FutureBuilder<String>(
                             future: _getDataStory(), // function where you call your api
@@ -331,7 +331,7 @@ class _StoryFeedState extends State<StoryFeed>
                                   FadeInRight(
                                     delay: Duration(milliseconds: 300),
                                     child: Container(
-                                      height: double.infinity,
+                                      height: 105,
                                       width: double.infinity,
                                       child: Container(
                                           alignment: Alignment.center,
@@ -362,6 +362,8 @@ class _StoryFeedState extends State<StoryFeed>
                                     FadeInRight(
                                       delay: Duration(milliseconds: 300),
                                       child: Container(
+                                        height: 105,
+                                        width: double.infinity,
                                         alignment: Alignment.center,
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -410,6 +412,8 @@ class _StoryFeedState extends State<StoryFeed>
                                     FadeInRight(
                                       delay: Duration(milliseconds: 300),
                                       child: Container(
+                                        height: 105,
+                                        width: double.infinity,
                                         alignment: Alignment.center,
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
