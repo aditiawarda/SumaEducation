@@ -39,7 +39,6 @@ class _TimelineFeedState extends State<TimelineFeed>
   @override
   void initState() {
     animationController = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this);
-    _getKreasiContent();
     super.initState();
   }
 
@@ -215,7 +214,7 @@ class _TimelineFeedState extends State<TimelineFeed>
                                         shrinkWrap: true,
                                         physics: const NeverScrollableScrollPhysics(),
                                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
+                                            crossAxisCount: 1,
                                             childAspectRatio: 1,
                                             crossAxisSpacing: 10,
                                             mainAxisSpacing: 10),
