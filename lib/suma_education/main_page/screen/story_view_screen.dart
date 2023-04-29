@@ -39,7 +39,7 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
   AnimationController? animationControllerBottomSheet;
 
   void startTimer(){
-    _timer = Timer.periodic(Duration(microseconds: 10*1000), (timer) {
+    _timer = Timer.periodic(Duration(microseconds: 10 * 1000), (timer) {
       setState((){
         percent += 0.001;
         if(percent > 1){

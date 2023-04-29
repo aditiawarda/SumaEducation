@@ -84,8 +84,8 @@ class _TimelineFeedState extends State<TimelineFeed>
                     0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                 child:
                 FadeInUp(
-                    delay : Duration(milliseconds: 1000),
-                    child : Container(
+                    delay: Duration(milliseconds: 1000),
+                    child: Container(
                       alignment: Alignment.topCenter,
                       padding: EdgeInsets.only(bottom: 30),
                       width: MediaQuery.of(context).size.width,
@@ -244,7 +244,7 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
         color: AppTheme.white,
       ),
       child:
-      Wrap(
+      Column(
         children: [
           Stack(
             alignment: Alignment.center,
@@ -279,7 +279,16 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
               ),
             ],
           ),
+          Container(
+            child: Column(
+              children: [
+                Text("Tes User"),
+                Text("Deskripsi")
+              ],
+            ),
+          )
         ],
       ),
     );
+
 }
