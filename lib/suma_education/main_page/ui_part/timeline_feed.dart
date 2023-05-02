@@ -321,20 +321,37 @@ Widget itemAll(TimelineData timelineData, BuildContext context, AnimationControl
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(timelineData.username.toString(),
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold
-                  ),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 13.0,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.orange,
+                        backgroundImage: NetworkImage(timelineData.avatar.toString()),
+                        radius: 12.0,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Text(timelineData.username.toString(),
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 8,),
-                Text(timelineData.deskripsi.toString(),
-                  style: TextStyle(
-                      height: 1.4,
-                      fontSize: 13
-                  ),
-                )
+                SizedBox(height: 4),
+                Container(
+                  margin: EdgeInsets.only(left: 37),
+                  child: Text(timelineData.deskripsi.toString(),
+                    style: TextStyle(
+                        height: 1.4,
+                        fontSize: 13
+                    ),
+                  )
+                ),
               ],
             ),
           )

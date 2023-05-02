@@ -9,10 +9,12 @@ import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:suma_education/suma_education/main_page/screen/feed_screen.dart';
 
 class StoryCaption extends StatefulWidget {
   final File image;
-  StoryCaption({Key? key, required this.image}) : super(key: key);
+  final AnimationController? animationController;
+  StoryCaption({Key? key, required this.image, required this.animationController}) : super(key: key);
 
   @override
   State<StoryCaption> createState() => _StoryCaptionState();
@@ -164,10 +166,15 @@ class _StoryCaptionState extends State<StoryCaption> {
       String message = json["message"];
 
       if (status == "Success") {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(message),
-        ));
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => FeedScreen(animationController: widget.animationController)
+            ),
+            ModalRoute.withName("/Feed")
+        );
+        // Navigator.pop(context);
+        // setState((){});
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(message),

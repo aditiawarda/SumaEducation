@@ -367,7 +367,7 @@ class _FeedScreenState extends State<FeedScreen>
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => StoryCaption(image: this.image)),
+              builder: (context) => StoryCaption(image: this.image, animationController: widget.animationController)),
         );
       });
     } on PlatformException catch (e) {
@@ -420,7 +420,7 @@ class _FeedScreenState extends State<FeedScreen>
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => StoryCaption(image: this.image)),
+              builder: (context) => StoryCaption(image: this.image, animationController: widget.animationController)),
         );
       });
     } on PlatformException catch (e) {
