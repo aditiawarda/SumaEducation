@@ -18,6 +18,7 @@ import 'package:suma_education/suma_education/main_page/model/story_data.dart';
 import 'package:suma_education/suma_education/main_page/screen/story_view_screen.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/feeds_list_video.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/logout_button.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/story_caption.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/story_feed.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/timeline_feed.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/user_bio.dart';
@@ -49,6 +50,7 @@ class _FeedScreenState extends State<FeedScreen>
   double topBarOpacity = 0.0;
   List<StoryData> stories = [];
   late File image;
+  String? kategoriPosting = "";
 
   @override
   void initState() {
@@ -212,7 +214,11 @@ class _FeedScreenState extends State<FeedScreen>
                         ZoomTapAnimation(
                           onTap: () async {
                             Navigator.of(context).pop();
-                            pickImageCamera();
+                            if(kategoriPosting=='1'){
+                              pickImageCameraTimeline();
+                            } else if(kategoriPosting=='2'){
+                              pickImageCameraStory();
+                            }
                           },
                           child: Container(
                             margin: EdgeInsets.only(left: 20, right: 20),
@@ -244,7 +250,11 @@ class _FeedScreenState extends State<FeedScreen>
                         ZoomTapAnimation(
                           onTap: () {
                             Navigator.of(context).pop();
-                            pickImageGallery();
+                            if(kategoriPosting=='1'){
+                              pickImageGalleryTimeline();
+                            } else if(kategoriPosting=='2'){
+                              pickImageGalleryStory();
+                            }
                           },
                           child: Container(
                             margin: EdgeInsets.only(left: 20, right: 20),
@@ -305,7 +315,7 @@ class _FeedScreenState extends State<FeedScreen>
     );
   }
 
-  Future pickImageCamera() async {
+  Future pickImageCameraStory() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       final cropped = await ImageCropper().cropImage(
@@ -335,7 +345,37 @@ class _FeedScreenState extends State<FeedScreen>
     }
   }
 
-  Future pickImageGallery() async {
+  Future pickImageCameraTimeline() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      final cropped = await ImageCropper().cropImage(
+        sourcePath: image!.path,
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        compressQuality: 100,
+        maxWidth: 500,
+        maxHeight: 500,
+        compressFormat: ImageCompressFormat.jpg,
+      );
+      if (image == null) return;
+
+      final imageTemporary = File(cropped!.path);
+      setState(() {
+        this.image = imageTemporary;
+        String fileName = image.path.split('/').last;
+        print('file : '+fileName);
+        //uploadImg(fileName);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => StoryCaption(image: this.image)),
+        );
+      });
+    } on PlatformException catch (e) {
+      print('Gagal, Siahkan coba lagi');
+    }
+  }
+
+  Future pickImageGalleryStory() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
@@ -359,6 +399,35 @@ class _FeedScreenState extends State<FeedScreen>
     }
   }
 
+  Future pickImageGalleryTimeline() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final cropped = await ImageCropper().cropImage(
+        sourcePath: image.path,
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        compressQuality: 100,
+        maxWidth: 500,
+        maxHeight: 500,
+        compressFormat: ImageCompressFormat.jpg,
+      );
+
+      final imageTemporary = File(cropped!.path);
+      setState(() {
+        this.image = imageTemporary;
+        String fileName = image.path.split('/').last;
+        //uploadImg(fileName);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => StoryCaption(image: this.image)),
+        );
+      });
+    } on PlatformException catch (e) {
+      print('Gagal, Siahkan coba lagi');
+    }
+  }
+
   void uploadImg(fileName) async {
     final SharedPreferences prefs = await _prefs;
     try {
@@ -370,7 +439,7 @@ class _FeedScreenState extends State<FeedScreen>
           Uri.parse("https://suma.geloraaksara.co.id/api/upload_event_content"),
           body: {
             "id_user": prefs.getString("data_id"),
-            "category_content": "2",
+            "category_content": kategoriPosting.toString(),
             "file": baseimage,
             "name": fileName,
           });
@@ -392,7 +461,9 @@ class _FeedScreenState extends State<FeedScreen>
     } catch (e) {
       print("Error during converting to Base64");
       new Future.delayed(new Duration(milliseconds: 2000), () {
-        setState(() {});
+        setState(() {
+          _onRefresh();
+        });
       });
     }
   }
@@ -429,6 +500,26 @@ class _FeedScreenState extends State<FeedScreen>
               height: MediaQuery.of(context).padding.bottom,
             )
           ],
+        ),
+        floatingActionButton:
+        FadeInRight(
+          delay: Duration(milliseconds: 300),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 60.0),
+            child: FloatingActionButton(
+              elevation: 2,
+              onPressed: () async {
+                kategoriPosting = "1";
+                final source = await showImageSource(context);
+                if (source == null) return;
+              },
+              child: Container(
+                padding: EdgeInsets.only(left: 2),
+                child: Icon(Icons.post_add, color: Colors.white, size: 27,),
+              ),
+              backgroundColor: Color(0xffd35712),
+            ),
+          ),
         ),
       ),
     );
@@ -884,7 +975,7 @@ class _FeedScreenState extends State<FeedScreen>
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 Image.asset("assets/images/empty_data.png",
-                                                    height: 80),
+                                                    height: 55),
                                                 Container(
                                                     margin: EdgeInsets.only(left: 10),
                                                     child: Column(
@@ -934,7 +1025,7 @@ class _FeedScreenState extends State<FeedScreen>
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 Image.asset("assets/images/empty_data.png",
-                                                    height: 80),
+                                                    height: 55),
                                                 Container(
                                                     margin: EdgeInsets.only(left: 10),
                                                     child: Column(
@@ -1007,6 +1098,7 @@ class _FeedScreenState extends State<FeedScreen>
                                       ZoomTapAnimation(
                                         child: GestureDetector(
                                             onTap: () async {
+                                              kategoriPosting = "2";
                                               final source = await showImageSource(context);
                                               if (source == null) return;
                                             },
