@@ -12,10 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
+import 'package:image/image.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:page_view_dot_indicator/page_view_dot_indicator.dart';
 import 'package:suma_education/suma_education/main_page/model/book_list_data.dart';
 import 'package:suma_education/suma_education/main_page/model/book_page.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class DetailBukuState extends StatefulWidget {
   final BookData book;
@@ -114,7 +116,7 @@ class _MyListScreenState extends State<DetailBukuState> {
   }
 
   @override
-  build(context) {
+  Widget build(context) {
     final pageCount = int.parse(widget.book.jumlah_halaman);
     return
       WillPopScope(
@@ -128,7 +130,8 @@ class _MyListScreenState extends State<DetailBukuState> {
             Column(
               children: [
                 Expanded(
-                  child: PageView(
+                  child:
+                  PageView(
                     controller: _pageController,
                     onPageChanged: (page) {
                       setState(() {
@@ -166,31 +169,31 @@ class _MyListScreenState extends State<DetailBukuState> {
                                   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                                     if (snapshot.connectionState == ConnectionState.waiting) {
                                       return
-                                      Container(
-                                        height: double.infinity,
-                                        width: double.infinity,
-                                        child: Container(
-                                            alignment: Alignment.center,
-                                            height: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .height,
-                                            width: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width,
-                                            child:
-                                            Container(
-                                              height: 30.0,
-                                              width: 30.0,
-                                              margin: EdgeInsets.only(right: 10),
-                                              child: CircularProgressIndicator(
-                                                color: Colors.orange,
-                                                strokeWidth: 2.5,
-                                              ),
-                                            )
-                                        ),
-                                      );
+                                        Container(
+                                          height: double.infinity,
+                                          width: double.infinity,
+                                          child: Container(
+                                              alignment: Alignment.center,
+                                              height: MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .height,
+                                              width: MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .width,
+                                              child:
+                                              Container(
+                                                height: 30.0,
+                                                width: 30.0,
+                                                margin: EdgeInsets.only(right: 10),
+                                                child: CircularProgressIndicator(
+                                                  color: Colors.orange,
+                                                  strokeWidth: 2.5,
+                                                ),
+                                              )
+                                          ),
+                                        );
                                     } else {
                                       if (snapshot.hasError)
                                         return
@@ -231,24 +234,24 @@ class _MyListScreenState extends State<DetailBukuState> {
                                               fit: BoxFit.contain,
                                               imageUrl: "https://suma.geloraaksara.co.id/uploads/cover_book/"+widget.book.cover,
                                               placeholder: (context, url) => Container(
-                                                    height: double.infinity,
-                                                    width: double.infinity,
-                                                    child: Container(
-                                                        alignment: Alignment.center,
-                                                        height: MediaQuery.of(context).size.height,
-                                                        width: MediaQuery.of(context).size.width,
-                                                        child:
-                                                        Container(
-                                                          height: 30.0,
-                                                          width: 30.0,
-                                                          margin: EdgeInsets.only(right: 10),
-                                                          child: CircularProgressIndicator(
-                                                            color: Colors.orange,
-                                                            strokeWidth: 2.5,
-                                                          ),
-                                                        )
-                                                    ),
-                                                  ),
+                                                height: double.infinity,
+                                                width: double.infinity,
+                                                child: Container(
+                                                    alignment: Alignment.center,
+                                                    height: MediaQuery.of(context).size.height,
+                                                    width: MediaQuery.of(context).size.width,
+                                                    child:
+                                                    Container(
+                                                      height: 30.0,
+                                                      width: 30.0,
+                                                      margin: EdgeInsets.only(right: 10),
+                                                      child: CircularProgressIndicator(
+                                                        color: Colors.orange,
+                                                        strokeWidth: 2.5,
+                                                      ),
+                                                    )
+                                                ),
+                                              ),
                                               errorWidget: (context, url, error) => new Icon(Icons.error),
                                             ),
                                           );
@@ -272,25 +275,25 @@ class _MyListScreenState extends State<DetailBukuState> {
                                                 imageUrl: "https://suma.geloraaksara.co.id/uploads/book_page/" +
                                                     bookPage[index].image,
                                                 placeholder: (context, url) =>
-                                                Container(
-                                                  height: double.infinity,
-                                                  width: double.infinity,
-                                                  child: Container(
-                                                      alignment: Alignment.center,
-                                                      height: MediaQuery.of(context).size.height,
-                                                      width: MediaQuery.of(context).size.width,
-                                                      child:
-                                                      Container(
-                                                        height: 30.0,
-                                                        width: 30.0,
-                                                        margin: EdgeInsets.only(right: 10),
-                                                        child: CircularProgressIndicator(
-                                                          color: Colors.orange,
-                                                          strokeWidth: 2.5,
-                                                        ),
-                                                      )
-                                                  ),
-                                                ),
+                                                    Container(
+                                                      height: double.infinity,
+                                                      width: double.infinity,
+                                                      child: Container(
+                                                          alignment: Alignment.center,
+                                                          height: MediaQuery.of(context).size.height,
+                                                          width: MediaQuery.of(context).size.width,
+                                                          child:
+                                                          Container(
+                                                            height: 30.0,
+                                                            width: 30.0,
+                                                            margin: EdgeInsets.only(right: 10),
+                                                            child: CircularProgressIndicator(
+                                                              color: Colors.orange,
+                                                              strokeWidth: 2.5,
+                                                            ),
+                                                          )
+                                                      ),
+                                                    ),
                                                 errorWidget: (context, url,
                                                     error) => new Icon(Icons.error),
                                               )

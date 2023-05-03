@@ -54,11 +54,13 @@ class _FeedScreenState extends State<FeedScreen>
 
   @override
   void initState() {
+    _getDataStory();
     animationControllerBottomSheet = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: widget.animationController!,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+
     addAllListData();
 
     scrollController.addListener(() {
@@ -87,40 +89,10 @@ class _FeedScreenState extends State<FeedScreen>
   }
 
   void addAllListData() {
-    const int count = 5;
-
-    // listViews.add(
-    //   StoryFeed(
-    //     mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-    //         parent: widget.animationController!,
-    //         curve:
-    //         Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-    //     mainScreenAnimationController: widget.animationController!,
-    //   ),
-    // );
 
     listViews.add(
-      TimelineFeed(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
-      ),
+      TimelineFeed(),
     );
-
-    // listViews.add(
-    //   FeedsListVideo(
-    //     mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-    //         CurvedAnimation(
-    //             parent: widget.animationController!,
-    //             curve: Interval((1 / count) * 3, 1.0,
-    //                 curve: Curves.fastOutSlowIn))),
-    //     mainScreenAnimationController: widget.animationController,
-    //     idRequest: "209",
-    //   ),
-    // );
 
   }
 
@@ -131,6 +103,7 @@ class _FeedScreenState extends State<FeedScreen>
 
   void _onRefresh() async{
     setState(() {
+      _getDataStory();
       listViews.clear();
       addAllListData();
     });
@@ -575,7 +548,7 @@ class _FeedScreenState extends State<FeedScreen>
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
+                    color: AppTheme.white,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                           color: AppTheme.grey
@@ -928,42 +901,10 @@ class _FeedScreenState extends State<FeedScreen>
                             Container(
                               height: 105,
                               width: double.infinity,
-                              child: FutureBuilder<String>(
-                                future: _getDataStory(), // function where you call your api
-                                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
-                                  if (snapshot.connectionState == ConnectionState.waiting) {
-                                    return
-                                      FadeInRight(
-                                        delay: Duration(milliseconds: 300),
-                                        child: Container(
-                                          height: 105,
-                                          width: double.infinity,
-                                          child: Container(
-                                              alignment: Alignment.center,
-                                              height: MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .height,
-                                              width: MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .width,
-                                              child:
-                                              Container(
-                                                height: 30.0,
-                                                width: 30.0,
-                                                margin: EdgeInsets.only(right: 10),
-                                                child: CircularProgressIndicator(
-                                                  color: Colors.orange,
-                                                  strokeWidth: 2.5,
-                                                ),
-                                              )
-                                          ),
-                                        ),
-                                      );
-                                  } else {
-                                    if (snapshot.hasError)
-                                      return
+                              child:
+                                  Stack(
+                                    children: [
+                                      if(stories.length==0)...{
                                         FadeInRight(
                                           delay: Duration(milliseconds: 300),
                                           child: Container(
@@ -1010,69 +951,165 @@ class _FeedScreenState extends State<FeedScreen>
                                               ],
                                             ),
                                           ),
-                                        );
-                                    else
-                                    if (stories.length==0)
-                                      return
-                                        FadeInRight(
-                                          delay: Duration(milliseconds: 300),
-                                          child: Container(
-                                            height: 105,
-                                            width: double.infinity,
-                                            alignment: Alignment.center,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Image.asset("assets/images/empty_data.png",
-                                                    height: 55),
-                                                Container(
-                                                    margin: EdgeInsets.only(left: 10),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          'Oops...',
-                                                          textAlign: TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontFamily: AppTheme.fontName,
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 15,
-                                                            letterSpacing: 0.5,
-                                                            color: Colors.blueGrey.shade200,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'Konten belum tersedia',
-                                                          textAlign: TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontFamily: AppTheme.fontName,
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 11,
-                                                            letterSpacing: 0.5,
-                                                            color: Colors.blueGrey.shade200,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                    else
-                                      return ListView.builder(
-                                          padding: EdgeInsets.only(left: 70, right: 15),
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: stories.length,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return
-                                              storyButton(stories[index], context);
-                                          });
-                                  }
-                                },
-                              ),
+                                        )
+                                      } else ...{
+                                        ListView.builder(
+                                            padding: EdgeInsets.only(left: 70, right: 15),
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: stories.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              return
+                                                storyButton(stories[index], context);
+                                            })
+                                      }
+                                    ],
+                                  )
+
+                              // FutureBuilder<String>(
+                              //   future: _getDataStory(), // function where you call your api
+                              //   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
+                              //     if (snapshot.connectionState == ConnectionState.waiting) {
+                              //       return
+                              //         FadeInRight(
+                              //           delay: Duration(milliseconds: 300),
+                              //           child: Container(
+                              //             height: 105,
+                              //             width: double.infinity,
+                              //             child: Container(
+                              //                 alignment: Alignment.center,
+                              //                 height: MediaQuery
+                              //                     .of(context)
+                              //                     .size
+                              //                     .height,
+                              //                 width: MediaQuery
+                              //                     .of(context)
+                              //                     .size
+                              //                     .width,
+                              //                 child:
+                              //                 Container(
+                              //                   height: 30.0,
+                              //                   width: 30.0,
+                              //                   margin: EdgeInsets.only(right: 10),
+                              //                   child: CircularProgressIndicator(
+                              //                     color: Colors.orange,
+                              //                     strokeWidth: 2.5,
+                              //                   ),
+                              //                 )
+                              //             ),
+                              //           ),
+                              //         );
+                              //     } else {
+                              //       if (snapshot.hasError)
+                              //         return
+                              //           FadeInRight(
+                              //             delay: Duration(milliseconds: 300),
+                              //             child: Container(
+                              //               height: 105,
+                              //               width: double.infinity,
+                              //               alignment: Alignment.center,
+                              //               child: Row(
+                              //                 mainAxisAlignment: MainAxisAlignment.center,
+                              //                 crossAxisAlignment: CrossAxisAlignment.center,
+                              //                 children: [
+                              //                   Image.asset("assets/images/empty_data.png",
+                              //                       height: 55),
+                              //                   Container(
+                              //                       margin: EdgeInsets.only(left: 10),
+                              //                       child: Column(
+                              //                         mainAxisAlignment: MainAxisAlignment.center,
+                              //                         crossAxisAlignment: CrossAxisAlignment.start,
+                              //                         children: [
+                              //                           Text(
+                              //                             'Oops...',
+                              //                             textAlign: TextAlign.left,
+                              //                             style: TextStyle(
+                              //                               fontFamily: AppTheme.fontName,
+                              //                               fontWeight: FontWeight.w500,
+                              //                               fontSize: 15,
+                              //                               letterSpacing: 0.5,
+                              //                               color: Colors.blueGrey.shade200,
+                              //                             ),
+                              //                           ),
+                              //                           Text(
+                              //                             'Konten belum tersedia',
+                              //                             textAlign: TextAlign.left,
+                              //                             style: TextStyle(
+                              //                               fontFamily: AppTheme.fontName,
+                              //                               fontWeight: FontWeight.w500,
+                              //                               fontSize: 11,
+                              //                               letterSpacing: 0.5,
+                              //                               color: Colors.blueGrey.shade200,
+                              //                             ),
+                              //                           ),
+                              //                         ],
+                              //                       )
+                              //                   )
+                              //                 ],
+                              //               ),
+                              //             ),
+                              //           );
+                              //       else
+                              //       if (stories.length==0)
+                              //         return
+                              //           FadeInRight(
+                              //             delay: Duration(milliseconds: 300),
+                              //             child: Container(
+                              //               height: 105,
+                              //               width: double.infinity,
+                              //               alignment: Alignment.center,
+                              //               child: Row(
+                              //                 mainAxisAlignment: MainAxisAlignment.center,
+                              //                 crossAxisAlignment: CrossAxisAlignment.center,
+                              //                 children: [
+                              //                   Image.asset("assets/images/empty_data.png",
+                              //                       height: 55),
+                              //                   Container(
+                              //                       margin: EdgeInsets.only(left: 10),
+                              //                       child: Column(
+                              //                         mainAxisAlignment: MainAxisAlignment.center,
+                              //                         crossAxisAlignment: CrossAxisAlignment.start,
+                              //                         children: [
+                              //                           Text(
+                              //                             'Oops...',
+                              //                             textAlign: TextAlign.left,
+                              //                             style: TextStyle(
+                              //                               fontFamily: AppTheme.fontName,
+                              //                               fontWeight: FontWeight.w500,
+                              //                               fontSize: 15,
+                              //                               letterSpacing: 0.5,
+                              //                               color: Colors.blueGrey.shade200,
+                              //                             ),
+                              //                           ),
+                              //                           Text(
+                              //                             'Konten belum tersedia',
+                              //                             textAlign: TextAlign.left,
+                              //                             style: TextStyle(
+                              //                               fontFamily: AppTheme.fontName,
+                              //                               fontWeight: FontWeight.w500,
+                              //                               fontSize: 11,
+                              //                               letterSpacing: 0.5,
+                              //                               color: Colors.blueGrey.shade200,
+                              //                             ),
+                              //                           ),
+                              //                         ],
+                              //                       )
+                              //                   )
+                              //                 ],
+                              //               ),
+                              //             ),
+                              //           );
+                              //       else
+                              //         return ListView.builder(
+                              //             padding: EdgeInsets.only(left: 70, right: 15),
+                              //             scrollDirection: Axis.horizontal,
+                              //             itemCount: stories.length,
+                              //             itemBuilder: (BuildContext context, int index) {
+                              //               return
+                              //                 storyButton(stories[index], context);
+                              //             });
+                              //     }
+                              //   },
+                              // ),
                             ),
                             SlideInLeft(
                               delay: Duration(milliseconds: 800),

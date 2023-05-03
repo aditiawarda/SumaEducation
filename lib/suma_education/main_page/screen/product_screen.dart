@@ -76,14 +76,7 @@ class _ProductScreenState extends State<ProductScreen>
     const int count = 5;
 
     listViews.add(
-      ProductAllData(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
-      ),
+      ProductAllData(),
     );
 
   }
@@ -195,7 +188,7 @@ class _ProductScreenState extends State<ProductScreen>
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
+                    color: AppTheme.white,
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),

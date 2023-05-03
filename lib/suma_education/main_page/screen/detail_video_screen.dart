@@ -321,7 +321,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
+                    color: AppTheme.white,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                         color: AppTheme.grey
