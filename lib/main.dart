@@ -59,7 +59,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   AnimationController? animationController;
-  String? versionUse = '1.2.0';
+  String? versionUse = '1.1.1';
   String? currentVersion = '';
   bool load = false;
 

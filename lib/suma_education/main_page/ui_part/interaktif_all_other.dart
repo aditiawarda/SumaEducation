@@ -97,8 +97,7 @@ class _InteraktifAllListDataOtherState extends State<InteraktifAllListDataOther>
                         child: Container(
                           height: 30.0,
                           width: 30.0,
-                          margin: EdgeInsets.only(
-                              right: 10),
+                          padding: EdgeInsets.all(3.0),
                           child: CircularProgressIndicator(
                             color: Colors.orange,
                             strokeWidth: 3,
@@ -281,7 +280,7 @@ Widget itemVideoAll(InteraktifData interaktifListData, BuildContext context, Ani
                           child: Container(
                             height: 30.0,
                             width: 30.0,
-                            margin: EdgeInsets.only(right: 10),
+                            padding: EdgeInsets.all(3.0),
                             child: CircularProgressIndicator(
                               color: Colors.orange,
                               strokeWidth: 2.5,

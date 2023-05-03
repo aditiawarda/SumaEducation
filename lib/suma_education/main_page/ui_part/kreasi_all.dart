@@ -91,8 +91,7 @@ class _KreasiListAllDataState extends State<KreasiListAllData>
                           child: Container(
                             height: 30.0,
                             width: 30.0,
-                            margin: EdgeInsets.only(
-                                right: 10),
+                            padding: EdgeInsets.all(3.0),
                             child: CircularProgressIndicator(
                               color: Colors.orange,
                               strokeWidth: 3,
@@ -274,7 +273,7 @@ Widget itemVideoAll(KreasiData kreasiData, BuildContext context, AnimationContro
                           child: Container(
                             height: 30.0,
                             width: 30.0,
-                            margin: EdgeInsets.only(right: 10),
+                            padding: EdgeInsets.all(3.0),
                             child: CircularProgressIndicator(
                               color: Colors.orange,
                               strokeWidth: 2.5,

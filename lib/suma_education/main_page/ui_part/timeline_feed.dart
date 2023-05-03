@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
@@ -34,6 +35,8 @@ class _TimelineFeedState extends State<TimelineFeed>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   List<TimelineData> timelineData = [];
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  String? idUser;
 
   @override
   void initState() {
@@ -42,6 +45,8 @@ class _TimelineFeedState extends State<TimelineFeed>
   }
 
   Future<String> _getDataTimeline() async {
+    final SharedPreferences prefs = await _prefs;
+    idUser = prefs.getString("data_id");
     try {
       var response = await http.post(
           Uri.parse("https://suma.geloraaksara.co.id/api/get_timeline_content"),
@@ -68,6 +73,31 @@ class _TimelineFeedState extends State<TimelineFeed>
     return 'true';
   }
 
+  removeTimeline(String idContent, BuildContext context) async {
+    try {
+      var response = await http.post(
+          Uri.parse("https://suma.geloraaksara.co.id/api/remove_timeline"),
+          body: {
+            "id_content": idContent,
+          });
+
+      var json = jsonDecode(response.body);
+      String status = json["status"];
+      String message = json["message"];
+
+      if (status == "Success") {
+        setState(() {});
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(message),
+        ));
+      }
+
+    } catch (e) {
+      print("Error");
+    }
+  }
+
   @override
   void dispose() {
     animationController?.dispose();
@@ -76,7 +106,7 @@ class _TimelineFeedState extends State<TimelineFeed>
 
   @override
   Widget build(BuildContext context) {
-    return  FadeInUp(
+    return FadeInUp(
         delay: Duration(milliseconds: 1000),
         child: Container(
           alignment: Alignment.topCenter,
@@ -214,7 +244,150 @@ class _TimelineFeedState extends State<TimelineFeed>
                             itemBuilder: (context, index) {
                               animationController?.forward();
                               return
-                                itemAll(timelineData[index], context, animationController!);
+                                Container(
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        bottomLeft: Radius.circular(10.0),
+                                        bottomRight: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0)),
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: AppTheme.grey.withOpacity(0.2),
+                                          offset: Offset(0.0, 1.0), //(x,y)
+                                          blurRadius: 2.0),
+                                    ],
+                                  ),
+                                  child:
+                                  Column(
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                child:
+                                                Image.asset(
+                                                  'assets/images/no_image_3.png',
+                                                  width: double.infinity,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                child:
+                                                CachedNetworkImage(
+                                                  fit: BoxFit.cover,
+                                                  imageUrl: timelineData[index].content.toString(),
+                                                  placeholder: (context, url) => Container(
+                                                    alignment: Alignment.center,
+                                                    child: Container(
+                                                      height: 30.0,
+                                                      width: 30.0,
+                                                      padding: EdgeInsets.all(3.0),
+                                                      child: CircularProgressIndicator(
+                                                        color: Colors.orange,
+                                                        strokeWidth: 2.5,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  errorWidget: (context, url, error) => new Icon(Icons.error),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          if (idUser == timelineData[index].id_user) ...{
+                                            Container(
+                                              width: double.infinity,
+                                              child: Container(
+                                                  alignment: Alignment.centerRight,
+                                                  margin: EdgeInsets.only(right: 10,top: 10),
+                                                  child: ZoomTapAnimation(
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          CoolAlert.show(
+                                                              context: context,
+                                                              title: 'Perhatian',
+                                                              backgroundColor: Colors.lightBlue.shade50,
+                                                              borderRadius: 25,
+                                                              width: 30,
+                                                              loopAnimation: false,
+                                                              type: CoolAlertType.confirm,
+                                                              text: 'Apakah kamu yakin menghapus postingan ini?',
+                                                              confirmBtnText: 'OK',
+                                                              cancelBtnText: 'Batal',
+                                                              animType: CoolAlertAnimType.scale,
+                                                              confirmBtnColor: Colors.orange.shade300,
+                                                              onConfirmBtnTap: (){
+                                                                Navigator.of(context, rootNavigator: true).pop('dialog');
+                                                                removeTimeline(timelineData[index].id.toString(), context);
+                                                              }
+                                                          );
+                                                        },
+                                                        child:
+                                                        CircleAvatar(
+                                                            radius: 13.0,
+                                                            backgroundColor: Colors.black.withOpacity(0.3),
+                                                            child:
+                                                            Icon(Icons.delete, size: 17, color: Colors.white)
+                                                        ),
+                                                      )
+                                                  )
+                                              ),
+                                            ),
+                                          }
+                                        ],
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(top: 15, left: 20, right: 20, bottom: 20),
+                                        alignment: Alignment.topLeft,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  radius: 13.0,
+                                                  backgroundColor: Colors.white,
+                                                  child: CircleAvatar(
+                                                    backgroundColor: Colors.orange,
+                                                    backgroundImage: NetworkImage(timelineData[index].avatar.toString()),
+                                                    radius: 12.0,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text(timelineData[index].username.toString(),
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.bold
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            if(timelineData[index].deskripsi.toString()!="null" && timelineData[index].deskripsi.toString()!="")...{
+                                              SizedBox(height: 4),
+                                              Container(
+                                                  margin: EdgeInsets.only(left: 37),
+                                                  child: Text(timelineData[index].deskripsi.toString(),
+                                                    style: TextStyle(
+                                                        height: 1.4,
+                                                        fontSize: 13
+                                                    ),
+                                                  )
+                                              ),
+                                            }
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
                             });
                   }
                 },
@@ -224,109 +397,4 @@ class _TimelineFeedState extends State<TimelineFeed>
         )
     );
   }
-}
-
-Widget itemAll(TimelineData timelineData, BuildContext context, AnimationController animationController){
-  return
-    Container(
-      margin: EdgeInsets.only(left: 10, right: 10),
-      decoration: BoxDecoration(
-        color: AppTheme.white,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10.0),
-            bottomLeft: Radius.circular(10.0),
-            bottomRight: Radius.circular(10.0),
-            topRight: Radius.circular(10.0)),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: AppTheme.grey.withOpacity(0.2),
-              offset: Offset(0.0, 1.0), //(x,y)
-              blurRadius: 2.0),
-        ],
-      ),
-      child:
-      Column(
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child:
-                Image.asset(
-                  'assets/images/no_image_3.png',
-                  width: double.infinity,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child:
-                CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: timelineData.content.toString(),
-                  placeholder: (context, url) => Container(
-                    alignment: Alignment.center,
-                    child: Container(
-                      height: 30.0,
-                      width: 30.0,
-                      padding: EdgeInsets.all(3.0),
-                      child: CircularProgressIndicator(
-                        color: Colors.orange,
-                        strokeWidth: 2.5,
-                      ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => new Icon(Icons.error),
-                ),
-              ),
-            ],
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 15, left: 20, right: 20, bottom: 20),
-            alignment: Alignment.topLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 13.0,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.orange,
-                        backgroundImage: NetworkImage(timelineData.avatar.toString()),
-                        radius: 12.0,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Text(timelineData.username.toString(),
-                      maxLines: 1,
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ],
-                ),
-                if(timelineData.deskripsi.toString()!="null" && timelineData.deskripsi.toString()!="")...{
-                  SizedBox(height: 4),
-                  Container(
-                      margin: EdgeInsets.only(left: 37),
-                      child: Text(timelineData.deskripsi.toString(),
-                        style: TextStyle(
-                            height: 1.4,
-                            fontSize: 13
-                        ),
-                      )
-                  ),
-                }
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-
 }

@@ -92,8 +92,7 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
                         child: Container(
                           height: 30.0,
                           width: 30.0,
-                          margin: EdgeInsets.only(
-                              right: 10),
+                          padding: EdgeInsets.all(3.0),
                           child: CircularProgressIndicator(
                             color: Colors.orange,
                             strokeWidth: 3,
@@ -276,7 +275,7 @@ Widget itemVideoAll(TutorialData tutorialData, BuildContext context, AnimationCo
                           child: Container(
                             height: 30.0,
                             width: 30.0,
-                            margin: EdgeInsets.only(right: 10),
+                            padding: EdgeInsets.all(3.0),
                             child: CircularProgressIndicator(
                               color: Colors.orange,
                               strokeWidth: 2.5,

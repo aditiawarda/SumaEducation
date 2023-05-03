@@ -92,8 +92,7 @@ class _ProductAllDataState extends State<ProductAllData>
                           child: Container(
                             height: 30.0,
                             width: 30.0,
-                            margin: EdgeInsets.only(
-                                right: 10),
+                            padding: EdgeInsets.all(3.0),
                             child: CircularProgressIndicator(
                               color: Colors.orange,
                               strokeWidth: 3,
@@ -270,7 +269,7 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
                       child: Container(
                         height: 30.0,
                         width: 30.0,
-                        margin: EdgeInsets.only(right: 10),
+                        padding: EdgeInsets.all(3.0),
                         child: CircularProgressIndicator(
                           color: Colors.orange,
                           strokeWidth: 2.5,
