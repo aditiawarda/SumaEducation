@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/main.dart';
@@ -198,11 +199,12 @@ class _ProductAllDataState extends State<ProductAllData>
                     else
                       return
                         GridView.builder(
+                            padding: EdgeInsets.only(top: 30),
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
-                                childAspectRatio: 1,
+                                childAspectRatio: 0.8,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 10),
                             itemCount: productListData.length,
@@ -247,40 +249,112 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
         Wrap(
           children: [
             Stack(
-              alignment: Alignment.center,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(9),
-                  child:
-                  Image.asset(
-                    'assets/images/no_image_3.png',
-                    width: double.infinity,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child:
-                  CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    imageUrl: 'https://suma.geloraaksara.co.id/uploads/produk/'+productData.gambar,
-                    placeholder: (context, url) => Container(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 30.0,
-                        width: 30.0,
-                        padding: EdgeInsets.all(3.0),
-                        child: CircularProgressIndicator(
-                          color: Colors.orange,
-                          strokeWidth: 2.5,
-                        ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(9),
+                      child:
+                      Image.asset(
+                        'assets/images/no_image_3.png',
+                        width: double.infinity,
+                        fit: BoxFit.fill,
                       ),
                     ),
-                    errorWidget: (context, url, error) => new Icon(Icons.error),
-                  ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:
+                      CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: 'https://suma.geloraaksara.co.id/uploads/produk/'+productData.gambar,
+                        placeholder: (context, url) => Container(
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 30.0,
+                            width: 30.0,
+                            padding: EdgeInsets.all(3.0),
+                            child: CircularProgressIndicator(
+                              color: Colors.orange,
+                              strokeWidth: 2.5,
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => new Icon(Icons.error),
+                      ),
+                    ),
+                  ],
                 ),
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:
+                      Image.asset(
+                        'assets/images/no_image_blank.png',
+                        width: double.infinity,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    Container(
+                      height: 33,
+                      width: double.infinity,
+                      alignment: Alignment.bottomCenter,
+                      decoration: BoxDecoration(
+                        color: Colors.blueGrey.shade600,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10.0),
+                            bottomLeft: Radius.circular(10.0),
+                            bottomRight: Radius.circular(10.0),
+                            topRight: Radius.circular(10.0)),
+                      ),
+                    ),
+                    Positioned(
+                        left: 3,
+                        bottom: 8,
+                        child: new Align(
+                            alignment: FractionalOffset.bottomLeft,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(7.0),
+                                      bottomLeft: Radius.circular(7.0),
+                                      bottomRight: Radius.circular(7.0),
+                                      topRight: Radius.circular(7.0)),
+                                ),
+                                margin: EdgeInsets.only(left: 5),
+                                padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                child:
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(bottom: 1),
+                                      margin: EdgeInsets.only(right: 10),
+                                      alignment: Alignment.center,
+                                      child: Icon(FontAwesomeIcons.cartArrowDown,color: Colors.yellow, size: 12),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      child: Text(productData.nama.toString(),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                            )
+                        )
+                    ),
+                  ],
+                )
               ],
-            ),
+            )
           ],
         ),
       ),

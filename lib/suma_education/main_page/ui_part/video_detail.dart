@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 String? judulKonten = "";
 String? deskripsiKonten = "";
+String? durasiKonten = "";
+String? viewerKonten = "";
 
 class VideoDetail extends StatefulWidget {
   const VideoDetail(
@@ -49,6 +52,8 @@ class _VideoDetailState extends State<VideoDetail>
         print('Success');
         judulKonten     = json["data"]["judul"].toString();
         deskripsiKonten = json["data"]["deskripsi"].toString();
+        durasiKonten = json["data"]["durasi"].toString();
+        viewerKonten = json["data"]["viewer"].toString();
       } else {
         print('Gagal');
       }
@@ -79,7 +84,6 @@ class _VideoDetailState extends State<VideoDetail>
               child:
               Container(
                 margin: EdgeInsets.only(bottom: widget.paddingBottom),
-                padding: EdgeInsets.only(top: 15, bottom: 15, right: 17, left: 17),
                 decoration: BoxDecoration(
                   color: AppTheme.white,
                   borderRadius: BorderRadius.only(
@@ -104,37 +108,126 @@ class _VideoDetailState extends State<VideoDetail>
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Memuat data...",
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: GoogleFonts.roboto(
-                                  color: Colors.blueGrey,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 1, right: 1, top: 8, bottom: 6),
-                              child: Container(
-                                height: 2,
-                                decoration: BoxDecoration(
-                                  color: AppTheme.background.withOpacity(0.5),
-                                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                            Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                Container(
+                                  height: 33,
+                                  alignment: Alignment.bottomCenter,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blueGrey.shade400,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        bottomLeft: Radius.circular(10.0),
+                                        bottomRight: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0)),
+                                  ),
                                 ),
-                              ),
+                                Positioned(
+                                    right: 3,
+                                    bottom: 8,
+                                    child: new Align(
+                                        alignment: FractionalOffset.bottomRight,
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(7.0),
+                                                  bottomLeft: Radius.circular(7.0),
+                                                  bottomRight: Radius.circular(7.0),
+                                                  topRight: Radius.circular(7.0)),
+                                            ),
+                                            margin: EdgeInsets.only(right: 5),
+                                            padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                            child:
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.only(bottom: 1.5),
+                                                  margin: EdgeInsets.only(right: 5),
+                                                  alignment: Alignment.center,
+                                                  child: Icon(FontAwesomeIcons.clock,color: Colors.white, size: 11),
+                                                ),
+                                                Text("00:00", style: TextStyle(color: Colors.white, fontSize: 12),),
+                                              ],
+                                            )
+                                        )
+                                    )
+                                ),
+                                Positioned(
+                                    left: 3,
+                                    bottom: 8,
+                                    child: new Align(
+                                        alignment: FractionalOffset.bottomLeft,
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(7.0),
+                                                  bottomLeft: Radius.circular(7.0),
+                                                  bottomRight: Radius.circular(7.0),
+                                                  topRight: Radius.circular(7.0)),
+                                            ),
+                                            margin: EdgeInsets.only(left: 5),
+                                            padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                            child:
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.only(bottom: 1),
+                                                  margin: EdgeInsets.only(right: 5),
+                                                  alignment: Alignment.center,
+                                                  child: Icon(FontAwesomeIcons.eye,color: Colors.white, size: 12),
+                                                ),
+                                                Text("0x ditonton", style: TextStyle(color: Colors.white, fontSize: 12),),
+                                              ],
+                                            )
+                                        )
+                                    )
+                                ),
+                              ],
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 5, right: 5),
-                              child: Text("Memuat data...",
-                                maxLines: 5,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.roboto(
-                                    fontSize: 14,
-                                    color: Colors.blueGrey.withOpacity(0.8)
-                                ),
-                              ),
-                            )
+                                padding: EdgeInsets.only(top: 10, bottom: 15, left: 15, right: 15),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Memuat data...",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: GoogleFonts.roboto(
+                                          color: Colors.blueGrey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 1, right: 1, top: 8, bottom: 6),
+                                      child: Container(
+                                        height: 2,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.background.withOpacity(0.5),
+                                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 5, right: 5),
+                                      child: Text("Memuat data...",
+                                        maxLines: 5,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 14,
+                                            height: 1.5,
+                                            color: Colors.blueGrey.withOpacity(0.8)
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                            ),
                           ],
                         );
                     } else {
@@ -144,37 +237,126 @@ class _VideoDetailState extends State<VideoDetail>
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Memuat data...",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: GoogleFonts.roboto(
-                                    color: Colors.blueGrey,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 1, right: 1, top: 8, bottom: 6),
-                                child: Container(
-                                  height: 2,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.background.withOpacity(0.5),
-                                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                              Stack(
+                                alignment: Alignment.bottomCenter,
+                                children: [
+                                  Container(
+                                    height: 33,
+                                    alignment: Alignment.bottomCenter,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade400,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10.0),
+                                          bottomLeft: Radius.circular(10.0),
+                                          bottomRight: Radius.circular(10.0),
+                                          topRight: Radius.circular(10.0)),
+                                    ),
                                   ),
-                                ),
+                                  Positioned(
+                                      right: 3,
+                                      bottom: 8,
+                                      child: new Align(
+                                          alignment: FractionalOffset.bottomRight,
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(7.0),
+                                                    bottomLeft: Radius.circular(7.0),
+                                                    bottomRight: Radius.circular(7.0),
+                                                    topRight: Radius.circular(7.0)),
+                                              ),
+                                              margin: EdgeInsets.only(right: 5),
+                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                              child:
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.only(bottom: 1.5),
+                                                    margin: EdgeInsets.only(right: 5),
+                                                    alignment: Alignment.center,
+                                                    child: Icon(FontAwesomeIcons.clock,color: Colors.white, size: 11),
+                                                  ),
+                                                  Text("00:00", style: TextStyle(color: Colors.white, fontSize: 12),),
+                                                ],
+                                              )
+                                          )
+                                      )
+                                  ),
+                                  Positioned(
+                                      left: 3,
+                                      bottom: 8,
+                                      child: new Align(
+                                          alignment: FractionalOffset.bottomLeft,
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(7.0),
+                                                    bottomLeft: Radius.circular(7.0),
+                                                    bottomRight: Radius.circular(7.0),
+                                                    topRight: Radius.circular(7.0)),
+                                              ),
+                                              margin: EdgeInsets.only(left: 5),
+                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                              child:
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.only(bottom: 1),
+                                                    margin: EdgeInsets.only(right: 5),
+                                                    alignment: Alignment.center,
+                                                    child: Icon(FontAwesomeIcons.eye,color: Colors.white, size: 12),
+                                                  ),
+                                                  Text("0x ditonton", style: TextStyle(color: Colors.white, fontSize: 12),),
+                                                ],
+                                              )
+                                          )
+                                      )
+                                  ),
+                                ],
                               ),
                               Container(
-                                margin: EdgeInsets.only(left: 5, right: 5),
-                                child: Text("Memuat data...",
-                                  maxLines: 5,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 14,
-                                      color: Colors.blueGrey.withOpacity(0.8)
-                                  ),
-                                ),
-                              )
+                                  padding: EdgeInsets.only(top: 10, bottom: 15, left: 15, right: 15),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Memuat data...",
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: GoogleFonts.roboto(
+                                            color: Colors.blueGrey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 1, right: 1, top: 8, bottom: 6),
+                                        child: Container(
+                                          height: 2,
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.background.withOpacity(0.5),
+                                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 5, right: 5),
+                                        child: Text("Memuat data...",
+                                          maxLines: 5,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.roboto(
+                                              fontSize: 14,
+                                              height: 1.5,
+                                              color: Colors.blueGrey.withOpacity(0.8)
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                              ),
                             ],
                           );
                       else
@@ -183,37 +365,126 @@ class _VideoDetailState extends State<VideoDetail>
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(judulKonten!,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: GoogleFonts.roboto(
-                                    color: Colors.blueGrey,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 1, right: 1, top: 8, bottom: 6),
-                                child: Container(
-                                  height: 2,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.background.withOpacity(0.5),
-                                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                              Stack(
+                                alignment: Alignment.bottomCenter,
+                                children: [
+                                  Container(
+                                    height: 33,
+                                    alignment: Alignment.bottomCenter,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade400,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10.0),
+                                          bottomLeft: Radius.circular(10.0),
+                                          bottomRight: Radius.circular(10.0),
+                                          topRight: Radius.circular(10.0)),
+                                    ),
                                   ),
-                                ),
+                                  Positioned(
+                                      right: 3,
+                                      bottom: 8,
+                                      child: new Align(
+                                          alignment: FractionalOffset.bottomRight,
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(7.0),
+                                                    bottomLeft: Radius.circular(7.0),
+                                                    bottomRight: Radius.circular(7.0),
+                                                    topRight: Radius.circular(7.0)),
+                                              ),
+                                              margin: EdgeInsets.only(right: 5),
+                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                              child:
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.only(bottom: 1.5),
+                                                    margin: EdgeInsets.only(right: 5),
+                                                    alignment: Alignment.center,
+                                                    child: Icon(FontAwesomeIcons.clock,color: Colors.white, size: 11),
+                                                  ),
+                                                  Text(durasiKonten!.toString().substring(0, 5), style: TextStyle(color: Colors.white, fontSize: 12),),
+                                                ],
+                                              )
+                                          )
+                                      )
+                                  ),
+                                  Positioned(
+                                      left: 3,
+                                      bottom: 8,
+                                      child: new Align(
+                                          alignment: FractionalOffset.bottomLeft,
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(7.0),
+                                                    bottomLeft: Radius.circular(7.0),
+                                                    bottomRight: Radius.circular(7.0),
+                                                    topRight: Radius.circular(7.0)),
+                                              ),
+                                              margin: EdgeInsets.only(left: 5),
+                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                              child:
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.only(bottom: 1),
+                                                    margin: EdgeInsets.only(right: 5),
+                                                    alignment: Alignment.center,
+                                                    child: Icon(FontAwesomeIcons.eye,color: Colors.white, size: 12),
+                                                  ),
+                                                  Text(viewerKonten!.toString()+"x ditonton", style: TextStyle(color: Colors.white, fontSize: 12),),
+                                                ],
+                                              )
+                                          )
+                                      )
+                                  ),
+                                ],
                               ),
                               Container(
-                                margin: EdgeInsets.only(left: 5, right: 5),
-                                child: Text(deskripsiKonten!,
-                                  maxLines: 5,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 14,
-                                      color: Colors.blueGrey.withOpacity(0.8)
-                                  ),
-                                ),
-                              )
+                                padding: EdgeInsets.only(top: 10, bottom: 15, left: 15, right: 15),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(judulKonten!,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: GoogleFonts.roboto(
+                                          color: Colors.blueGrey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 1, right: 1, top: 8, bottom: 6),
+                                      child: Container(
+                                        height: 2,
+                                        decoration: BoxDecoration(
+                                          color: AppTheme.background.withOpacity(0.5),
+                                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 5, right: 5),
+                                      child: Text(deskripsiKonten!,
+                                        maxLines: 5,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 14,
+                                            height: 1.5,
+                                            color: Colors.blueGrey.withOpacity(0.8)
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ),
                             ],
                           );
                     }

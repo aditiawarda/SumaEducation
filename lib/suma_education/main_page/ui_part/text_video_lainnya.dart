@@ -53,7 +53,7 @@ class _TextVideoLainnyaState extends State<TextVideoLainnya>
                     0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
                 child:
                 Container(
-                  padding: const EdgeInsets.only(left: 25, right: 20, top: 25, bottom: 10),
+                  padding: const EdgeInsets.only(left: 25, right: 20, top: 15, bottom: 10),
                   child: Row(
                     children: [
                       Text(

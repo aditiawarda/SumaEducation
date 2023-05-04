@@ -112,7 +112,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
               Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
           mainScreenAnimationController: widget.animationController!,
           idContent: widget.idContent!,
-          paddingBottom: 30,
+          paddingBottom: 20,
         ),
       );
       listViews.add(
@@ -188,7 +188,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
               Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
           mainScreenAnimationController: widget.animationController!,
           idContent: widget.idContent!,
-          paddingBottom: 30,
+          paddingBottom: 20,
         ),
       );
       listViews.add(
@@ -306,6 +306,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
                   width: double.infinity,
                   alignment: Alignment.bottomCenter,
                   child: Container(
+                    alignment: Alignment.bottomCenter,
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height*0.2,
                     decoration: BoxDecoration(
@@ -319,6 +320,34 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
                             offset: Offset(0.0, 1.0), //(x,y)
                             blurRadius: 2.0),
                       ],
+                    ),
+                    child:
+                    FadeInUp(
+                      delay : Duration(milliseconds: 1000),
+                      child : Container(
+                          alignment: Alignment.bottomCenter,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(bottom: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/logogap.png', width: 153, opacity: const AlwaysStoppedAnimation(.5)),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Container(
+                                color: Colors.grey.shade400,
+                                width: 1,
+                                height: 15,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Image.asset('assets/images/suma_logo.png', width: 22, opacity: const AlwaysStoppedAnimation(.5)),
+                            ],
+                          )
+                      ),
                     ),
                   ),
                 )

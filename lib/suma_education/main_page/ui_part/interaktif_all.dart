@@ -204,6 +204,7 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
                   else
                     return
                       GridView.builder(
+                          padding: EdgeInsets.only(top: 30),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
