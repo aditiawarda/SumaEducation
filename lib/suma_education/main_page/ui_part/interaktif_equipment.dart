@@ -183,7 +183,7 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
                       child: Container(
                         height: 45,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.orange,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10.0),
                               bottomLeft: Radius.circular(10.0),
@@ -202,7 +202,7 @@ class _InteraktifEquipmentState extends State<InteraktifEquipment>
                           padding: EdgeInsets.only(top: 10, bottom: 10, right: 9, left: 9),
                           child: Center(
                             child:
-                            Text('Download Template', style: TextStyle(color: Colors.orange.withOpacity(0.7), fontSize: 17)),
+                            Text('Download Template', style: TextStyle(color: Colors.white, fontSize: 17)),
                           ),
                         ),
                       ),

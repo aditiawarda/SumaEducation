@@ -1,7 +1,6 @@
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:video_viewer/video_viewer.dart';
 import 'package:visibility_detector/visibility_detector.dart';

@@ -170,7 +170,6 @@ class _KreasiScreenState extends State<KreasiScreen>
               SmartRefresher(
                 enablePullDown: true,
                 enablePullUp: false,
-                header: WaterDropHeader(),
                 footer: null,
                 controller: _refreshController,
                 onRefresh: _onRefresh,

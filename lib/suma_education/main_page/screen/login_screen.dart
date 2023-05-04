@@ -1,8 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:math';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cool_alert/cool_alert.dart';

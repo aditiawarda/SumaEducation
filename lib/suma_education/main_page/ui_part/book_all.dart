@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -55,8 +56,9 @@ class _BookListAllDataState extends State<BookListAllData>
         var jumlah_halaman = dataBook['data'][i]['jumlah_halaman'];
         var voice_cover = dataBook['data'][i]['voice_cover'];
         var backsound = dataBook['data'][i]['backsound'];
+        var viewer = dataBook['data'][i]['viewer'];
 
-        bookListData.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound));
+        bookListData.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound, viewer));
       }
     } catch (e) {
       print("Error");
@@ -254,36 +256,129 @@ Widget itemBookAll(BookData bookData, BuildContext context, AnimationController 
               children: [
                 Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child:
-                      Image.asset(
-                        'assets/images/no_image_2.png',
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child:
-                      CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: 'https://suma.geloraaksara.co.id/uploads/cover_book/'+bookData.cover,
-                        placeholder: (context, url) => Container(
-                          alignment: Alignment.center,
-                          child: Container(
-                            height: 30.0,
-                            width: 30.0,
-                            padding: EdgeInsets.all(3.0),
-                            child: CircularProgressIndicator(
-                              color: Colors.orange,
-                              strokeWidth: 2.5,
-                            ),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child:
+                          Image.asset(
+                            'assets/images/no_image_2.png',
+                            width: double.infinity,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        errorWidget: (context, url, error) => new Icon(Icons.error),
-                      ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child:
+                          CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl: 'https://suma.geloraaksara.co.id/uploads/cover_book/'+bookData.cover,
+                            placeholder: (context, url) => Container(
+                              alignment: Alignment.center,
+                              child: Container(
+                                height: 30.0,
+                                width: 30.0,
+                                padding: EdgeInsets.all(3.0),
+                                child: CircularProgressIndicator(
+                                  color: Colors.orange,
+                                  strokeWidth: 2.5,
+                                ),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => new Icon(Icons.error),
+                          ),
+                        ),
+                      ],
                     ),
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child:
+                          Image.asset(
+                            'assets/images/no_image_blank_2.png',
+                            width: double.infinity,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Container(
+                          height: 33,
+                          alignment: Alignment.bottomCenter,
+                          decoration: BoxDecoration(
+                            color: Colors.blueGrey.shade600,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                bottomLeft: Radius.circular(10.0),
+                                bottomRight: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0)),
+                          ),
+                        ),
+                        Positioned(
+                            right: 3,
+                            bottom: 8,
+                            child: new Align(
+                                alignment: FractionalOffset.bottomRight,
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(7.0),
+                                          bottomLeft: Radius.circular(7.0),
+                                          bottomRight: Radius.circular(7.0),
+                                          topRight: Radius.circular(7.0)),
+                                    ),
+                                    margin: EdgeInsets.only(right: 5),
+                                    padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                    child:
+                                    Row(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 1.5),
+                                          margin: EdgeInsets.only(right: 3),
+                                          alignment: Alignment.center,
+                                          child: Icon(FontAwesomeIcons.sheetPlastic,color: Colors.white, size: 11),
+                                        ),
+                                        Text(bookData.jumlah_halaman.toString(), style: TextStyle(color: Colors.white, fontSize: 12),),
+                                      ],
+                                    )
+                                )
+                            )
+                        ),
+                        Positioned(
+                            left: 3,
+                            bottom: 8,
+                            child: new Align(
+                                alignment: FractionalOffset.bottomLeft,
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(7.0),
+                                          bottomLeft: Radius.circular(7.0),
+                                          bottomRight: Radius.circular(7.0),
+                                          topRight: Radius.circular(7.0)),
+                                    ),
+                                    margin: EdgeInsets.only(left: 5),
+                                    padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                    child:
+                                    Row(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 1),
+                                          margin: EdgeInsets.only(right: 5),
+                                          alignment: Alignment.center,
+                                          child: Icon(FontAwesomeIcons.eye,color: Colors.white, size: 12),
+                                        ),
+                                        Text(bookData.viewer.toString(), style: TextStyle(color: Colors.white, fontSize: 12),),
+                                      ],
+                                    )
+                                )
+                            )
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ],

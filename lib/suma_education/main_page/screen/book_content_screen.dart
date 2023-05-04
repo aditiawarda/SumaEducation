@@ -159,7 +159,6 @@ class _BookContentScreenState extends State<BookContentScreen>
               SmartRefresher(
                 enablePullDown: true,
                 enablePullUp: false,
-                header: WaterDropHeader(),
                 footer: null,
                 controller: _refreshController,
                 onRefresh: _onRefresh,
@@ -196,7 +195,7 @@ class _BookContentScreenState extends State<BookContentScreen>
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
+                    color: AppTheme.white,
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),

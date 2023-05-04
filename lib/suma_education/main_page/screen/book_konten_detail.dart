@@ -58,28 +58,27 @@ class _MyListScreenState extends State<DetailBukuState> {
       }
     });
 
-    // Timer.periodic(Duration(seconds: 2), (Timer timer) {
-    //   if (selectedPage == int.parse(widget.book.jumlah_halaman)) {
-    //     end = true;
-    //   } else if (selectedPage == 0) {
-    //     end = false;
-    //   }
-    //
-    //   if (end == false) {
-    //     selectedPage++;
-    //   } else {
-    //     selectedPage--;
-    //   }
-    //
-    //   _pageController.animateToPage(
-    //     selectedPage,
-    //     duration: Duration(milliseconds: 1000),
-    //     curve: Curves.easeIn,
-    //   );
-    //
-    // });
+    viewer();
 
     super.initState();
+  }
+
+  void viewer() async {
+    try {
+      var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/update_viewer_dongeng"),
+          body: {
+            "id_content": widget.book.id,
+          });
+      var json = jsonDecode(response.body);
+      String status = json["status"];
+      if (status == "Success") {
+        print('View berhasil');
+      } else {
+        print('View gagal');
+      }
+    } catch (e) {
+      print("View Error");
+    }
   }
 
   Future<String> _getBookPage() async {

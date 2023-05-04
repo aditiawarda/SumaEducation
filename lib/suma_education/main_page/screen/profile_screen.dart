@@ -162,7 +162,6 @@ class _ProfileScreenState extends State<ProfileScreen>
               SmartRefresher(
                 enablePullDown: true,
                 enablePullUp: false,
-                header: WaterDropHeader(),
                 footer: null,
                 controller: _refreshController,
                 onRefresh: _onRefresh,

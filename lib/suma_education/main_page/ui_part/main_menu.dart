@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:intl/intl.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -87,8 +87,9 @@ class MainMenu extends StatelessWidget {
         var jumlah_halaman = dataBookNew['data'][i]['jumlah_halaman'];
         var voice_cover = dataBookNew['data'][i]['voice_cover'];
         var backsound = dataBookNew['data'][i]['backsound'];
+        var viewer = dataBookNew['data'][i]['viewer'];
 
-        book.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound));
+        book.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound, viewer));
       }
     } catch (e) {
       print("Error");
@@ -118,128 +119,214 @@ class MainMenu extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                          height: 100,
-                          width: double.infinity,
-                          margin: EdgeInsets.only(bottom: 10, top: 10, left: 5, right: 5),
-                          child:
-                              Row(
+                      Stack(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(bottom: 5, top: 23, left: 5, right: 5),
+                              height: 60,
+                              decoration: BoxDecoration(
+                                color: AppTheme.white,
+                                gradient: LinearGradient(colors: [
+                                  AppTheme.white,
+                                  Colors.yellow.shade50
+                                ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.0),
+                                    bottomLeft: Radius.circular(30.0),
+                                    bottomRight: Radius.circular(30.0),
+                                    topRight: Radius.circular(30.0)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: AppTheme.grey.withOpacity(0.2),
+                                      offset: Offset(0.0, 1.0), //(x,y)
+                                      blurRadius: 2.0),
+                                ],
+                              ),
+                              child: Stack(
                                 children: [
-                                  Expanded(
+                                  Positioned(
+                                    bottom: 10, right: 10,
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.deepOrange.withOpacity(0.2),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 17, right: 55,
+                                    child: Container(
+                                      width: 25,
+                                      height: 25,
+                                      decoration: BoxDecoration(
+                                        color: Colors.green.withOpacity(0.2),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+                          Container(
+                            height: 85,
+                            width: double.infinity,
+                            margin: EdgeInsets.only(bottom: 10, top: 10, left: 5, right: 5),
+                            child:
+                            Row(
+                              children: [
+                                Expanded(
                                     flex: 2,
                                     child:
-                                      Stack(
-                                        children: [
-                                          Container(
-                                            width: 150,
-                                            height: 150,
-                                            margin: EdgeInsets.only(right: 15),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                              image: DecorationImage(
-                                                  image: AssetImage('assets/images/default_profile.jpg'),
-                                                  fit: BoxFit.fitWidth
-                                              ),
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          width: 85,
+                                          height: 85,
+                                          margin: EdgeInsets.only(right: 15),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                            image: DecorationImage(
+                                                image: AssetImage('assets/images/default_profile.jpg'),
+                                                fit: BoxFit.contain
                                             ),
                                           ),
-                                          Container(
-                                              alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 15),
-                                              child:
-                                              Container(
-                                                height: 20,
-                                                width: 20,
-                                                child: CircularProgressIndicator(
-                                                  color: Colors.deepOrange.withOpacity(0.8),
-                                                  strokeWidth: 2.5,
-                                                ),
-                                              )
-                                          ),
-                                          FutureBuilder<String>(
-                                            future: getUser(),
-                                            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                                return Container(
-                                                  width: 150,
-                                                  height: 150,
-                                                  margin: EdgeInsets.only(right: 15),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.orange,
-                                                    shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                                    image: DecorationImage(
-                                                        image: AssetImage('assets/images/default_profile.jpg'),
-                                                        fit: BoxFit.fitWidth
+                                        ),
+                                        Container(
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(right: 15),
+                                            child:
+                                            Container(
+                                              height: 20,
+                                              width: 20,
+                                              child: CircularProgressIndicator(
+                                                color: Colors.deepOrange.withOpacity(0.8),
+                                                strokeWidth: 2.5,
+                                              ),
+                                            )
+                                        ),
+                                        FutureBuilder<String>(
+                                          future: getUser(),
+                                          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                            if (snapshot.connectionState == ConnectionState.waiting) {
+                                              return
+                                                Container(
+                                                  margin: EdgeInsets.only(top: 13),
+                                                  child: CircleAvatar(
+                                                    radius: 30.0,
+                                                    backgroundColor: Colors.white,
+                                                    child: CircleAvatar(
+                                                      backgroundColor: Colors.orange,
+                                                      backgroundImage: AssetImage('assets/images/default_profile.jpg'),
+                                                      radius: 28.0,
                                                     ),
                                                   ),
                                                 );
-                                              } else {
-                                                if (snapshot.hasError)
-                                                  return Container(
-                                                    width: 150,
-                                                    height: 150,
-                                                    margin: EdgeInsets.only(right: 15),
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                                      image: DecorationImage(
-                                                          image: AssetImage('assets/images/default_profile.jpg'),
-                                                          fit: BoxFit.fitWidth
+                                            } else {
+                                              if (snapshot.hasError)
+                                                return
+                                                  Container(
+                                                    margin: EdgeInsets.only(top: 13),
+                                                    child: CircleAvatar(
+                                                      radius: 30.0,
+                                                      backgroundColor: Colors.white,
+                                                      child: CircleAvatar(
+                                                        backgroundColor: Colors.orange,
+                                                        backgroundImage: AssetImage('assets/images/default_profile.jpg'),
+                                                        radius: 28.0,
                                                       ),
                                                     ),
                                                   );
-                                                else
-                                                  return
-                                                    Container(
-                                                      width: 150,
-                                                      height: 150,
-                                                      margin: EdgeInsets.only(right: 15),
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                                        image: DecorationImage(
-                                                            image: NetworkImage('https://suma.geloraaksara.co.id/uploads/profile_pic/'+fotoProfil),
-                                                            fit: BoxFit.fitWidth
-                                                        ),
+                                              else
+                                                return
+                                                  Container(
+                                                    margin: EdgeInsets.only(top: 13),
+                                                    child: CircleAvatar(
+                                                      radius: 30.0,
+                                                      backgroundColor: Colors.white,
+                                                      child: CircleAvatar(
+                                                        backgroundColor: Colors.orange,
+                                                        backgroundImage: NetworkImage('https://suma.geloraaksara.co.id/uploads/profile_pic/'+fotoProfil),
+                                                        radius: 28.0,
                                                       ),
-                                                    );
-                                              }
-                                            },
-                                          ),
-                                        ],
-                                      )
-                                  ),
-                                  Expanded(
-                                    flex: 8,
-                                    child:
-                                    Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: FutureBuilder<String>(
-                                        future: getUser(), // function where you call your api
-                                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
-                                          if (snapshot.connectionState == ConnectionState.waiting) {
+                                                    ),
+                                                  );
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                ),
+                                Expanded(
+                                  flex: 8,
+                                  child:
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: FutureBuilder<String>(
+                                      future: getUser(), // function where you call your api
+                                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
+                                        if (snapshot.connectionState == ConnectionState.waiting) {
+                                          return Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Memuat data...",
+                                                textAlign: TextAlign.left,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    fontFamily: 'RobotoMono',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.orange
+                                                ),
+                                              ),
+                                              AnimatedTextKit(
+                                                animatedTexts: [
+                                                  TypewriterAnimatedText('Memuat data...',
+                                                    textStyle: const TextStyle(
+                                                      color: Colors.orange,
+                                                      fontSize: 11.0,
+                                                    ),
+                                                    speed: const Duration(milliseconds: 100),
+                                                  )
+                                                ],
+                                                totalRepeatCount: 100,
+                                                pause: const Duration(milliseconds: 1000),
+                                                displayFullTextOnTap: true,
+                                                stopPauseOnTap: true,
+                                              )
+                                            ],
+                                          );
+                                        } else {
+                                          if (snapshot.hasError)
                                             return Column(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "Memuat data...",
+                                                  "Gagal terhubung...",
                                                   textAlign: TextAlign.left,
                                                   overflow: TextOverflow.ellipsis,
                                                   maxLines: 1,
                                                   style: TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize: 17,
                                                       fontFamily: 'RobotoMono',
                                                       fontWeight: FontWeight.bold,
-                                                      color: Colors.white
+                                                      color: Colors.orange
                                                   ),
                                                 ),
                                                 AnimatedTextKit(
                                                   animatedTexts: [
-                                                    TypewriterAnimatedText('Memuat data...',
+                                                    TypewriterAnimatedText('Gagal terhubung...',
                                                       textStyle: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12.0,
+                                                        color: Colors.orange,
+                                                        fontSize: 11.0,
                                                       ),
                                                       speed: const Duration(milliseconds: 100),
-                                                    )
+                                                    ),
                                                   ],
                                                   totalRepeatCount: 100,
                                                   pause: const Duration(milliseconds: 1000),
@@ -248,161 +335,129 @@ class MainMenu extends StatelessWidget {
                                                 )
                                               ],
                                             );
-                                          } else {
-                                            if (snapshot.hasError)
-                                              return Column(
+                                          else
+                                            return
+                                              Column(
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Gagal terhubung...",
+                                                    "Hallo, "+namaUser,
                                                     textAlign: TextAlign.left,
                                                     overflow: TextOverflow.ellipsis,
                                                     maxLines: 1,
                                                     style: TextStyle(
-                                                        fontSize: 20,
+                                                        fontSize: 17,
                                                         fontFamily: 'RobotoMono',
                                                         fontWeight: FontWeight.bold,
-                                                        color: Colors.white
+                                                        color: Colors.orange
                                                     ),
                                                   ),
                                                   AnimatedTextKit(
                                                     animatedTexts: [
-                                                      TypewriterAnimatedText('Gagal terhubung...',
-                                                        textStyle: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12.0,
+                                                      for(int i=0; i<keywordList.length; i++)...{
+                                                        TypewriterAnimatedText(keywordList[i].judul,
+                                                          textStyle: const TextStyle(
+                                                            color: Colors.orange,
+                                                            fontSize: 11.0,
+                                                          ),
+                                                          speed: const Duration(milliseconds: 100),
                                                         ),
-                                                        speed: const Duration(milliseconds: 100),
-                                                      ),
+                                                      },
                                                     ],
-                                                    totalRepeatCount: 100,
+                                                    repeatForever: true,
                                                     pause: const Duration(milliseconds: 1000),
                                                     displayFullTextOnTap: true,
                                                     stopPauseOnTap: true,
                                                   )
                                                 ],
                                               );
-                                            else
-                                              return
-                                                Column(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Hallo, "+namaUser,
-                                                      textAlign: TextAlign.left,
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          fontFamily: 'RobotoMono',
-                                                          fontWeight: FontWeight.bold,
-                                                          color: Colors.white
-                                                      ),
-                                                    ),
-                                                    AnimatedTextKit(
-                                                      animatedTexts: [
-                                                        for(int i=0; i<keywordList.length; i++)...{
-                                                          TypewriterAnimatedText(keywordList[i].judul,
-                                                            textStyle: const TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 12.0,
-                                                            ),
-                                                            speed: const Duration(milliseconds: 100),
-                                                          ),
-                                                        },
-                                                      ],
-                                                      repeatForever: true,
-                                                      pause: const Duration(milliseconds: 1000),
-                                                      displayFullTextOnTap: true,
-                                                      stopPauseOnTap: true,
-                                                    )
-                                                  ],
-                                                );
-                                          }
-                                        },
-                                      ),
+                                        }
+                                      },
                                     ),
                                   ),
-                                ],
-                              ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: AppTheme.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(10.0),
-                              topRight: Radius.circular(10.0)),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: AppTheme.grey.withOpacity(0.2),
-                                offset: Offset(0.0, 1.0), //(x,y)
-                                blurRadius: 2.0),
-                          ],
-                        ),
-                        margin: EdgeInsets.only(bottom: 10),
-                        child:
-                        Stack(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(top: 7, bottom: 7, right: 9, left: 9),
-                              child: StreamBuilder(
-                                stream: Stream.periodic(const Duration(seconds: 1)),
-                                builder: (context, snapshot) {
-                                  return Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 25,
-                                        height: 25,
-                                        child: Image.asset(
-                                            "assets/suma_education/time_main.png"),
-                                      ),
-                                      Text(
-                                        DateFormat('kk:mm:ss').format(DateTime.now())+" "+DateTime.now().timeZoneName.toString(),
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15,
-                                          letterSpacing: 0.5,
-                                          color: AppTheme.lightText,
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                            Positioned(
-                              top: 0, right: 0,
-                              child: ClipRRect(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                                child: SizedBox(
-                                  height: 38,
-                                  child: AspectRatio(
-                                    aspectRatio: 1.714,
-                                    child: Image.asset(
-                                        "assets/suma_education/back.png"),
-                                  ),
                                 ),
-                              ),
-                            )
-                          ],
-                        )
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     color: AppTheme.white,
+                      //     borderRadius: BorderRadius.only(
+                      //         topLeft: Radius.circular(10.0),
+                      //         bottomLeft: Radius.circular(10.0),
+                      //         bottomRight: Radius.circular(10.0),
+                      //         topRight: Radius.circular(10.0)),
+                      //     boxShadow: <BoxShadow>[
+                      //       BoxShadow(
+                      //           color: AppTheme.grey.withOpacity(0.2),
+                      //           offset: Offset(0.0, 1.0), //(x,y)
+                      //           blurRadius: 2.0),
+                      //     ],
+                      //   ),
+                      //   margin: EdgeInsets.only(bottom: 10),
+                      //   child:
+                      //   Stack(
+                      //     children: [
+                      //       Container(
+                      //         padding: EdgeInsets.only(top: 7, bottom: 7, right: 9, left: 9),
+                      //         child: StreamBuilder(
+                      //           stream: Stream.periodic(const Duration(seconds: 1)),
+                      //           builder: (context, snapshot) {
+                      //             return Row(
+                      //               children: [
+                      //                 SizedBox(
+                      //                   width: 25,
+                      //                   height: 25,
+                      //                   child: Image.asset(
+                      //                       "assets/suma_education/time_main.png"),
+                      //                 ),
+                      //                 Text(
+                      //                   DateFormat('kk:mm:ss').format(DateTime.now())+" "+DateTime.now().timeZoneName.toString(),
+                      //                   textAlign: TextAlign.left,
+                      //                   style: TextStyle(
+                      //                     fontFamily: AppTheme.fontName,
+                      //                     fontWeight: FontWeight.w500,
+                      //                     fontSize: 15,
+                      //                     letterSpacing: 0.5,
+                      //                     color: AppTheme.lightText,
+                      //                   ),
+                      //                 )
+                      //               ],
+                      //             );
+                      //           },
+                      //         ),
+                      //       ),
+                      //       Positioned(
+                      //         top: 0, right: 0,
+                      //         child: ClipRRect(
+                      //           borderRadius:
+                      //           BorderRadius.all(Radius.circular(8.0)),
+                      //           child: SizedBox(
+                      //             height: 38,
+                      //             child: AspectRatio(
+                      //               aspectRatio: 1.714,
+                      //               child: Image.asset(
+                      //                   "assets/suma_education/back.png"),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       )
+                      //     ],
+                      //   )
+                      // ),
                       Container(
+                        margin: EdgeInsets.only(bottom: 5),
                         padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
                         decoration: BoxDecoration(
                           color: AppTheme.white,
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(10.0),
-                              topRight: Radius.circular(10.0)),
+                              topLeft: Radius.circular(30.0),
+                              bottomLeft: Radius.circular(20.0),
+                              bottomRight: Radius.circular(20.0),
+                              topRight: Radius.circular(30.0)),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
                                 color: AppTheme.grey.withOpacity(0.2),
@@ -497,25 +552,32 @@ class MainMenu extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  bottom: 2, right: 27,
-                                                  child: Container(
-                                                    width: 15,
-                                                    height: 15,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey.withOpacity(0.1),
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned(
                                                   bottom: 2, right: 17,
                                                   child: Container(
                                                     width: 20,
                                                     height: 20,
                                                     decoration: BoxDecoration(
-                                                      color: Colors.grey.withOpacity(0.1),
+                                                      color: Colors.blue.withOpacity(0.1),
                                                       shape: BoxShape.circle,
                                                     ),
+                                                    child: Icon(
+                                                        Icons.play_arrow,
+                                                        color: Colors.blue.shade200,
+                                                        size: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(right: 8),
+                                                  width: double.infinity,
+                                                  height: 8,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(5.0),
+                                                        bottomLeft: Radius.circular(5.0),
+                                                        bottomRight: Radius.circular(5.0),
+                                                        topRight: Radius.circular(5.0)),
+                                                    color: Colors.blue.shade200,
                                                   ),
                                                 ),
                                               ],
@@ -526,6 +588,8 @@ class MainMenu extends StatelessWidget {
                                               margin: EdgeInsets.only(right: 10),
                                               child: Text(
                                                   "Kreasi",
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 14
@@ -581,25 +645,32 @@ class MainMenu extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  bottom: 2, right: 22,
-                                                  child: Container(
-                                                    width: 15,
-                                                    height: 15,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey.withOpacity(0.1),
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned(
                                                   bottom: 2, right: 12,
                                                   child: Container(
                                                     width: 20,
                                                     height: 20,
                                                     decoration: BoxDecoration(
-                                                      color: Colors.grey.withOpacity(0.1),
+                                                      color: Colors.green.withOpacity(0.1),
                                                       shape: BoxShape.circle,
                                                     ),
+                                                    child: Icon(
+                                                      Icons.play_arrow,
+                                                      color: Colors.green.shade200,
+                                                      size: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(right: 3, left: 3),
+                                                  width: double.infinity,
+                                                  height: 8,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(5.0),
+                                                        bottomLeft: Radius.circular(5.0),
+                                                        bottomRight: Radius.circular(5.0),
+                                                        topRight: Radius.circular(5.0)),
+                                                    color: Colors.green.shade200,
                                                   ),
                                                 ),
                                               ],
@@ -609,6 +680,8 @@ class MainMenu extends StatelessWidget {
                                           Container(
                                               child: Text(
                                                   "Interaktif",
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 14
@@ -664,25 +737,32 @@ class MainMenu extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  bottom: 2, right: 20,
-                                                  child: Container(
-                                                    width: 15,
-                                                    height: 15,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey.withOpacity(0.1),
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned(
                                                   bottom: 2, right: 10,
                                                   child: Container(
                                                     width: 20,
                                                     height: 20,
                                                     decoration: BoxDecoration(
-                                                      color: Colors.grey.withOpacity(0.1),
+                                                      color: Colors.purple.withOpacity(0.1),
                                                       shape: BoxShape.circle,
                                                     ),
+                                                    child: Icon(
+                                                      Icons.play_arrow,
+                                                      color: Colors.purple.shade200,
+                                                      size: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(left: 8),
+                                                  width: double.infinity,
+                                                  height: 8,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(5.0),
+                                                        bottomLeft: Radius.circular(5.0),
+                                                        bottomRight: Radius.circular(5.0),
+                                                        topRight: Radius.circular(5.0)),
+                                                    color: Colors.purple.shade200,
                                                   ),
                                                 ),
                                               ],
@@ -693,6 +773,8 @@ class MainMenu extends StatelessWidget {
                                             margin: EdgeInsets.only(left: 10),
                                             child: Text(
                                                 "Tutorial",
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 14
@@ -708,15 +790,15 @@ class MainMenu extends StatelessWidget {
                             )
                       ),
                       Container(
-                          margin: EdgeInsets.only(top: 10),
+                          margin: EdgeInsets.only(top: 10, bottom: 5),
                           padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
                           decoration: BoxDecoration(
                             color: AppTheme.white,
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10.0),
-                                bottomLeft: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0),
-                                topRight: Radius.circular(10.0)),
+                                topLeft: Radius.circular(20.0),
+                                bottomLeft: Radius.circular(20.0),
+                                bottomRight: Radius.circular(20.0),
+                                topRight: Radius.circular(20.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
                                   color: AppTheme.grey.withOpacity(0.2),
@@ -936,15 +1018,15 @@ class MainMenu extends StatelessWidget {
                           )
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 10),
+                        margin: EdgeInsets.only(top: 10, bottom: 5),
                         padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
                         decoration: BoxDecoration(
                           color: AppTheme.white,
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(10.0),
-                              topRight: Radius.circular(10.0)),
+                              topLeft: Radius.circular(20.0),
+                              bottomLeft: Radius.circular(20.0),
+                              bottomRight: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0)),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
                                 color: AppTheme.grey.withOpacity(0.2),
@@ -1037,6 +1119,8 @@ class MainMenu extends StatelessWidget {
                                           margin: EdgeInsets.only(right: 10),
                                           child: Text(
                                               "Puzzle",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14
@@ -1091,6 +1175,8 @@ class MainMenu extends StatelessWidget {
                                           margin: EdgeInsets.only(left: 10),
                                           child: Text(
                                               "Tic Tac Toe",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 14
@@ -1157,40 +1243,132 @@ Widget itemBuku(BookData book, BuildContext context, AnimationController animati
                       Wrap(
                         children: [
                           Stack(
-                            alignment: Alignment.center,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child:
-                                Image.asset(
-                                  'assets/images/no_image_2.png',
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child:
-                                CachedNetworkImage(
-                                  fit: BoxFit.cover,
-                                  imageUrl: 'https://suma.geloraaksara.co.id/uploads/cover_book/'+book.cover,
-                                  placeholder: (context, url) => Container(
-                                    alignment: Alignment.center,
-                                    child: Container(
-                                      height: 30.0,
-                                      width: 30.0,
-                                      margin: EdgeInsets.only(right: 10),
-                                      child: CircularProgressIndicator(
-                                        color: Colors.orange,
-                                        strokeWidth: 2.5,
-                                      ),
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child:
+                                    Image.asset(
+                                      'assets/images/no_image_2.png',
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  errorWidget: (context, url, error) => new Icon(Icons.error),
-                                ),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child:
+                                    CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      imageUrl: 'https://suma.geloraaksara.co.id/uploads/cover_book/'+book.cover,
+                                      placeholder: (context, url) => Container(
+                                        alignment: Alignment.center,
+                                        child: Container(
+                                          height: 30.0,
+                                          width: 30.0,
+                                          padding: EdgeInsets.all(3.0),
+                                          child: CircularProgressIndicator(
+                                            color: Colors.orange,
+                                            strokeWidth: 2.5,
+                                          ),
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) => new Icon(Icons.error),
+                                    ),
+                                  ),
+                                ],
                               ),
+                              Stack(
+                                alignment: Alignment.bottomCenter,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child:
+                                    Image.asset(
+                                      'assets/images/no_image_blank_2.png',
+                                      width: double.infinity,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 33,
+                                    alignment: Alignment.bottomCenter,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade600,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10.0),
+                                          bottomLeft: Radius.circular(10.0),
+                                          bottomRight: Radius.circular(10.0),
+                                          topRight: Radius.circular(10.0)),
+                                    ),
+                                  ),
+                                  Positioned(
+                                      right: 3,
+                                      bottom: 8,
+                                      child: new Align(
+                                          alignment: FractionalOffset.bottomRight,
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(7.0),
+                                                    bottomLeft: Radius.circular(7.0),
+                                                    bottomRight: Radius.circular(7.0),
+                                                    topRight: Radius.circular(7.0)),
+                                              ),
+                                              margin: EdgeInsets.only(right: 5),
+                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                              child:
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.only(bottom: 1.5),
+                                                    margin: EdgeInsets.only(right: 3),
+                                                    alignment: Alignment.center,
+                                                    child: Icon(FontAwesomeIcons.sheetPlastic,color: Colors.white, size: 11),
+                                                  ),
+                                                  Text(book.jumlah_halaman.toString(), style: TextStyle(color: Colors.white, fontSize: 12),),
+                                                ],
+                                              )
+                                          )
+                                      )
+                                  ),
+                                  Positioned(
+                                      left: 3,
+                                      bottom: 8,
+                                      child: new Align(
+                                          alignment: FractionalOffset.bottomLeft,
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.blue,
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(7.0),
+                                                    bottomLeft: Radius.circular(7.0),
+                                                    bottomRight: Radius.circular(7.0),
+                                                    topRight: Radius.circular(7.0)),
+                                              ),
+                                              margin: EdgeInsets.only(left: 5),
+                                              padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                              child:
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.only(bottom: 1),
+                                                    margin: EdgeInsets.only(right: 5),
+                                                    alignment: Alignment.center,
+                                                    child: Icon(FontAwesomeIcons.eye,color: Colors.white, size: 12),
+                                                  ),
+                                                  Text(book.viewer.toString(), style: TextStyle(color: Colors.white, fontSize: 12),),
+                                                ],
+                                              )
+                                          )
+                                      )
+                                  ),
+                                ],
+                              )
                             ],
-                          ),
+                          )
                         ],
                       ),
                     ],

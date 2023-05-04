@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
@@ -13,7 +14,7 @@ import 'package:suma_education/suma_education/main_page/ui_part/interaktif_equip
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all_other.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/more_video.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/text_video_lainnya.dart';
+import 'package:http/http.dart' as http;
 import 'package:suma_education/suma_education/main_page/ui_part/tutorial_all.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -81,6 +82,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         }
       }
     });
+    viewer();
     super.initState();
   }
 
@@ -233,6 +235,24 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
     _refreshController.loadComplete();
   }
 
+  void viewer() async {
+    try {
+      var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/update_viewer"),
+          body: {
+            "id_content": widget.idContent,
+          });
+      var json = jsonDecode(response.body);
+      String status = json["status"];
+      if (status == "Success") {
+        print('View berhasil');
+      } else {
+        print('View gagal');
+      }
+    } catch (e) {
+      print("View Error");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -250,6 +270,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
+            getBackWiget(),
             Column(
               children: [
                 SizedBox(
@@ -270,6 +291,43 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
     );
   }
 
+  Widget getBackWiget() {
+    return FutureBuilder<bool>(
+      future: getData(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (!snapshot.hasData) {
+          return const SizedBox();
+        } else {
+          return
+            FadeInUp(
+                delay: Duration(milliseconds: 500),
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height*0.2,
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0)),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: AppTheme.grey.withOpacity(0.2),
+                            offset: Offset(0.0, 1.0), //(x,y)
+                            blurRadius: 2.0),
+                      ],
+                    ),
+                  ),
+                )
+            );
+        }
+      },
+    );
+  }
+
   Widget getMainListViewUI() {
     return FutureBuilder<bool>(
       future: getData(),
@@ -284,7 +342,6 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
               SmartRefresher(
                 enablePullDown: true,
                 enablePullUp: false,
-                header: WaterDropHeader(),
                 footer: null,
                 controller: _refreshController,
                 onRefresh: _onRefresh,

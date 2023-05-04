@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/main.dart';
@@ -58,9 +59,10 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
         var source = dataInteraktif['data'][i]['source'];
         var template = dataInteraktif['data'][i]['template'];
         var kategori = dataInteraktif['data'][i]['kategori'];
+        var viewer = dataInteraktif['data'][i]['viewer'];
         var created_at = dataInteraktif['data'][i]['created_at'];
 
-        interaktifListData.add(InteraktifData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, template, kategori, created_at));
+        interaktifListData.add(InteraktifData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, template, kategori, viewer, created_at));
       }
     } catch (e) {
       print("Error");
@@ -257,75 +259,156 @@ Widget itemVideoAll(InteraktifData interaktifListData, BuildContext context, Ani
             Wrap(
               children: [
                 Stack(
-                  alignment: Alignment.center,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child:
-                      Image.asset(
-                        'assets/images/no_image_3.png',
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child:
-                      CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: 'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+interaktifListData.square_thumbnail,
-                        placeholder: (context, url) => Container(
-                          alignment: Alignment.center,
-                          child: Container(
-                            height: 30.0,
-                            width: 30.0,
-                            padding: EdgeInsets.all(3.0),
-                            child: CircularProgressIndicator(
-                              color: Colors.orange,
-                              strokeWidth: 2.5,
-                            ),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child:
+                          Image.asset(
+                            'assets/images/no_image_3.png',
+                            width: double.infinity,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        errorWidget: (context, url, error) => new Icon(Icons.error),
-                      ),
-                    ),
-                    Positioned(
-                        right: 3,
-                        bottom: 8,
-                        child: new Align(
-                            alignment: FractionalOffset.bottomRight,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.6),
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(5.0),
-                                    bottomLeft: Radius.circular(5.0),
-                                    bottomRight: Radius.circular(5.0),
-                                    topRight: Radius.circular(5.0)),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child:
+                          CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl: 'https://suma.geloraaksara.co.id/uploads/square_thumbnail/'+interaktifListData.square_thumbnail,
+                            placeholder: (context, url) => Container(
+                              alignment: Alignment.center,
+                              child: Container(
+                                height: 30.0,
+                                width: 30.0,
+                                padding: EdgeInsets.all(3.0),
+                                child: CircularProgressIndicator(
+                                  color: Colors.orange,
+                                  strokeWidth: 2.5,
+                                ),
                               ),
-                              margin: EdgeInsets.only(right: 5),
-                              padding: EdgeInsets.only(left: 3, right: 3, bottom: 2, top: 2),
-                              child: Text(interaktifListData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
+                            ),
+                            errorWidget: (context, url, error) => new Icon(Icons.error),
+                          ),
+                        ),
+                        Align(
+                            alignment: Alignment.center,
+                            child:
+                            Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.blueGrey.shade600, width: 4),
+                                  color: Colors.orange.withOpacity(0.8)
+                              ),
+                              child: Container(
+                                width: 38,
+                                height: 38,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.white, width: 2),
+                                    color: Colors.orange.withOpacity(0.8)
+                                ),
+                                child: Icon(
+                                    Icons.play_arrow,
+                                    color: Colors.white
+                                ),
+                              ),
                             )
-                        )
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: 38,
-                        height: 38,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.black.withOpacity(0.5)
                         ),
-                        child: Icon(
-                            Icons.play_arrow,
-                            color: Colors.white
-                        ),
-                      ),
+                      ],
                     ),
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child:
+                          Image.asset(
+                            'assets/images/no_image_blank.png',
+                            width: double.infinity,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Container(
+                          height: 33,
+                          alignment: Alignment.bottomCenter,
+                          decoration: BoxDecoration(
+                            color: Colors.blueGrey.shade600,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                bottomLeft: Radius.circular(10.0),
+                                bottomRight: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0)),
+                          ),
+                        ),
+                        Positioned(
+                            right: 3,
+                            bottom: 8,
+                            child: new Align(
+                                alignment: FractionalOffset.bottomRight,
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(7.0),
+                                          bottomLeft: Radius.circular(7.0),
+                                          bottomRight: Radius.circular(7.0),
+                                          topRight: Radius.circular(7.0)),
+                                    ),
+                                    margin: EdgeInsets.only(right: 5),
+                                    padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                    child:
+                                    Row(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 1.5),
+                                          margin: EdgeInsets.only(right: 5),
+                                          alignment: Alignment.center,
+                                          child: Icon(FontAwesomeIcons.clock,color: Colors.white, size: 11),
+                                        ),
+                                        Text(interaktifListData.durasi.substring(0,5), style: TextStyle(color: Colors.white, fontSize: 12),),
+                                      ],
+                                    )
+                                )
+                            )
+                        ),
+                        Positioned(
+                            left: 3,
+                            bottom: 8,
+                            child: new Align(
+                                alignment: FractionalOffset.bottomLeft,
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(7.0),
+                                          bottomLeft: Radius.circular(7.0),
+                                          bottomRight: Radius.circular(7.0),
+                                          topRight: Radius.circular(7.0)),
+                                    ),
+                                    margin: EdgeInsets.only(left: 5),
+                                    padding: EdgeInsets.only(left: 4, right: 4, bottom: 2, top: 2),
+                                    child:
+                                    Row(
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 1),
+                                          margin: EdgeInsets.only(right: 5),
+                                          alignment: Alignment.center,
+                                          child: Icon(FontAwesomeIcons.eye,color: Colors.white, size: 12),
+                                        ),
+                                        Text(interaktifListData.viewer.toString(), style: TextStyle(color: Colors.white, fontSize: 12),),
+                                      ],
+                                    )
+                                )
+                            )
+                        ),
+                      ],
+                    )
                   ],
-                ),
+                )
               ],
             ),
           )

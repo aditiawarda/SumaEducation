@@ -1,18 +1,8 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:animate_do/animate_do.dart';
-import 'package:getwidget/components/button/gf_button.dart';
 import 'package:intl/intl.dart';
-import 'package:material_dialogs/material_dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:suma_education/suma_education/main_page/model/menu_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math' as math;
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class MainMade extends StatelessWidget {
   final AnimationController? animationController;
@@ -49,10 +39,10 @@ class MainMade extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: AppTheme.white,
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              bottomLeft: Radius.circular(10.0),
-                              bottomRight: Radius.circular(10.0),
-                              topRight: Radius.circular(10.0)),
+                              topLeft: Radius.circular(20.0),
+                              bottomLeft: Radius.circular(20.0),
+                              bottomRight: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0)),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
                                 color: AppTheme.grey.withOpacity(0.3),
@@ -94,7 +84,7 @@ class MainMade extends StatelessWidget {
                               top: 0, right: 0,
                               child: ClipRRect(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
+                                BorderRadius.all(Radius.circular(20.0)),
                                 child: SizedBox(
                                   height: 45,
                                   child: AspectRatio(

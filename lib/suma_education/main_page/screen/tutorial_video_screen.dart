@@ -170,7 +170,6 @@ class _TutorialScreenState extends State<TutorialScreen>
               SmartRefresher(
                 enablePullDown: true,
                 enablePullUp: false,
-                header: WaterDropHeader(),
                 footer: null,
                 controller: _refreshController,
                 onRefresh: _onRefresh,
