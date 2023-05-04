@@ -268,8 +268,8 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
                             ClipRRect(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(15.0),
-                                  bottomLeft: Radius.circular(1.0),
-                                  bottomRight: Radius.circular(1.0),
+                                  bottomLeft: Radius.circular(10.0),
+                                  bottomRight: Radius.circular(10.0),
                                   topRight: Radius.circular(15.0)
                               ),
                               child:
@@ -312,7 +312,6 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
                 ),
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.only(top: 10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -325,6 +324,12 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
                   child:
                   Column(
                     children: [
+                      Container(
+                        height: 5,
+                        margin: EdgeInsets.only(bottom: 10),
+                        width: double.infinity,
+                        color: Colors.deepOrange.shade100,
+                      ),
                       Text("Pesan via",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

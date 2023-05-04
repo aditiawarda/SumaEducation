@@ -105,8 +105,8 @@ class _LogoutButtonState extends State<LogoutButton>
                           height: 45,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(colors: [
-                              AppTheme.white,
-                              Colors.white
+                              Colors.deepOrange.shade300,
+                              Colors.deepOrange.shade300
                             ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10.0),
@@ -143,7 +143,7 @@ class _LogoutButtonState extends State<LogoutButton>
                                         child:  Icon(
                                           Icons.logout,
                                           size: 22,
-                                          color: Colors.redAccent,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
@@ -151,7 +151,7 @@ class _LogoutButtonState extends State<LogoutButton>
                                       'Logout',
                                       style: GoogleFonts.inter(
                                         fontSize: 16.0,
-                                        color: Colors.deepOrange,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.w600,
                                       ),
                                       textAlign: TextAlign.center,

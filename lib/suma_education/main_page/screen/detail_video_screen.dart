@@ -310,7 +310,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height*0.2,
                     decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
+                      color: Colors.orange.shade50,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20.0),
                           topRight: Radius.circular(20.0)),

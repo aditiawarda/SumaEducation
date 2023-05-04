@@ -450,7 +450,7 @@ class MainMenu extends StatelessWidget {
                       // ),
                       Container(
                         margin: EdgeInsets.only(bottom: 5),
-                        padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
+                        padding: EdgeInsets.only(top: 25, left: 20, right: 20),
                         decoration: BoxDecoration(
                           color: AppTheme.white,
                           borderRadius: BorderRadius.only(
@@ -785,13 +785,25 @@ class MainMenu extends StatelessWidget {
                                       ),
                                     ),
                                   ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 25, left: 20, right: 20),
+                                  height: 10,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.deepOrange.shade100,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10.0),
+                                        topRight: Radius.circular(10.0)
+                                    ),
+                                  ),
                                 )
                               ],
                             )
                       ),
                       Container(
                           margin: EdgeInsets.only(top: 10, bottom: 5),
-                          padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
+                          padding: EdgeInsets.only(top: 25, left: 20, right: 20),
                           decoration: BoxDecoration(
                             color: AppTheme.white,
                             borderRadius: BorderRadius.only(
@@ -1013,13 +1025,25 @@ class MainMenu extends StatelessWidget {
                                         )
                                     )
                                 ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 25, left: 20, right: 20),
+                                height: 10,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Colors.green.shade100,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10.0),
+                                      topRight: Radius.circular(10.0)
+                                  ),
+                                ),
                               )
                             ],
                           )
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 10, bottom: 5),
-                        padding: EdgeInsets.only(top: 25, bottom: 25, left: 20, right: 20),
+                        padding: EdgeInsets.only(top: 25, left: 20, right: 20),
                         decoration: BoxDecoration(
                           color: AppTheme.white,
                           borderRadius: BorderRadius.only(
@@ -1187,6 +1211,18 @@ class MainMenu extends StatelessWidget {
                                   ),
                                 ),
                               ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 25, left: 20, right: 20),
+                              height: 10,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade100,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10.0),
+                                    topRight: Radius.circular(10.0)
+                                ),
+                              ),
                             )
                           ],
                         )
