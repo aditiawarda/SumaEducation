@@ -381,7 +381,7 @@ class _UserBioState extends State<UserBio>
                           topLeft: Radius.circular(10.0),
                           bottomLeft: Radius.circular(10.0),
                           bottomRight: Radius.circular(10.0),
-                          topRight: Radius.circular(10.0)),
+                          topRight: Radius.circular(30.0)),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                             color: AppTheme.grey.withOpacity(0.5),
