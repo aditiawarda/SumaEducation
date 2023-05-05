@@ -92,7 +92,7 @@ class _ProductRecomendationState extends State<ProductRecomendation>
                       child:  Text(
                         'PRODUK SUMA',
                         style: TextStyle(
-                          color: Colors.orange,
+                          color: Colors.blueGrey,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           shadows: <Shadow>[

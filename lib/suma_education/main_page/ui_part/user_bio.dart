@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +13,7 @@ import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class UserBio extends StatefulWidget {
@@ -39,11 +39,18 @@ class _UserBioState extends State<UserBio>
   String? emailUser = "";
 
   late File image;
+  bool logoutLoad = false;
 
   @override
   void initState() {
     animationController = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
+  }
+
+  void _load() {
+    setState(() {
+      logoutLoad = !logoutLoad;
+    });
   }
 
   Future<String> _getUser() async {
@@ -334,6 +341,21 @@ class _UserBioState extends State<UserBio>
 
   }
 
+  _logOut(BuildContext context) async {
+    final SharedPreferences prefs = await _prefs;
+    await prefs.setBool('login', false);
+
+    new Future.delayed(new Duration(milliseconds: 1500), () {
+      _load();
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => LoginScreen(animationController: widget.mainScreenAnimationController),
+          )
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -367,96 +389,101 @@ class _UserBioState extends State<UserBio>
                             blurRadius: 3.0),
                       ],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 23),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Stack(
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                child: Container(
-                                  width: 90,
-                                  height: 90,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                    image: DecorationImage(
-                                        image: AssetImage('assets/images/default_profile.jpg'),
-                                        fit: BoxFit.contain
+                    child:
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 23),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Stack(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    child: Container(
+                                      width: 90,
+                                      height: 90,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                        image: DecorationImage(
+                                            image: AssetImage('assets/images/default_profile.jpg'),
+                                            fit: BoxFit.contain
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              Container(
-                                  alignment: Alignment.center,
-                                  width: double.infinity,
-                                  height: 90,
-                                  child:
                                   Container(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.deepOrange.withOpacity(0.8),
-                                      strokeWidth: 2.5,
-                                    ),
-                                  )
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                child: FutureBuilder<String>(
-                                  future: _getUser(),
-                                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                    if (snapshot.connectionState == ConnectionState.waiting) {
-                                      return Container(
-                                        width: 90,
-                                        height: 90,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                          image: DecorationImage(
-                                              image: AssetImage('assets/images/default_profile.jpg'),
-                                              fit: BoxFit.contain
-                                          ),
+                                      alignment: Alignment.center,
+                                      width: double.infinity,
+                                      height: 90,
+                                      child:
+                                      Container(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.deepOrange.withOpacity(0.8),
+                                          strokeWidth: 2.5,
                                         ),
-                                      );
-                                    } else {
-                                      if (snapshot.hasError)
-                                        return Container(
-                                          width: 90,
-                                          height: 90,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                            image: DecorationImage(
-                                                image: AssetImage('assets/images/default_profile.jpg'),
-                                                fit: BoxFit.contain
-                                            ),
-                                          ),
-                                        );
-                                      else
-                                        return
-                                          Container(
-                                            width: 90,
-                                            height: 90,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                              image: DecorationImage(
-                                                  image: NetworkImage('https://suma.geloraaksara.co.id/uploads/profile_pic/'+fotoProfil!),
-                                                  fit: BoxFit.contain
+                                      )
+                                  ),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child:
+                                    ZoomTapAnimation(
+                                      onTap: () async {
+                                        final source = await showImageSource(context);
+                                        if (source == null) return;
+                                      },
+                                      child:FutureBuilder<String>(
+                                        future: _getUser(),
+                                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                          if (snapshot.connectionState == ConnectionState.waiting) {
+                                            return Container(
+                                              width: 90,
+                                              height: 90,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                                image: DecorationImage(
+                                                    image: AssetImage('assets/images/default_profile.jpg'),
+                                                    fit: BoxFit.contain
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                    }
-                                  },
-                                ),
-                              ),
-                              InkWell(
-                                  onTap: () async {
-                                    final source = await showImageSource(context);
-                                    if (source == null) return;
-                                  },
-                                  child: Align(
+                                            );
+                                          } else {
+                                            if (snapshot.hasError)
+                                              return Container(
+                                                width: 90,
+                                                height: 90,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                                  image: DecorationImage(
+                                                      image: AssetImage('assets/images/default_profile.jpg'),
+                                                      fit: BoxFit.contain
+                                                  ),
+                                                ),
+                                              );
+                                            else
+                                              return
+                                                Container(
+                                                  width: 90,
+                                                  height: 90,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                                    image: DecorationImage(
+                                                        image: NetworkImage('https://suma.geloraaksara.co.id/uploads/profile_pic/'+fotoProfil!),
+                                                        fit: BoxFit.contain
+                                                    ),
+                                                  ),
+                                                );
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Container(
                                         width: 90,
@@ -478,100 +505,162 @@ class _UserBioState extends State<UserBio>
                                           ),
                                         ),
                                       )
-                                  )
-                              )
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child:
+                                FutureBuilder<String>(
+                                  future: _getUser(),
+                                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return Text("Memuat data...",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontName,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 20,
+                                          letterSpacing: 0.0,
+                                          color: AppTheme.white,
+                                        ),
+                                      );
+                                    } else {
+                                      if (snapshot.hasError)
+                                        return Text("Memuat data...",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontName,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 20,
+                                            letterSpacing: 0.0,
+                                            color: AppTheme.white,
+                                          ),
+                                        );
+                                      else
+                                        return Text(namaUser!,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontName,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 20,
+                                            letterSpacing: 0.0,
+                                            color: AppTheme.white,
+                                          ),
+                                        );
+                                    }
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child:
+                                FutureBuilder<String>(
+                                  future: _getUser(),
+                                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return Text("Memuat data...",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontFamily: AppTheme.fontName,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 15,
+                                          letterSpacing: 0.0,
+                                          color: AppTheme.white,
+                                        ),
+                                      );
+                                    } else {
+                                      if (snapshot.hasError)
+                                        return Text("Memuat data...",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontName,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 15,
+                                            letterSpacing: 0.0,
+                                            color: AppTheme.white,
+                                          ),
+                                        );
+                                      else
+                                        return Text(emailUser!,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            fontFamily: AppTheme.fontName,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 15,
+                                            letterSpacing: 0.0,
+                                            color: AppTheme.white,
+                                          ),
+                                        );
+                                    }
+                                  },
+                                ),
+                              ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child:
-                            FutureBuilder<String>(
-                              future: _getUser(),
-                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return Text("Memuat data...",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 20,
-                                      letterSpacing: 0.0,
-                                      color: AppTheme.white,
-                                    ),
-                                  );
-                                } else {
-                                  if (snapshot.hasError)
-                                    return Text("Memuat data...",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 20,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  else
-                                    return Text(namaUser!,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 20,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                }
-                              },
+                        ),
+                        Positioned(
+                          top: 10,
+                          right: 10,
+                          child:
+                          ZoomTapAnimation(
+                            onTap: () {
+                              CoolAlert.show(
+                                  context: context,
+                                  title: 'Perhatian',
+                                  backgroundColor: Colors.lightBlue.shade50,
+                                  borderRadius: 25,
+                                  width: 30,
+                                  loopAnimation: false,
+                                  type: CoolAlertType.confirm,
+                                  text: 'Apakah kamu yakin untuk Logout?',
+                                  confirmBtnText: 'OK',
+                                  cancelBtnText: 'Batal',
+                                  animType: CoolAlertAnimType.scale,
+                                  confirmBtnColor: Colors.orange.shade300,
+                                  onConfirmBtnTap: (){
+                                    Navigator.of(context, rootNavigator: true).pop('dialog');
+                                    _logOut(context);
+                                    _load();
+                                  }
+                              );
+                            },
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.deepOrange,
+                                shape: BoxShape.circle,
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: AppTheme.grey.withOpacity(0.5),
+                                      offset: Offset(0.0, 1.0), //(x,y)
+                                      blurRadius: 1.0),
+                                ],
+                              ),
+                              child:
+                              Container(
+                                child: logoutLoad ? Container(
+                                  height: 9.0,
+                                  width: 9.0,
+                                  padding: EdgeInsets.all(10),
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 3,
+                                  ),
+                                ) : Container(
+                                  margin: EdgeInsets.only(left: 3),
+                                  child:  Icon(
+                                    Icons.logout,
+                                    size: 22,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child:
-                            FutureBuilder<String>(
-                              future: _getUser(),
-                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return Text("Memuat data...",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 15,
-                                      letterSpacing: 0.0,
-                                      color: AppTheme.white,
-                                    ),
-                                  );
-                                } else {
-                                  if (snapshot.hasError)
-                                    return Text("Memuat data...",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 15,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                  else
-                                    return Text(emailUser!,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 15,
-                                        letterSpacing: 0.0,
-                                        color: AppTheme.white,
-                                      ),
-                                    );
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

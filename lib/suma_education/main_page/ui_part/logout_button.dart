@@ -135,7 +135,7 @@ class _LogoutButtonState extends State<LogoutButton>
                                         width: 13.0,
                                         margin: EdgeInsets.only(right: 10),
                                         child: CircularProgressIndicator(
-                                          color: Colors.deepOrange.withOpacity(0.8),
+                                          color: Colors.white.withOpacity(0.8),
                                           strokeWidth: 2.5,
                                         ),
                                       ) : Container(

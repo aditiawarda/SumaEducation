@@ -58,7 +58,7 @@ class _MoreVideoState extends State<MoreVideo>
                   child: Text(
                     'VIDEO SERUPA',
                     style: TextStyle(
-                        color: Colors.orange,
+                        color: Colors.blueGrey,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         shadows: <Shadow>[

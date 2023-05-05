@@ -95,11 +95,11 @@ class _WatchingHistoryState extends State<WatchingHistory>
                   delay: Duration(milliseconds: 1000),
                   child: Container(
                       padding: const EdgeInsets.only(right: 20, left: 20),
-                      margin: EdgeInsets.only(bottom: 10, top: 15),
+                      margin: EdgeInsets.only(bottom: 15, top: 15),
                       child:  Text(
                         'HISTORY OF WATCHING',
                         style: TextStyle(
-                          color: Colors.orange,
+                          color: Colors.blueGrey,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           shadows: <Shadow>[
@@ -304,105 +304,101 @@ Widget itemAll(HistoryWatchingData historyWatching, BuildContext context, Animat
               Wrap(
                 children: [
                   Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(9),
-                            child:
-                            Image.asset(
-                              'assets/images/no_image.png',
-                              width: double.infinity,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10.0),
-                                topRight: Radius.circular(10.0),
-                                bottomLeft: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0),
-                            ),
-                            child:
-                            CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: "https://suma.geloraaksara.co.id/uploads/thumbnail/"+historyWatching.thumbnail.toString(),
-                              placeholder: (context, url) => Container(
-                                alignment: Alignment.center,
-                                child: Container(
-                                  height: 30.0,
-                                  width: 30.0,
-                                  padding: EdgeInsets.all(3.0),
-                                  child: CircularProgressIndicator(
-                                    color: Colors.orange,
-                                    strokeWidth: 2.5,
-                                  ),
-                                ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(9),
+                        child:
+                        Image.asset(
+                          'assets/images/no_image.png',
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0),
+                          bottomLeft: Radius.circular(10.0),
+                          bottomRight: Radius.circular(10.0),
+                        ),
+                        child:
+                        CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: "https://suma.geloraaksara.co.id/uploads/thumbnail/"+historyWatching.thumbnail.toString(),
+                          placeholder: (context, url) => Container(
+                            alignment: Alignment.center,
+                            child: Container(
+                              height: 30.0,
+                              width: 30.0,
+                              padding: EdgeInsets.all(3.0),
+                              child: CircularProgressIndicator(
+                                color: Colors.orange,
+                                strokeWidth: 2.5,
                               ),
-                              errorWidget: (context, url, error) => new Icon(Icons.error),
                             ),
                           ),
-                          Align(
-                              alignment: Alignment.center,
-                              child:
-                              Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.blueGrey.shade600, width: 4),
-                                    color: Colors.orange.withOpacity(0.8)
-                                ),
-                                child: Container(
-                                  width: 25,
-                                  height: 25,
+                          errorWidget: (context, url, error) => new Icon(Icons.error),
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment.center,
+                          child:
+                          Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.blueGrey.shade600, width: 4),
+                                color: Colors.orange.withOpacity(0.8)
+                            ),
+                            child: Container(
+                              width: 25,
+                              height: 25,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.white, width: 2),
+                                  color: Colors.orange.withOpacity(0.8)
+                              ),
+                              child: Icon(
+                                Icons.play_arrow,
+                                color: Colors.white,
+                                size: 15,
+                              ),
+                            ),
+                          )
+                      ),
+                      Positioned(
+                          right: 1,
+                          top: 5,
+                          child: new Align(
+                              alignment: FractionalOffset.bottomRight,
+                              child: Container(
                                   decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.white, width: 2),
-                                      color: Colors.orange.withOpacity(0.8)
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(7.0),
+                                        bottomLeft: Radius.circular(7.0),
+                                        bottomRight: Radius.circular(7.0),
+                                        topRight: Radius.circular(7.0)),
                                   ),
-                                  child: Icon(
-                                      Icons.play_arrow,
-                                      color: Colors.white,
-                                      size: 15,
-                                  ),
-                                ),
-                              )
-                          ),
-                          Positioned(
-                              right: 1,
-                              top: 5,
-                              child: new Align(
-                                  alignment: FractionalOffset.bottomRight,
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(7.0),
-                                            bottomLeft: Radius.circular(7.0),
-                                            bottomRight: Radius.circular(7.0),
-                                            topRight: Radius.circular(7.0)),
+                                  margin: EdgeInsets.only(right: 5),
+                                  padding: EdgeInsets.only(left: 4, right: 4, bottom: 1, top: 2),
+                                  child:
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(bottom: 1),
+                                        margin: EdgeInsets.only(right: 2),
+                                        alignment: Alignment.center,
+                                        child: Icon(FontAwesomeIcons.clock,color: Colors.white, size: 8),
                                       ),
-                                      margin: EdgeInsets.only(right: 5),
-                                      padding: EdgeInsets.only(left: 4, right: 4, bottom: 1, top: 2),
-                                      child:
-                                      Row(
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.only(bottom: 1),
-                                            margin: EdgeInsets.only(right: 2),
-                                            alignment: Alignment.center,
-                                            child: Icon(FontAwesomeIcons.clock,color: Colors.white, size: 8),
-                                          ),
-                                          Text(historyWatching.durasi.toString().substring(0,5), style: TextStyle(color: Colors.white, fontSize: 10),),
-                                        ],
-                                      )
+                                      Text(historyWatching.durasi.toString().substring(0,5), style: TextStyle(color: Colors.white, fontSize: 10),),
+                                    ],
                                   )
                               )
-                          ),
-                        ],
+                          )
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ],

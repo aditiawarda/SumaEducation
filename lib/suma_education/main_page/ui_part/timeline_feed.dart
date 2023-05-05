@@ -237,7 +237,7 @@ class _TimelineFeedState extends State<TimelineFeed>
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: timelineData.length,
-                            padding: EdgeInsets.only(bottom: 20, top: 25),
+                            padding: EdgeInsets.only(bottom: 20, top: 35),
                             crossAxisCount: 1,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 18,
@@ -377,7 +377,7 @@ class _TimelineFeedState extends State<TimelineFeed>
                                                   child: Text(timelineData[index].deskripsi.toString(),
                                                     style: TextStyle(
                                                         height: 1.4,
-                                                        fontSize: 13
+                                                        fontSize: 15
                                                     ),
                                                   )
                                               ),

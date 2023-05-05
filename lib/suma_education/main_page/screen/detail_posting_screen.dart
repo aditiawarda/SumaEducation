@@ -6,6 +6,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:suma_education/suma_education/main_page/ui_part/konten_postingan.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all_other.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/logout_button.dart';
 import 'package:flutter/material.dart';
@@ -19,15 +20,19 @@ import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../../app_theme/app_theme.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key, this.animationController}) : super(key: key);
+class DetailPostingScreen extends StatefulWidget {
+  const DetailPostingScreen({Key? key, this.animationController, required this.image, required this.deskripsi, required this.id}) : super(key: key);
 
   final AnimationController? animationController;
+  final String? image;
+  final String? deskripsi;
+  final String? id;
+
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _DetailPostingScreenState createState() => _DetailPostingScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
+class _DetailPostingScreenState extends State<DetailPostingScreen>
     with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
   AnimationController? animationControllerBottomSheet;
@@ -75,34 +80,15 @@ class _ProfileScreenState extends State<ProfileScreen>
     const int count = 5;
 
     listViews.add(
-      UserBio(
+      KontenPostingan(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
             Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController!,
-      ),
-    );
-
-    listViews.add(
-      WatchingHistory(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
-      ),
-    );
-
-    listViews.add(
-      YourPost(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
+        image: widget.image!,
+        deskripsi: widget.deskripsi!,
+        id: widget.id!,
       ),
     );
 
@@ -244,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Profile',
+                                  'Detail Postingan',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,
