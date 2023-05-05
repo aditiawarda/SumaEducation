@@ -5,18 +5,15 @@ import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/services.dart';
-import 'package:getwidget/components/button/gf_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/interaktif_all.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/interaktif_all_other.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/interaktif_equipment.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all_other.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/more_video.dart';
 import 'package:http/http.dart' as http;
 import 'package:suma_education/suma_education/main_page/ui_part/product_recomendation.dart';
-import 'package:suma_education/suma_education/main_page/ui_part/tutorial_all.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/tutorial_all_other.dart';
@@ -47,6 +44,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
   Animation<double>? topBarAnimation;
   AnimationController? animationControllerBottomSheet;
   RefreshController _refreshController = RefreshController(initialRefresh: false);
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
@@ -267,9 +265,11 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
   }
 
   void viewer() async {
+    final SharedPreferences prefs = await _prefs;
     try {
       var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/update_viewer"),
           body: {
+            "id_user": prefs.getString("data_id"),
             "id_content": widget.idContent,
           });
       var json = jsonDecode(response.body);
