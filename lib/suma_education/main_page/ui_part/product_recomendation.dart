@@ -6,7 +6,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/suma_education/main_page/model/product_list_data.dart';
 import 'package:url_launcher/url_launcher.dart';
