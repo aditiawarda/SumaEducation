@@ -290,7 +290,10 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
                         alignment: Alignment.center,
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(9),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15.0),
+                                topRight: Radius.circular(15.0)
+                            ),
                             child:
                             Image.asset(
                               'assets/images/no_image_3.png',
