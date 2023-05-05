@@ -6,6 +6,7 @@ class ProductData {
   String nama;
   String gambar;
   String link;
+  String kategori;
 
-  ProductData(this.id, this.id_kategori, this.nama, this.gambar, this.link);
+  ProductData(this.id, this.id_kategori, this.nama, this.gambar, this.link, this.kategori);
 }

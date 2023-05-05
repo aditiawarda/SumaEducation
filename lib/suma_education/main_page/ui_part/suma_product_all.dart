@@ -58,7 +58,8 @@ class _ProductAllDataState extends State<ProductAllData>
         var nama         = dataProduct['data'][i]['nama'];
         var gambar       = dataProduct['data'][i]['gambar'];
         var link         = dataProduct['data'][i]['link'];
-        productListData.add(ProductData(id, id_kategori, nama, gambar, link));
+        var kategori     = dataProduct['data'][i]['kategori'];
+        productListData.add(ProductData(id, id_kategori, nama, gambar, link, kategori));
       }
     } catch (e) {
       print("Error");
@@ -324,12 +325,28 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
                   child:
                   Column(
                     children: [
-                      Container(
-                        height: 5,
-                        margin: EdgeInsets.only(bottom: 10),
-                        width: double.infinity,
-                        color: Colors.deepOrange.shade100,
-                      ),
+                      if(productData.kategori=="1")...{
+                        Container(
+                          height: 5,
+                          margin: EdgeInsets.only(bottom: 10),
+                          width: double.infinity,
+                          color: Colors.orange.shade100,
+                        ),
+                      } else if(productData.kategori=="2")...{
+                        Container(
+                          height: 5,
+                          margin: EdgeInsets.only(bottom: 10),
+                          width: double.infinity,
+                          color: Colors.deepOrange.shade100,
+                        ),
+                      } else if(productData.kategori=="3")...{
+                        Container(
+                          height: 5,
+                          margin: EdgeInsets.only(bottom: 10),
+                          width: double.infinity,
+                          color: Colors.green.shade100,
+                        ),
+                      },
                       Text("Pesan via",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -339,11 +356,25 @@ Widget itemAll(ProductData productData, BuildContext context, AnimationControlle
                         ),
                       ),
                       SizedBox(height: 5),
-                      Image.asset(
-                        'assets/images/tokosuma_logo.png',
-                        width: 100,
-                        fit: BoxFit.fill,
-                      ),
+                      if(productData.kategori=="1")...{
+                        Image.asset(
+                          'assets/images/tokosuma_logo.png',
+                          width: 100,
+                          fit: BoxFit.fill,
+                        ),
+                      } else if(productData.kategori=="2")...{
+                        Image.asset(
+                          'assets/images/shopee_logo.png',
+                          width: 100,
+                          fit: BoxFit.fill,
+                        ),
+                      } else if(productData.kategori=="3")...{
+                        Image.asset(
+                          'assets/images/tokopedia_logo.png',
+                          width: 100,
+                          fit: BoxFit.fill,
+                        ),
+                      },
                       Container(
                         margin: EdgeInsets.only(top: 20, left: 20, right: 20),
                         height: 10,
