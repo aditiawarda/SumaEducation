@@ -39,11 +39,11 @@ class _ProductAllDataState extends State<ProductAllData>
   @override
   void initState() {
     animationController = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
-    _getKreasiContent();
+    _getProduct();
     super.initState();
   }
 
-  Future<String> _getKreasiContent() async {
+  Future<String> _getProduct() async {
     try {
       var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/getProduk"),
           body: {
@@ -85,7 +85,7 @@ class _ProductAllDataState extends State<ProductAllData>
           Wrap(
             children: <Widget>[
               FutureBuilder<String>(
-                future: _getKreasiContent(),
+                future: _getProduct(),
                 builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return

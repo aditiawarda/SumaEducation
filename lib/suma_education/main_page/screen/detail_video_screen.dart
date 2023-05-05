@@ -15,6 +15,7 @@ import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all.dart'
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all_other.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/more_video.dart';
 import 'package:http/http.dart' as http;
+import 'package:suma_education/suma_education/main_page/ui_part/product_recomendation.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/tutorial_all.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -116,6 +117,16 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         ),
       );
       listViews.add(
+        ProductRecomendation(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController!,
+                  curve: Interval((1 / count) * 3, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController,
+        ),
+      );
+      listViews.add(
         MoreVideo(
           mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
               parent: widget.animationController!,
@@ -159,6 +170,16 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         ),
       );
       listViews.add(
+        ProductRecomendation(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController!,
+                  curve: Interval((1 / count) * 3, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController,
+        ),
+      );
+      listViews.add(
         MoreVideo(
           mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
               parent: widget.animationController!,
@@ -189,6 +210,16 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
           mainScreenAnimationController: widget.animationController!,
           idContent: widget.idContent!,
           paddingBottom: 20,
+        ),
+      );
+      listViews.add(
+        ProductRecomendation(
+          mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController!,
+                  curve: Interval((1 / count) * 3, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          mainScreenAnimationController: widget.animationController,
         ),
       );
       listViews.add(
@@ -270,7 +301,7 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
         backgroundColor: Colors.white,
         body: Stack(
           children: <Widget>[
-            getBackWiget(),
+            //getBackWiget(),
             Column(
               children: [
                 SizedBox(
