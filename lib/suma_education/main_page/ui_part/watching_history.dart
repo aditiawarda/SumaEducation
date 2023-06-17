@@ -407,4 +407,3 @@ Widget itemAll(HistoryWatchingData historyWatching, BuildContext context, Animat
       )
   );
 }
-
