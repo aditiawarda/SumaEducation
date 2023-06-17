@@ -123,8 +123,8 @@ class _WatchingHistoryState extends State<WatchingHistory>
                   margin: EdgeInsets.only(bottom: 10),
                   child:
                   FutureBuilder<String>(
-                    future: _getProduct(), // function where you call your api
-                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
+                    future: _getProduct(),
+                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return FadeInRight(
                           delay: Duration(milliseconds: 300),
