@@ -196,4 +196,3 @@ class _VideoPlayerMainFeedState extends State<VideoPlayerMainFeed>
   }
 
 }
-

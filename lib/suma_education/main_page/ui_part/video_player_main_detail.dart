@@ -195,4 +195,3 @@ class _VideoPlayerMainState extends State<VideoPlayerMain>
   }
 
 }
-

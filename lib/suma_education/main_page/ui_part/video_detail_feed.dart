@@ -230,4 +230,3 @@ class _VideoDetailFeedState extends State<VideoDetailFeed>
     );
   }
 }
-

@@ -671,4 +671,3 @@ class _UserBioState extends State<UserBio>
     );
   }
 }
-
