@@ -442,7 +442,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     final SharedPreferences prefs = await _prefs;
     print(prefs.getBool('login'));
     if (prefs.getBool('login') == true) {
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -451,7 +450,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ModalRoute.withName("/Home")
       );
     } else {
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(animationController: animationController,)));
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
