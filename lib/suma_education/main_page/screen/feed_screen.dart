@@ -846,7 +846,7 @@ class _FeedScreenState extends State<FeedScreen>
                                                       Container(
                                                         padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
                                                         width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma App merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.2',
+                                                        child: Text('Suma App merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.3',
                                                             style: TextStyle(
                                                                 fontFamily: AppTheme.fontName,
                                                                 fontWeight: FontWeight.w500,
