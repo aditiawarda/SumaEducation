@@ -266,10 +266,16 @@ class _DetailVideoScreenState extends State<DetailVideoScreen>
 
   void viewer() async {
     final SharedPreferences prefs = await _prefs;
+    String idUser = "";
     try {
+      if(prefs.getString("data_id")==null){
+        idUser = "0";
+      } else {
+        idUser = prefs.getString("data_id").toString();
+      }
       var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/update_viewer"),
           body: {
-            "id_user": prefs.getString("data_id"),
+            "id_user": idUser,
             "id_content": widget.idContent,
           });
       var json = jsonDecode(response.body);
