@@ -432,14 +432,17 @@ class MainMenu extends StatelessWidget {
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Login Sekarang',
-                                                      style: TextStyle(
-                                                          color: Colors.orange,
-                                                          fontWeight: FontWeight.normal,
-                                                          fontSize: 20
+                                                    Container(
+                                                      child:
+                                                      Text(
+                                                        'Login Sekarang',
+                                                        style: TextStyle(
+                                                            color: Colors.orange,
+                                                            fontWeight: FontWeight.normal,
+                                                            fontSize: 20
+                                                        ),
                                                       ),
-                                                    ),
+                                                    )
                                                   ],
                                                 ),
                                               ),
