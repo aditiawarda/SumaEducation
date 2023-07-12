@@ -441,7 +441,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void masuk() async {
     final SharedPreferences prefs = await _prefs;
     print(prefs.getBool('login'));
-    if (prefs.getBool('login') == true) {
+    //Di komen dulu (Semuanya bisa ke home)
+    // if (prefs.getBool('login') == true) {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -449,15 +450,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
           ModalRoute.withName("/Home")
       );
-    } else {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (context) => LoginScreen(animationController: animationController,)
-          ),
-          ModalRoute.withName("/Login")
-      );
-    }
+    // } else {
+    //   Navigator.pushAndRemoveUntil(
+    //       context,
+    //       MaterialPageRoute(
+    //           builder: (context) => LoginScreen(animationController: animationController,)
+    //       ),
+    //       ModalRoute.withName("/Login")
+    //   );
+    // }
   }
 
   @override

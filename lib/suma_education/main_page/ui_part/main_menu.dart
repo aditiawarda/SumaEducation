@@ -19,6 +19,7 @@ import 'package:suma_education/suma_education/main_page/screen/book_content_scre
 import 'package:suma_education/suma_education/main_page/screen/book_konten_detail.dart';
 import 'package:suma_education/suma_education/main_page/screen/interaktif_video_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/kreasi_video_screen.dart';
+import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/tutorial_video_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -29,6 +30,7 @@ List<MenuData> listMenu = [];
 SharedPreferences? prefs;
 String namaUser = "";
 String fotoProfil = "";
+String boolLogin = "";
 List<BookData> book = [];
 List<KeywordList> keywordList = [];
 final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -44,27 +46,32 @@ class MainMenu extends StatelessWidget {
 
   Future<String> getUser() async {
     final SharedPreferences prefs = await _prefs;
-    namaUser = prefs.getString("data_username")!;
-    try {
-      var response = await http.post(
-          Uri.parse("https://suma.geloraaksara.co.id/api/profile_picture"),
-          body: {
-            "id": prefs.getString("data_id")!,
-          });
-      var json = jsonDecode(response.body);
-      String status = json["status"];
-      if (status == "Success") {
-        fotoProfil = json["filename"];
-        for (var i = 0; i < json['keyword'].length; i++) {
-          var judul = json['keyword'][i]['judul'];
-          keywordList.add(KeywordList(judul));
+    if (prefs.getBool('login') == true){
+      boolLogin = "true";
+      namaUser = prefs.getString("data_username")!;
+      try {
+        var response = await http.post(
+            Uri.parse("https://suma.geloraaksara.co.id/api/profile_picture"),
+            body: {
+              "id": prefs.getString("data_id")!,
+            });
+        var json = jsonDecode(response.body);
+        String status = json["status"];
+        if (status == "Success") {
+          fotoProfil = json["filename"];
+          for (var i = 0; i < json['keyword'].length; i++) {
+            var judul = json['keyword'][i]['judul'];
+            keywordList.add(KeywordList(judul));
+          }
+          print(fotoProfil.toString());
+        } else {
+          print("error");
         }
-        print(fotoProfil.toString());
-      } else {
+      } catch (e) {
         print("error");
       }
-    } catch (e) {
-      print("error");
+    } else {
+      boolLogin = "false";
     }
     return 'true';
   }
@@ -174,280 +181,278 @@ class MainMenu extends StatelessWidget {
                             width: double.infinity,
                             margin: EdgeInsets.only(bottom: 10, top: 10, left: 5, right: 5),
                             child:
-                            Row(
-                              children: [
-                                Expanded(
-                                    flex: 2,
-                                    child:
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          width: 85,
-                                          height: 85,
-                                          margin: EdgeInsets.only(right: 15),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle, border: Border.all(color: Colors.white),
-                                            image: DecorationImage(
-                                                image: AssetImage('assets/images/default_profile.jpg'),
-                                                fit: BoxFit.contain
+                            FutureBuilder<String>(
+                              future: getUser(),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                return
+                                  Row(
+                                    children: [
+                                      if (boolLogin == "true") ...{
+                                        Expanded(
+                                            flex: 2,
+                                            child:
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                  width: 85,
+                                                  height: 85,
+                                                  margin: EdgeInsets.only(right: 15),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle, border: Border.all(color: Colors.white),
+                                                    image: DecorationImage(
+                                                        image: AssetImage('assets/images/default_profile.jpg'),
+                                                        fit: BoxFit.contain
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                    alignment: Alignment.center,
+                                                    margin: EdgeInsets.only(right: 15),
+                                                    child:
+                                                    Container(
+                                                      height: 20,
+                                                      width: 20,
+                                                      child: CircularProgressIndicator(
+                                                        color: Colors.deepOrange.withOpacity(0.8),
+                                                        strokeWidth: 2.5,
+                                                      ),
+                                                    )
+                                                ),
+                                                FutureBuilder<String>(
+                                                  future: getUser(),
+                                                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                                      return
+                                                        Container(
+                                                          margin: EdgeInsets.only(top: 13),
+                                                          child: CircleAvatar(
+                                                            radius: 30.0,
+                                                            backgroundColor: Colors.white,
+                                                            child: CircleAvatar(
+                                                              backgroundColor: Colors.orange,
+                                                              backgroundImage: AssetImage('assets/images/default_profile.jpg'),
+                                                              radius: 28.0,
+                                                            ),
+                                                          ),
+                                                        );
+                                                    } else {
+                                                      if (snapshot.hasError)
+                                                        return
+                                                          Container(
+                                                            margin: EdgeInsets.only(top: 13),
+                                                            child: CircleAvatar(
+                                                              radius: 30.0,
+                                                              backgroundColor: Colors.white,
+                                                              child: CircleAvatar(
+                                                                backgroundColor: Colors.orange,
+                                                                backgroundImage: AssetImage('assets/images/default_profile.jpg'),
+                                                                radius: 28.0,
+                                                              ),
+                                                            ),
+                                                          );
+                                                      else
+                                                        return
+                                                          Container(
+                                                            margin: EdgeInsets.only(top: 13),
+                                                            child: CircleAvatar(
+                                                              radius: 30.0,
+                                                              backgroundColor: Colors.white,
+                                                              child: CircleAvatar(
+                                                                backgroundColor: Colors.orange,
+                                                                backgroundImage: NetworkImage('https://suma.geloraaksara.co.id/uploads/profile_pic/'+fotoProfil),
+                                                                radius: 28.0,
+                                                              ),
+                                                            ),
+                                                          );
+                                                    }
+                                                  },
+                                                ),
+                                              ],
+                                            )
+                                        ),
+                                        Expanded(
+                                          flex: 8,
+                                          child:
+                                          Container(
+                                            alignment: Alignment.centerLeft,
+                                            child:
+                                            FutureBuilder<String>(
+                                              future: getUser(), // function where you call your api
+                                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
+                                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                                  return Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "Memuat data...",
+                                                        textAlign: TextAlign.left,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                        style: TextStyle(
+                                                            fontSize: 17,
+                                                            fontFamily: 'RobotoMono',
+                                                            fontWeight: FontWeight.bold,
+                                                            color: Colors.orange
+                                                        ),
+                                                      ),
+                                                      AnimatedTextKit(
+                                                        animatedTexts: [
+                                                          TypewriterAnimatedText('Memuat data...',
+                                                            textStyle: const TextStyle(
+                                                              color: Colors.orange,
+                                                              fontSize: 11.0,
+                                                            ),
+                                                            speed: const Duration(milliseconds: 100),
+                                                          )
+                                                        ],
+                                                        totalRepeatCount: 100,
+                                                        pause: const Duration(milliseconds: 1000),
+                                                        displayFullTextOnTap: true,
+                                                        stopPauseOnTap: true,
+                                                      )
+                                                    ],
+                                                  );
+                                                } else {
+                                                  if (snapshot.hasError)
+                                                    return Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          "Gagal terhubung...",
+                                                          textAlign: TextAlign.left,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          maxLines: 1,
+                                                          style: TextStyle(
+                                                              fontSize: 17,
+                                                              fontFamily: 'RobotoMono',
+                                                              fontWeight: FontWeight.bold,
+                                                              color: Colors.orange
+                                                          ),
+                                                        ),
+                                                        AnimatedTextKit(
+                                                          animatedTexts: [
+                                                            TypewriterAnimatedText('Gagal terhubung...',
+                                                              textStyle: const TextStyle(
+                                                                color: Colors.orange,
+                                                                fontSize: 11.0,
+                                                              ),
+                                                              speed: const Duration(milliseconds: 100),
+                                                            ),
+                                                          ],
+                                                          totalRepeatCount: 100,
+                                                          pause: const Duration(milliseconds: 1000),
+                                                          displayFullTextOnTap: true,
+                                                          stopPauseOnTap: true,
+                                                        )
+                                                      ],
+                                                    );
+                                                  else
+                                                    return
+                                                      Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            "Hallo, "+namaUser,
+                                                            textAlign: TextAlign.left,
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 1,
+                                                            style: TextStyle(
+                                                                fontSize: 17,
+                                                                fontFamily: 'RobotoMono',
+                                                                fontWeight: FontWeight.bold,
+                                                                color: Colors.orange
+                                                            ),
+                                                          ),
+                                                          AnimatedTextKit(
+                                                            animatedTexts: [
+                                                              for(int i=0; i<keywordList.length; i++)...{
+                                                                TypewriterAnimatedText(keywordList[i].judul,
+                                                                  textStyle: const TextStyle(
+                                                                    color: Colors.orange,
+                                                                    fontSize: 11.0,
+                                                                  ),
+                                                                  speed: const Duration(milliseconds: 100),
+                                                                ),
+                                                              },
+                                                            ],
+                                                            repeatForever: true,
+                                                            pause: const Duration(milliseconds: 1000),
+                                                            displayFullTextOnTap: true,
+                                                            stopPauseOnTap: true,
+                                                          )
+                                                        ],
+                                                      );
+                                                }
+                                              },
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                            alignment: Alignment.center,
-                                            margin: EdgeInsets.only(right: 15),
+                                      } else ...{
+                                        Expanded(
                                             child:
-                                            Container(
-                                              height: 20,
-                                              width: 20,
-                                              child: CircularProgressIndicator(
-                                                color: Colors.deepOrange.withOpacity(0.8),
-                                                strokeWidth: 2.5,
-                                              ),
-                                            )
-                                        ),
-                                        FutureBuilder<String>(
-                                          future: getUser(),
-                                          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                            if (snapshot.connectionState == ConnectionState.waiting) {
-                                              return
-                                                Container(
-                                                  margin: EdgeInsets.only(top: 13),
-                                                  child: CircleAvatar(
-                                                    radius: 30.0,
-                                                    backgroundColor: Colors.white,
-                                                    child: CircleAvatar(
-                                                      backgroundColor: Colors.orange,
-                                                      backgroundImage: AssetImage('assets/images/default_profile.jpg'),
-                                                      radius: 28.0,
-                                                    ),
-                                                  ),
-                                                );
-                                            } else {
-                                              if (snapshot.hasError)
-                                                return
-                                                  Container(
-                                                    margin: EdgeInsets.only(top: 13),
-                                                    child: CircleAvatar(
-                                                      radius: 30.0,
-                                                      backgroundColor: Colors.white,
-                                                      child: CircleAvatar(
-                                                        backgroundColor: Colors.orange,
-                                                        backgroundImage: AssetImage('assets/images/default_profile.jpg'),
-                                                        radius: 28.0,
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child:
+                                              ZoomTapAnimation(
+                                                onTap: () {
+                                                  new Future.delayed(new Duration(milliseconds: 300), () {
+                                                    Navigator.push<dynamic>(
+                                                        context,
+                                                        MaterialPageRoute<dynamic>(
+                                                          builder: (BuildContext context) => LoginScreen(animationController: animationController),
+                                                        )
+                                                    );
+                                                  });
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      margin: EdgeInsets.only(left: 11, right: 11),
+                                                      width: 40,
+                                                      height: 40,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.deepOrange,
+                                                        shape: BoxShape.circle,
+                                                        boxShadow: <BoxShadow>[
+                                                          BoxShadow(
+                                                              color: AppTheme.grey.withOpacity(0.5),
+                                                              offset: Offset(0.0, 1.0), //(x,y)
+                                                              blurRadius: 1.0),
+                                                        ],
+                                                      ),
+                                                      child:
+                                                      Container(
+                                                        child: Icon(
+                                                          Icons.login,
+                                                          size: 22,
+                                                          color: Colors.white,
+                                                        ),
                                                       ),
                                                     ),
-                                                  );
-                                              else
-                                                return
-                                                  Container(
-                                                    margin: EdgeInsets.only(top: 13),
-                                                    child: CircleAvatar(
-                                                      radius: 30.0,
-                                                      backgroundColor: Colors.white,
-                                                      child: CircleAvatar(
-                                                        backgroundColor: Colors.orange,
-                                                        backgroundImage: NetworkImage('https://suma.geloraaksara.co.id/uploads/profile_pic/'+fotoProfil),
-                                                        radius: 28.0,
+                                                    Text(
+                                                      'Login Sekarang',
+                                                      style: TextStyle(
+                                                          color: Colors.orange,
+                                                          fontWeight: FontWeight.normal,
+                                                          fontSize: 20
                                                       ),
-                                                    ),
-                                                  );
-                                            }
-                                          },
-                                        ),
-                                      ],
-                                    )
-                                ),
-                                Expanded(
-                                  flex: 8,
-                                  child:
-                                  Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: FutureBuilder<String>(
-                                      future: getUser(), // function where you call your api
-                                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {  // AsyncSnapshot<Your object type>
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Memuat data...",
-                                                textAlign: TextAlign.left,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                    fontSize: 17,
-                                                    fontFamily: 'RobotoMono',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.orange
-                                                ),
-                                              ),
-                                              AnimatedTextKit(
-                                                animatedTexts: [
-                                                  TypewriterAnimatedText('Memuat data...',
-                                                    textStyle: const TextStyle(
-                                                      color: Colors.orange,
-                                                      fontSize: 11.0,
-                                                    ),
-                                                    speed: const Duration(milliseconds: 100),
-                                                  )
-                                                ],
-                                                totalRepeatCount: 100,
-                                                pause: const Duration(milliseconds: 1000),
-                                                displayFullTextOnTap: true,
-                                                stopPauseOnTap: true,
-                                              )
-                                            ],
-                                          );
-                                        } else {
-                                          if (snapshot.hasError)
-                                            return Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Gagal terhubung...",
-                                                  textAlign: TextAlign.left,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: TextStyle(
-                                                      fontSize: 17,
-                                                      fontFamily: 'RobotoMono',
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Colors.orange
-                                                  ),
-                                                ),
-                                                AnimatedTextKit(
-                                                  animatedTexts: [
-                                                    TypewriterAnimatedText('Gagal terhubung...',
-                                                      textStyle: const TextStyle(
-                                                        color: Colors.orange,
-                                                        fontSize: 11.0,
-                                                      ),
-                                                      speed: const Duration(milliseconds: 100),
                                                     ),
                                                   ],
-                                                  totalRepeatCount: 100,
-                                                  pause: const Duration(milliseconds: 1000),
-                                                  displayFullTextOnTap: true,
-                                                  stopPauseOnTap: true,
-                                                )
-                                              ],
-                                            );
-                                          else
-                                            return
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Hallo, "+namaUser,
-                                                    textAlign: TextAlign.left,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                    style: TextStyle(
-                                                        fontSize: 17,
-                                                        fontFamily: 'RobotoMono',
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Colors.orange
-                                                    ),
-                                                  ),
-                                                  AnimatedTextKit(
-                                                    animatedTexts: [
-                                                      for(int i=0; i<keywordList.length; i++)...{
-                                                        TypewriterAnimatedText(keywordList[i].judul,
-                                                          textStyle: const TextStyle(
-                                                            color: Colors.orange,
-                                                            fontSize: 11.0,
-                                                          ),
-                                                          speed: const Duration(milliseconds: 100),
-                                                        ),
-                                                      },
-                                                    ],
-                                                    repeatForever: true,
-                                                    pause: const Duration(milliseconds: 1000),
-                                                    displayFullTextOnTap: true,
-                                                    stopPauseOnTap: true,
-                                                  )
-                                                ],
-                                              );
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                                ),
+                                              ),
+                                            ),
+                                        )
+                                      }
+                                    ],
+                                  );
+                              },
                             ),
                           ),
                         ],
                       ),
-                      // Container(
-                      //   decoration: BoxDecoration(
-                      //     color: AppTheme.white,
-                      //     borderRadius: BorderRadius.only(
-                      //         topLeft: Radius.circular(10.0),
-                      //         bottomLeft: Radius.circular(10.0),
-                      //         bottomRight: Radius.circular(10.0),
-                      //         topRight: Radius.circular(10.0)),
-                      //     boxShadow: <BoxShadow>[
-                      //       BoxShadow(
-                      //           color: AppTheme.grey.withOpacity(0.2),
-                      //           offset: Offset(0.0, 1.0), //(x,y)
-                      //           blurRadius: 2.0),
-                      //     ],
-                      //   ),
-                      //   margin: EdgeInsets.only(bottom: 10),
-                      //   child:
-                      //   Stack(
-                      //     children: [
-                      //       Container(
-                      //         padding: EdgeInsets.only(top: 7, bottom: 7, right: 9, left: 9),
-                      //         child: StreamBuilder(
-                      //           stream: Stream.periodic(const Duration(seconds: 1)),
-                      //           builder: (context, snapshot) {
-                      //             return Row(
-                      //               children: [
-                      //                 SizedBox(
-                      //                   width: 25,
-                      //                   height: 25,
-                      //                   child: Image.asset(
-                      //                       "assets/suma_education/time_main.png"),
-                      //                 ),
-                      //                 Text(
-                      //                   DateFormat('kk:mm:ss').format(DateTime.now())+" "+DateTime.now().timeZoneName.toString(),
-                      //                   textAlign: TextAlign.left,
-                      //                   style: TextStyle(
-                      //                     fontFamily: AppTheme.fontName,
-                      //                     fontWeight: FontWeight.w500,
-                      //                     fontSize: 15,
-                      //                     letterSpacing: 0.5,
-                      //                     color: AppTheme.lightText,
-                      //                   ),
-                      //                 )
-                      //               ],
-                      //             );
-                      //           },
-                      //         ),
-                      //       ),
-                      //       Positioned(
-                      //         top: 0, right: 0,
-                      //         child: ClipRRect(
-                      //           borderRadius:
-                      //           BorderRadius.all(Radius.circular(8.0)),
-                      //           child: SizedBox(
-                      //             height: 38,
-                      //             child: AspectRatio(
-                      //               aspectRatio: 1.714,
-                      //               child: Image.asset(
-                      //                   "assets/suma_education/back.png"),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       )
-                      //     ],
-                      //   )
-                      // ),
                       Container(
                         margin: EdgeInsets.only(bottom: 5),
                         padding: EdgeInsets.only(top: 25, left: 20, right: 20),

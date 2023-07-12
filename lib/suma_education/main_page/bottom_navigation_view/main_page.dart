@@ -4,6 +4,7 @@ import 'package:suma_education/suma_education/main_page/bottom_navigation_view/b
 import 'package:suma_education/suma_education/main_page/model/tabIcon_data.dart';
 import 'package:suma_education/suma_education/main_page/screen/feed_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/home_screen.dart';
+import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/product_screen.dart';
 import 'package:suma_education/suma_education/main_page/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ class _MainPageState extends State<MainPage>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  String boolLogin = "";
 
   Widget tabBody = Container(
     color: AppTheme.background,
@@ -73,57 +76,75 @@ class _MainPageState extends State<MainPage>
     return true;
   }
 
+  Future<String> getUser() async {
+    final SharedPreferences prefs = await _prefs;
+    if (prefs.getBool('login') == true){
+      boolLogin = "true";
+    } else {
+      boolLogin = "false";
+    }
+    return 'true';
+  }
+
   Widget bottomBar() {
     return Column(
       children: <Widget>[
         const Expanded(
           child: SizedBox(),
         ),
-        BottomBarView(
-          tabIconsList: tabIconsList,
-          addClick: () {},
-          changeIndex: (int index) {
-            if (index == 0) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody =
-                      HomeScreen(animationController: animationController);
-                });
-              });
-            } else if (index == 1) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody =
-                      FeedScreen(animationController: animationController);
-                });
-              });
-            } else if (index == 2) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody =
-                      ProductScreen(animationController: animationController);
-                });
-              });
-            } else if (index == 3) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody =
-                      ProfileScreen(animationController: animationController);
-                });
-              });
-            }
+        FutureBuilder<String>(
+          future: getUser(),
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            return
+              BottomBarView(
+                tabIconsList: tabIconsList,
+                addClick: () {},
+                changeIndex: (int index) {
+                  if (index == 0) {
+                    animationController?.reverse().then<dynamic>((data) {
+                      if (!mounted) {
+                        return;
+                      }
+                      setState(() {
+                        tabBody =
+                            HomeScreen(animationController: animationController);
+                      });
+                    });
+                  } else if (index == 1) {
+                    animationController?.reverse().then<dynamic>((data) {
+                      if (!mounted) {
+                        return;
+                      }
+                      setState(() {
+                        tabBody =
+                            FeedScreen(animationController: animationController);
+                      });
+                    });
+                  } else if (index == 2) {
+                    animationController?.reverse().then<dynamic>((data) {
+                      if (!mounted) {
+                        return;
+                      }
+                      setState(() {
+                        tabBody = ProductScreen(animationController: animationController);
+                      });
+                    });
+                  } else if (index == 3) {
+                    animationController?.reverse().then<dynamic>((data) {
+                      if (!mounted) {
+                        return;
+                      }
+                      setState(() {
+                        if(boolLogin=="true"){
+                          tabBody = ProfileScreen(animationController: animationController);
+                        } else {
+                          tabBody = LoginScreen(animationController: animationController);
+                        }
+                      });
+                    });
+                  }
+                },
+              );
           },
         ),
       ],
