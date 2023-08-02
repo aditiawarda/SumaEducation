@@ -95,8 +95,9 @@ class MainMenu extends StatelessWidget {
         var voice_cover = dataBookNew['data'][i]['voice_cover'];
         var backsound = dataBookNew['data'][i]['backsound'];
         var viewer = dataBookNew['data'][i]['viewer'];
+        var with_login = dataBookNew['data'][i]['with_login'];
 
-        book.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound, viewer));
+        book.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound, viewer, with_login));
       }
     } catch (e) {
       print("Error");
@@ -1258,12 +1259,25 @@ Widget itemBuku(BookData book, BuildContext context, AnimationController animati
             ZoomTapAnimation(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => DetailBukuState(book: book)
-                      )
-                  );
+                  if(boolLogin == "false" && book.with_login == '1'){
+                    new Future.delayed(new Duration(milliseconds: 300), () {
+                      Navigator.push<dynamic>(
+                          context,
+                          MaterialPageRoute<dynamic>(
+                            builder: (BuildContext context) => LoginScreen(animationController: animationController),
+                          )
+                      );
+                    });
+                  } else {
+                    new Future.delayed(new Duration(milliseconds: 300), () {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => DetailBukuState(book: book)
+                          )
+                      );
+                    });
+                  }
                 },
                 // you can add more gestures...
                 child: Container(
@@ -1410,7 +1424,28 @@ Widget itemBuku(BookData book, BuildContext context, AnimationController animati
                                       )
                                   ),
                                 ],
-                              )
+                              ),
+                              if(boolLogin == "false" && book.with_login == '1')...{
+                                Container(
+                                  padding: EdgeInsets.only(right: 5,top: 5),
+                                  width: double.infinity,
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: 28,
+                                    height: 28,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(color: Colors.white, width: 1.5),
+                                        color: Colors.red
+                                    ),
+                                    child: Icon(
+                                      Icons.lock,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                  ),
+                                )
+                              }
                             ],
                           )
                         ],

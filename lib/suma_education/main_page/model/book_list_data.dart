@@ -10,6 +10,7 @@ class BookData {
   String voice_cover;
   String backsound;
   String viewer;
+  String with_login;
 
-  BookData(this.id, this.judul, this.deskripsi, this.cover, this.created_at, this.jumlah_halaman, this.voice_cover, this.backsound, this.viewer);
+  BookData(this.id, this.judul, this.deskripsi, this.cover, this.created_at, this.jumlah_halaman, this.voice_cover, this.backsound, this.viewer, this.with_login);
 }

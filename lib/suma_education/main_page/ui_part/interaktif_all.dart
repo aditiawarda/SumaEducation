@@ -12,9 +12,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suma_education/suma_education/main_page/model/book_list_data.dart';
 import 'package:suma_education/suma_education/main_page/model/interaktif_list_data.dart';
 import 'package:suma_education/suma_education/main_page/screen/detail_video_screen.dart';
+import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 SharedPreferences? prefs;
+String boolLogin = "";
+final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 class InteraktifAllListData extends StatefulWidget {
   const InteraktifAllListData(
@@ -41,6 +44,12 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
   }
 
   Future<String> _getInteraktifContent() async {
+    final SharedPreferences prefs = await _prefs;
+    if (prefs.getBool('login') == true) {
+      boolLogin = "true";
+    } else {
+      boolLogin = "false";
+    }
     try {
       var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/get_content_interaktif"),
           body: {
@@ -60,9 +69,10 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
         var template = dataInteraktif['data'][i]['template'];
         var kategori = dataInteraktif['data'][i]['kategori'];
         var viewer = dataInteraktif['data'][i]['viewer'];
+        var with_login = dataInteraktif['data'][i]['with_login'];
         var created_at = dataInteraktif['data'][i]['created_at'];
 
-        interaktifListData.add(InteraktifData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, template, kategori, viewer, created_at));
+        interaktifListData.add(InteraktifData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, template, kategori, viewer, with_login, created_at));
       }
     } catch (e) {
       print("Error");
@@ -232,14 +242,25 @@ Widget itemVideoAll(InteraktifData interaktifListData, BuildContext context, Ani
         delay : Duration(milliseconds: 500),
         child : ZoomTapAnimation(
           onTap: () {
-            new Future.delayed(new Duration(milliseconds: 300), () {
-              Navigator.push<dynamic>(
-                  context,
-                  MaterialPageRoute<dynamic>(
-                    builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: interaktifListData.id, youtubeId: interaktifListData.youtube_id, kategoriKonten: interaktifListData.kategori, thumbnail: interaktifListData.thumbnail, source: interaktifListData.source, template: interaktifListData.template,),
-                  )
-              );
-            });
+            if(boolLogin == "false" && interaktifListData.with_login == '1'){
+              new Future.delayed(new Duration(milliseconds: 300), () {
+                Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => LoginScreen(animationController: animationController),
+                    )
+                );
+              });
+            } else {
+              new Future.delayed(new Duration(milliseconds: 300), () {
+                Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: interaktifListData.id, youtubeId: interaktifListData.youtube_id, kategoriKonten: interaktifListData.kategori, thumbnail: interaktifListData.thumbnail, source: interaktifListData.source, template: interaktifListData.template,),
+                    )
+                );
+              });
+            }
           },
           child: Container(
             decoration: BoxDecoration(
@@ -407,7 +428,28 @@ Widget itemVideoAll(InteraktifData interaktifListData, BuildContext context, Ani
                             )
                         ),
                       ],
-                    )
+                    ),
+                    if(boolLogin == "false" && interaktifListData.with_login == '1')...{
+                      Container(
+                        padding: EdgeInsets.only(right: 5,top: 5),
+                        width: double.infinity,
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 1.5),
+                              color: Colors.red
+                          ),
+                          child: Icon(
+                            Icons.lock,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ),
+                      )
+                    }
                   ],
                 )
               ],

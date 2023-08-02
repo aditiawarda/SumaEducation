@@ -9,9 +9,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suma_education/suma_education/main_page/model/book_list_data.dart';
 import 'package:suma_education/suma_education/main_page/screen/book_konten_detail.dart';
+import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 SharedPreferences? prefs;
+String boolLogin = "";
+final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 class BookListAllData extends StatefulWidget {
   const BookListAllData(
@@ -39,6 +42,12 @@ class _BookListAllDataState extends State<BookListAllData>
   }
 
   Future<String> _getBookContent() async {
+    final SharedPreferences prefs = await _prefs;
+    if (prefs.getBool('login') == true) {
+      boolLogin = "true";
+    } else {
+      boolLogin = "false";
+    }
     try {
       var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/get_content_book"),
           body: {
@@ -57,8 +66,9 @@ class _BookListAllDataState extends State<BookListAllData>
         var voice_cover = dataBook['data'][i]['voice_cover'];
         var backsound = dataBook['data'][i]['backsound'];
         var viewer = dataBook['data'][i]['viewer'];
+        var with_login = dataBook['data'][i]['with_login'];
 
-        bookListData.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound, viewer));
+        bookListData.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound, viewer, with_login));
       }
     } catch (e) {
       print("Error");
@@ -226,14 +236,27 @@ Widget itemBookAll(BookData bookData, BuildContext context, AnimationController 
   return
     ZoomTapAnimation(
       onTap: () {
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => DetailBukuState(
-                  book: bookData,
+        if(boolLogin == "false" && bookData.with_login == '1'){
+          new Future.delayed(new Duration(milliseconds: 300), () {
+            Navigator.push<dynamic>(
+                context,
+                MaterialPageRoute<dynamic>(
+                  builder: (BuildContext context) => LoginScreen(animationController: animationController),
                 )
-            )
-        );
+            );
+          });
+        } else {
+          new Future.delayed(new Duration(milliseconds: 300), () {
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => DetailBukuState(
+                      book: bookData,
+                    )
+                )
+            );
+          });
+        }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -379,7 +402,28 @@ Widget itemBookAll(BookData bookData, BuildContext context, AnimationController 
                             )
                         ),
                       ],
-                    )
+                    ),
+                    if(boolLogin == "false" && bookData.with_login == '1')...{
+                      Container(
+                        padding: EdgeInsets.only(right: 5,top: 5),
+                        width: double.infinity,
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 1.5),
+                              color: Colors.red
+                          ),
+                          child: Icon(
+                            Icons.lock,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ),
+                      )
+                    }
                   ],
                 ),
               ],

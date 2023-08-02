@@ -9,9 +9,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suma_education/suma_education/main_page/model/tutorial_list_data.dart';
 import 'package:suma_education/suma_education/main_page/screen/detail_video_screen.dart';
+import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 SharedPreferences? prefs;
+String boolLogin = "";
+final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 class TutorialAllListData extends StatefulWidget {
   const TutorialAllListData(
@@ -38,6 +41,12 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
   }
 
   Future<String> _getTutorialContent() async {
+    final SharedPreferences prefs = await _prefs;
+    if (prefs.getBool('login') == true) {
+      boolLogin = "true";
+    } else {
+      boolLogin = "false";
+    }
     try {
       var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/get_content_tutorial"),
           body: {
@@ -56,9 +65,10 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
         var source = dataTutorial['data'][i]['source'];
         var kategori = dataTutorial['data'][i]['kategori'];
         var viewer = dataTutorial['data'][i]['viewer'];
+        var with_login = dataTutorial['data'][i]['with_login'];
         var created_at = dataTutorial['data'][i]['created_at'];
 
-        tutorialListData.add(TutorialData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, kategori, viewer, created_at));
+        tutorialListData.add(TutorialData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, kategori, viewer, with_login, created_at));
       }
     } catch (e) {
       print("Error");
@@ -228,14 +238,25 @@ Widget itemVideoAll(TutorialData tutorialData, BuildContext context, AnimationCo
         delay : Duration(milliseconds: 500),
         child : ZoomTapAnimation(
           onTap: () {
-            new Future.delayed(new Duration(milliseconds: 300), () {
-              Navigator.push<dynamic>(
-                  context,
-                  MaterialPageRoute<dynamic>(
-                    builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: tutorialData.id, youtubeId: tutorialData.youtube_id, kategoriKonten: tutorialData.kategori, thumbnail: tutorialData.thumbnail, source: tutorialData.source,),
-                  )
-              );
-            });
+            if(boolLogin == "false" && tutorialData.with_login == '1'){
+              new Future.delayed(new Duration(milliseconds: 300), () {
+                Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => LoginScreen(animationController: animationController),
+                    )
+                );
+              });
+            } else {
+              new Future.delayed(new Duration(milliseconds: 300), () {
+                Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: tutorialData.id, youtubeId: tutorialData.youtube_id, kategoriKonten: tutorialData.kategori, thumbnail: tutorialData.thumbnail, source: tutorialData.source),
+                    )
+                );
+              });
+            }
           },
           child: Container(
             decoration: BoxDecoration(
@@ -403,7 +424,28 @@ Widget itemVideoAll(TutorialData tutorialData, BuildContext context, AnimationCo
                             )
                         ),
                       ],
-                    )
+                    ),
+                    if(boolLogin == "false" && tutorialData.with_login == '1')...{
+                      Container(
+                        padding: EdgeInsets.only(right: 5,top: 5),
+                        width: double.infinity,
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 1.5),
+                              color: Colors.red
+                          ),
+                          child: Icon(
+                            Icons.lock,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                        ),
+                      )
+                    }
                   ],
                 )
               ],

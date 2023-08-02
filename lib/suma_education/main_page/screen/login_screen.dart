@@ -236,7 +236,7 @@ class _LoginPageState extends State<LoginScreen>
             );
           } else {
             _load();
-            loginFunction();
+            loginFunction(txtEditEmail.text, txtEditPassword.text);
           }
         }
       },
@@ -277,13 +277,13 @@ class _LoginPageState extends State<LoginScreen>
     );
   }
 
-  void loginFunction() async {
+  void loginFunction(String email, String password) async {
     final SharedPreferences prefs = await _prefs;
     try {
       var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/login_akun"),
           body: {
-            "email"    : txtEditEmail.text,
-            "password" : txtEditPassword.text,
+            "email"    : email,
+            "password" : password,
           });
 
       var json = jsonDecode(response.body);
@@ -349,7 +349,7 @@ class _LoginPageState extends State<LoginScreen>
         backgroundColor: Colors.red.shade100,
         confirmBtnColor: Colors.orange.shade300,
         title: 'Oops...',
-        text: 'Tidak terhubung ke server',
+        text: txtEditEmail.text,
         width: 30,
         animType: CoolAlertAnimType.scale,
         loopAnimation: false,

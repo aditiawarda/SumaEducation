@@ -9,9 +9,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suma_education/suma_education/main_page/model/kreasi_list_data.dart';
 import 'package:suma_education/suma_education/main_page/screen/detail_video_screen.dart';
+import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 SharedPreferences? prefs;
+String boolLogin = "";
+final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
 class KreasiListAllData extends StatefulWidget {
   const KreasiListAllData(
@@ -38,6 +41,12 @@ class _KreasiListAllDataState extends State<KreasiListAllData>
   }
 
   Future<String> _getKreasiContent() async {
+    final SharedPreferences prefs = await _prefs;
+    if (prefs.getBool('login') == true) {
+      boolLogin = "true";
+    } else {
+      boolLogin = "false";
+    }
     try {
       var response = await http.post(Uri.parse("https://suma.geloraaksara.co.id/api/get_content_kreasi"),
           body: {
@@ -56,8 +65,9 @@ class _KreasiListAllDataState extends State<KreasiListAllData>
         var source = dataKreasi['data'][i]['source'];
         var kategori = dataKreasi['data'][i]['kategori'];
         var viewer = dataKreasi['data'][i]['viewer'];
+        var with_login = dataKreasi['data'][i]['with_login'];
         var created_at = dataKreasi['data'][i]['created_at'];
-        kreasiListData.add(KreasiData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, kategori, viewer, created_at));
+        kreasiListData.add(KreasiData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, kategori, viewer, with_login, created_at));
       }
     } catch (e) {
       print("Error");
@@ -226,14 +236,25 @@ Widget itemVideoAll(KreasiData kreasiData, BuildContext context, AnimationContro
         delay : Duration(milliseconds: 500),
         child : ZoomTapAnimation(
           onTap: () {
-            new Future.delayed(new Duration(milliseconds: 300), () {
-              Navigator.push<dynamic>(
-                  context,
-                  MaterialPageRoute<dynamic>(
-                    builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: kreasiData.id, youtubeId: kreasiData.youtube_id, kategoriKonten: kreasiData.kategori, thumbnail: kreasiData.thumbnail, source: kreasiData.source,),
-                  )
-              );
-            });
+            if(boolLogin == "false" && kreasiData.with_login == '1'){
+              new Future.delayed(new Duration(milliseconds: 300), () {
+                Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => LoginScreen(animationController: animationController),
+                    )
+                );
+              });
+            } else {
+              new Future.delayed(new Duration(milliseconds: 300), () {
+                Navigator.push<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => DetailVideoScreen(animationController: animationController, idContent: kreasiData.id, youtubeId: kreasiData.youtube_id, kategoriKonten: kreasiData.kategori, thumbnail: kreasiData.thumbnail, source: kreasiData.source,),
+                    )
+                );
+              });
+            }
           },
           child: Container(
             decoration: BoxDecoration(
@@ -401,7 +422,28 @@ Widget itemVideoAll(KreasiData kreasiData, BuildContext context, AnimationContro
                             )
                         ),
                       ],
-                    )
+                    ),
+                    if(boolLogin == "false" && kreasiData.with_login == '1')...{
+                      Container(
+                          padding: EdgeInsets.only(right: 5,top: 5),
+                          width: double.infinity,
+                          alignment: Alignment.topRight,
+                          child: Container(
+                            width: 28,
+                            height: 28,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.white, width: 1.5),
+                                color: Colors.red
+                            ),
+                            child: Icon(
+                              Icons.lock,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                          ),
+                        )
+                    }
                   ],
                 )
               ],

@@ -11,7 +11,8 @@ class InteraktifData {
   String template;
   String kategori;
   String viewer;
+  String with_login;
   String created_at;
 
-  InteraktifData(this.id, this.judul, this.thumbnail, this.square_thumbnail, this.durasi, this.youtube_id, this.source, this.template, this.kategori, this.viewer, this.created_at);
+  InteraktifData(this.id, this.judul, this.thumbnail, this.square_thumbnail, this.durasi, this.youtube_id, this.source, this.template, this.kategori, this.viewer, this.with_login, this.created_at);
 }
