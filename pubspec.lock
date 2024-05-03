@@ -61,10 +61,10 @@ packages:
     dependency: transitive
     description:
       name: async
-      sha256: bfe67ef28df125b7dddcea62755991f807aa39a2492a23e1550161692950bbe0
+      sha256: "947bfcf187f74dbc5e146c9eb9c0f10c9f8b30743e341481c1e2ed3ecc18c20c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.10.0"
+    version: "2.11.0"
   audio_session:
     dependency: "direct main"
     description:
@@ -237,10 +237,10 @@ packages:
     dependency: transitive
     description:
       name: characters
-      sha256: e6a326c8af69605aec75ed6c187d06b349707a27fbff8222ca9cc2cff167975c
+      sha256: "04a925763edad70e8443c99234dc3328f442e811f1d8fd1a72f1c8ad0f69a605"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.1"
+    version: "1.3.0"
   clock:
     dependency: transitive
     description:
@@ -253,10 +253,10 @@ packages:
     dependency: transitive
     description:
       name: collection
-      sha256: cfc915e6923fe5ce6e153b0723c753045de46de1b4d63771530504004a45fae0
+      sha256: "4a07be6cb69c84d677a6c3096fcf960cc3285a8330b4603e0d463d15d9bd934c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.17.0"
+    version: "1.17.1"
   common_utils:
     dependency: "direct main"
     description:
@@ -793,10 +793,10 @@ packages:
     dependency: transitive
     description:
       name: js
-      sha256: "5528c2f391ededb7775ec1daa69e65a2d61276f7552de2b5f7b8d34ee9fd4ab7"
+      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.5"
+    version: "0.6.7"
   just_audio:
     dependency: "direct main"
     description:
@@ -841,10 +841,10 @@ packages:
     dependency: transitive
     description:
       name: matcher
-      sha256: "16db949ceee371e9b99d22f88fa3a73c4e59fd0afed0bd25fc336eb76c198b72"
+      sha256: "6501fbd55da300384b768785b83e5ce66991266cec21af89ab9ae7f5ce1c4cbb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.13"
+    version: "0.12.15"
   material_color_utilities:
     dependency: transitive
     description:
@@ -865,18 +865,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: "6c268b42ed578a53088d834796959e4a1814b5e9e164f147f580a386e5decf42"
+      sha256: "3c74dbf8763d36539f114c799d8a2d87343b5067e9d796ca22b5eb8437090ee3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.8.0"
-  minimize_app:
-    dependency: "direct main"
-    description:
-      name: minimize_app
-      sha256: "672a224ac682980ffd07a6a0c5c1cba8e45305406d8b0d338cc345c88b965965"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.1"
+    version: "1.9.1"
   modal_bottom_sheet:
     dependency: "direct main"
     description:
@@ -917,14 +909,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
-  page_turn:
-    dependency: "direct main"
-    description:
-      name: page_turn
-      sha256: "7d0b8956f95becc1b53d6121d0c10dc2608e7fc1e0ef3646046b8c098e7cc813"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   page_view_dot_indicator:
     dependency: "direct main"
     description:
@@ -933,22 +917,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
-  pageview_navigation_panel:
-    dependency: "direct main"
-    description:
-      name: pageview_navigation_panel
-      sha256: "143d58f8b5932cfeb05612ec3ffcdc3326679cb59c19c9e2e3edab5f01034705"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   path:
     dependency: transitive
     description:
       name: path
-      sha256: db9d4f58c908a4ba5953fcee2ae317c94889433e5024c27ce74a37f94267945b
+      sha256: "8829d8a55c13fc0e37127c29fedf290c102f4e40ae94ada574091fe0ff96c917"
       url: "https://pub.dev"
     source: hosted
-    version: "1.8.2"
+    version: "1.8.3"
   path_drawing:
     dependency: transitive
     description:
@@ -1125,14 +1101,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
-  ripple_animation:
-    dependency: "direct main"
-    description:
-      name: ripple_animation
-      sha256: "8d9e5e0a20452ab32a0bc26321b245d628b984250d6be7c54f6216d6ba64476e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1+2"
   rive:
     dependency: "direct main"
     description:
@@ -1238,10 +1206,10 @@ packages:
     dependency: "direct main"
     description:
       name: smart_select
-      sha256: c0cb49aeb5fb9f9d8138eb02c8c29f307c93c72d4a70a38052dcd34471ab6578
+      sha256: "0699efcf30e377f17614d9c60e9ad68393f24816bda927a5501ec162e27ed841"
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.2"
+    version: "4.3.3"
   smooth_page_indicator:
     dependency: "direct main"
     description:
@@ -1258,14 +1226,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
-  splashscreen:
-    dependency: "direct main"
-    description:
-      name: splashscreen
-      sha256: "4c7c83f972d98eb8a9f22f896b016923d632056f2e1e323047130d3d2eecd159"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.5"
   sqflite:
     dependency: transitive
     description:
@@ -1358,10 +1318,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: ad540f65f92caa91bf21dfc8ffb8c589d6e4dc0c2267818b4cc2792857706206
+      sha256: eb6ac1540b26de412b3403a163d919ba86f6a973fe6cc50ae3541b80092fdcfb
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.16"
+    version: "0.5.1"
   text_to_speech:
     dependency: "direct main"
     description:
@@ -1675,5 +1635,5 @@ packages:
     source: hosted
     version: "1.1.0"
 sdks:
-  dart: ">=2.18.0 <3.0.0"
+  dart: ">=3.0.0-0 <4.0.0"
   flutter: ">=3.7.0"

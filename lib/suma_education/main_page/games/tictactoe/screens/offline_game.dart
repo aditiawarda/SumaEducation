@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:suma_education/suma_education/main_page/games/tictactoe/controllers/offline_game_controller.dart';
 import 'package:suma_education/suma_education/main_page/games/tictactoe/controllers/settings_controller.dart';
@@ -95,7 +94,7 @@ class _GameState extends State<Game> {
                                           child: Center(
                                             child: Text(
                                               controller.score.textScore,
-                                              style: GoogleFonts.roboto(
+                                              style: TextStyle(
                                                 color: Colors.blueGrey,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20,

@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -479,7 +478,7 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                                   children: [
                                     Text(
                                       'SIMPAN',
-                                      style: GoogleFonts.inter(
+                                      style: TextStyle(
                                         fontSize: 16.0,
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,
@@ -842,7 +841,7 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                                 children: [
                                   Text(
                                     'VERIFIKASI',
-                                    style: GoogleFonts.inter(
+                                    style: TextStyle(
                                       fontSize: 16.0,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w600,
@@ -965,7 +964,7 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                                             TextFormField(
                                               decoration: InputDecoration(
                                                 hintText: 'Email',
-                                                hintStyle: GoogleFonts.inter(
+                                                hintStyle: TextStyle(
                                                   fontSize: 16.0,
                                                   color: const Color(0xFF151624).withOpacity(0.5),
                                                 ),
@@ -1068,7 +1067,7 @@ class _ForgotPageState extends State<ForgotPasswordScreen> with TickerProviderSt
                                                         ),
                                                         Text(
                                                           'KIRIM',
-                                                          style: GoogleFonts.inter(
+                                                          style: TextStyle(
                                                             fontSize: 16.0,
                                                             color: Colors.white,
                                                             fontWeight: FontWeight.w600,

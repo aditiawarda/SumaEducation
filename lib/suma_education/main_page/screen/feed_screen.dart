@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_dialogs/material_dialogs.dart';
@@ -140,16 +139,17 @@ class _FeedScreenState extends State<FeedScreen>
       var dataStory = json.decode(response.body);
       print(dataStory);
       for (var i = 0; i < dataStory['data'].length; i++) {
-        var id = dataStory['data'][i]['id'];
-        var id_user = dataStory['data'][i]['id_user'];
-        var username = dataStory['data'][i]['username'];
-        var deskripsi = dataStory['data'][i]['deskripsi'];
-        var avatar = dataStory['data'][i]['picture'];
-        var content = dataStory['data'][i]['filename'];
-        var time = dataStory['data'][i]['created_at'];
-        var status_view = dataStory['data'][i]['status_view'];
+        var id = dataStory['data'][i]['id'].toString();
+        var id_user = dataStory['data'][i]['id_user'].toString();
+        var username = dataStory['data'][i]['username'].toString();
+        var deskripsi = dataStory['data'][i]['deskripsi'].toString();
+        var avatar = dataStory['data'][i]['picture'].toString();
+        var content = dataStory['data'][i]['filename'].toString();
+        var time = dataStory['data'][i]['created_at'].toString();
+        var status_view = dataStory['data'][i]['status_view'].toString();
         stories.add(StoryData(id, id_user, username, deskripsi, avatar, content, time, status_view));
       }
+      print(stories.toString());
     } catch (e) {
       print("Error");
     }
@@ -216,7 +216,7 @@ class _FeedScreenState extends State<FeedScreen>
                             ),
                             child: Text(
                               'Camera',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -252,7 +252,7 @@ class _FeedScreenState extends State<FeedScreen>
                             ),
                             child: Text(
                               'Gallery',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -283,7 +283,7 @@ class _FeedScreenState extends State<FeedScreen>
                             ),
                             child: Text(
                               'Batal',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.orange,
                                 fontWeight: FontWeight.w600,
@@ -430,8 +430,8 @@ class _FeedScreenState extends State<FeedScreen>
           });
 
       var json = jsonDecode(response.body);
-      String status = json["status"];
-      String message = json["message"];
+      String status = json["status"].toString();
+      String message = json["message"].toString();
 
       if (status == "Success") {
         stories = [];
@@ -444,7 +444,7 @@ class _FeedScreenState extends State<FeedScreen>
         ));
       }
     } catch (e) {
-      print("Error during converting to Base64");
+      print("Error during converting to Base64 : "+e.toString());
       new Future.delayed(new Duration(milliseconds: 2000), () {
         setState(() {
           _onRefresh();
@@ -480,7 +480,7 @@ class _FeedScreenState extends State<FeedScreen>
                       children: [
                         if(boolLogin=="true")...{
                           SizedBox(
-                            height: AppBar().preferredSize.height + MediaQuery.of(context).padding.top + 105,
+                            height: AppBar().preferredSize.height + MediaQuery.of(context).padding.top + 70,
                           ),
                         } else ...{
                           SizedBox(
@@ -603,339 +603,340 @@ class _FeedScreenState extends State<FeedScreen>
                       SizedBox(
                         height: MediaQuery.of(context).padding.top,
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 16,
-                            right: 16,
-                            top: 16 - 8.0 * topBarOpacity,
-                            bottom: 12 - 8.0 * topBarOpacity),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Feeds',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontName,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16 + 6 - 6 * topBarOpacity,
-                                    letterSpacing: 1.2,
-                                    color: AppTheme.darkerText,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            PopupMenuButton<int>(
-                              icon: Icon(Icons.more_vert),
-                              onSelected: (int size) {
-                                print(size);
-                                if (size==1){
-                                  showModalBottomSheet<void>(
-                                      context: context,
-                                      backgroundColor: Colors.transparent,
-                                      transitionAnimationController: animationControllerBottomSheet,
-                                      builder: (BuildContext context) {
-                                        return
-                                          SlideInUp(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(20.0),
-                                                    bottomLeft: Radius.circular(0.0),
-                                                    bottomRight: Radius.circular(0.0),
-                                                    topRight: Radius.circular(20.0)),
-                                                boxShadow: <BoxShadow>[
-                                                  BoxShadow(
-                                                      color: AppTheme.grey.withOpacity(0.5),
-                                                      offset: Offset(0.0, 1.0), //(x,y)
-                                                      blurRadius: 3.0),
-                                                ],
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  Container(
-                                                    width: 80,
-                                                    height: 3,
-                                                    margin: EdgeInsets.only(top: 20, bottom: 15),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey.withOpacity(0.5),
-                                                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    children: <Widget>[
-                                                      SizedBox(width: 35),
-                                                      Image.asset('assets/images/whatsapp_connect.png', height: 80, width: 80),
-                                                      Padding(
-                                                          padding: const EdgeInsets.only( left: 20),
-                                                          child:
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              Container(
-                                                                child: Text("Customer Service",
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    maxLines: 1,
-                                                                    style: TextStyle(
-                                                                        fontFamily: AppTheme.fontName,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        fontSize: 18,
-                                                                        letterSpacing: 0.0,
-                                                                        color: AppTheme.grey.withOpacity(0.6)
-                                                                    )
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Container(
-                                                                width: MediaQuery.of(context).size.width*0.6,
-                                                                padding: EdgeInsets.only(right: 5),
-                                                                child: Text('Kamu akan terhubung melalui WhatsApp Customer Service',
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    maxLines: 3,
-                                                                    style: TextStyle(
-                                                                        fontFamily: AppTheme.fontName,
-                                                                        fontWeight: FontWeight.w500,
-                                                                        fontSize: 16,
-                                                                        height: 1.5,
-                                                                        letterSpacing: 0.0,
-                                                                        color: AppTheme.grey.withOpacity(0.6)
-                                                                    )
-                                                                ),
-                                                              ),
-                                                              SizedBox(width: 35),
-                                                            ],
-                                                          )
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                      margin: EdgeInsets.only(top: 15),
-                                                      alignment: Alignment.center,
-                                                      width: MediaQuery.of(context).size.width,
-                                                      height: 40,
-                                                      child:
-                                                      ZoomTapAnimation(
-                                                        onTap: () async {
-                                                          Navigator.of(context, rootNavigator: true).pop('dialog');
-                                                          await launch("https://wa.me/6285721603080?text=Hello");
-                                                        },
-                                                        child: Container(
-                                                          margin: EdgeInsets.only(left: 20, right: 20),
-                                                          alignment: Alignment.center,
-                                                          width: MediaQuery.of(context).size.width,
-                                                          height: 40,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            color: Colors.orange.shade600,
-                                                          ),
-                                                          child: Text(
-                                                            'Hubungkan',
-                                                            style: GoogleFonts.inter(
-                                                              fontSize: 14.0,
-                                                              color: Colors.white,
-                                                              fontWeight: FontWeight.w600,
-                                                            ),
-                                                            textAlign: TextAlign.center,
-                                                          ),
-                                                        ),
-                                                      )
-                                                  ),
-                                                  Container(
-                                                      margin: EdgeInsets.only(top: 10, bottom: 20),
-                                                      alignment: Alignment.center,
-                                                      width: MediaQuery.of(context).size.width,
-                                                      height: 40,
-                                                      child:
-                                                      ZoomTapAnimation(
-                                                        onTap: () {
-                                                          Navigator.of(context, rootNavigator: true).pop('dialog');
-                                                        },
-                                                        child: Container(
-                                                          margin: EdgeInsets.only(left: 20, right: 20),
-                                                          alignment: Alignment.center,
-                                                          width: MediaQuery.of(context).size.width,
-                                                          height: 40,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            color: Colors.orange.shade50,
-                                                          ),
-                                                          child: Text(
-                                                            'Batal',
-                                                            style: GoogleFonts.inter(
-                                                              fontSize: 14.0,
-                                                              color: Colors.orange,
-                                                              fontWeight: FontWeight.w600,
-                                                            ),
-                                                            textAlign: TextAlign.center,
-                                                          ),
-                                                        ),
-                                                      )
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                      }
-                                  );
-                                } else if (size==2) {
-                                  showModalBottomSheet<void>(
-                                      context: context,
-                                      backgroundColor: Colors.transparent,
-                                      transitionAnimationController: animationControllerBottomSheet,
-                                      builder: (BuildContext context) {
-                                        return
-                                          SlideInUp(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(20.0),
-                                                    bottomLeft: Radius.circular(0.0),
-                                                    bottomRight: Radius.circular(0.0),
-                                                    topRight: Radius.circular(20.0)),
-                                                boxShadow: <BoxShadow>[
-                                                  BoxShadow(
-                                                      color: AppTheme.grey.withOpacity(0.5),
-                                                      offset: Offset(0.0, 1.0), //(x,y)
-                                                      blurRadius: 3.0),
-                                                ],
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: <Widget>[
-                                                  Container(
-                                                    width: 80,
-                                                    height: 3,
-                                                    margin: EdgeInsets.only(top: 20, bottom: 15),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey.withOpacity(0.5),
-                                                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                                                    ),
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      Container(
-                                                        padding: EdgeInsets.only(left: 25, right: 25),
-                                                        child: Text('Tentang App',
-                                                            overflow: TextOverflow.ellipsis,
-                                                            maxLines: 1,
-                                                            style: TextStyle(
-                                                                fontFamily: AppTheme.fontName,
-                                                                fontWeight: FontWeight.w500,
-                                                                fontSize: 18,
-                                                                letterSpacing: 0.0,
-                                                                color: AppTheme.grey.withOpacity(0.6)
-                                                            )
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 8,
-                                                      ),
-                                                      Container(
-                                                        padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
-                                                        width: MediaQuery.of(context).size.width,
-                                                        child: Text('Suma App merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.4',
-                                                            style: TextStyle(
-                                                                fontFamily: AppTheme.fontName,
-                                                                fontWeight: FontWeight.w500,
-                                                                fontSize: 16,
-                                                                height: 1.5,
-                                                                letterSpacing: 0.0,
-                                                                color: AppTheme.grey.withOpacity(0.6)
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                      margin: EdgeInsets.only(top: 5, bottom: 20),
-                                                      alignment: Alignment.center,
-                                                      width: MediaQuery.of(context).size.width,
-                                                      height: 40,
-                                                      child:
-                                                      ZoomTapAnimation(
-                                                        onTap: () {
-                                                          Navigator.of(context, rootNavigator: true).pop('dialog');
-                                                        },
-                                                        child: Container(
-                                                          margin: EdgeInsets.only(left: 20, right: 20),
-                                                          alignment: Alignment.center,
-                                                          width: MediaQuery.of(context).size.width,
-                                                          height: 40,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.circular(20.0),
-                                                            color: Colors.orange.shade600,
-                                                          ),
-                                                          child: Text(
-                                                            'Tutup',
-                                                            style: GoogleFonts.inter(
-                                                              fontSize: 14.0,
-                                                              color: Colors.white,
-                                                              fontWeight: FontWeight.w600,
-                                                            ),
-                                                            textAlign: TextAlign.center,
-                                                          ),
-                                                        ),
-                                                      )
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                      }
-                                  );
-                                }
-                              },
-                              itemBuilder: (BuildContext context) => <PopupMenuItem<int>>[
-                                PopupMenuItem(
-                                  value: 1,
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.headset_mic_outlined),
-                                      SizedBox(
-                                        // sized box with width 10
-                                        width: 10,
-                                      ),
-                                      Text("Customer Service")
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: 2,
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.phone_android_rounded),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text("Tentang App")
-                                    ],
-                                  ),
-                                ),
-                              ],
-                              offset: Offset(-6,45),
-                              color: Colors.white,
-                              elevation: 5,
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //       left: 16,
+                      //       right: 16,
+                      //       top: 16 - 8.0 * topBarOpacity,
+                      //       bottom: 12 - 8.0 * topBarOpacity),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: <Widget>[
+                      //       Expanded(
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.all(8.0),
+                      //           child: Text(
+                      //             'Feeds',
+                      //             textAlign: TextAlign.left,
+                      //             style: TextStyle(
+                      //               fontFamily: AppTheme.fontName,
+                      //               fontWeight: FontWeight.w700,
+                      //               fontSize: 16 + 6 - 6 * topBarOpacity,
+                      //               letterSpacing: 1.2,
+                      //               color: AppTheme.darkerText,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       PopupMenuButton<int>(
+                      //         icon: Icon(Icons.more_vert),
+                      //         onSelected: (int size) {
+                      //           print(size);
+                      //           if (size==1){
+                      //             showModalBottomSheet<void>(
+                      //                 context: context,
+                      //                 backgroundColor: Colors.transparent,
+                      //                 transitionAnimationController: animationControllerBottomSheet,
+                      //                 builder: (BuildContext context) {
+                      //                   return
+                      //                     SlideInUp(
+                      //                       child: Container(
+                      //                         decoration: BoxDecoration(
+                      //                           color: Colors.white,
+                      //                           borderRadius: BorderRadius.only(
+                      //                               topLeft: Radius.circular(20.0),
+                      //                               bottomLeft: Radius.circular(0.0),
+                      //                               bottomRight: Radius.circular(0.0),
+                      //                               topRight: Radius.circular(20.0)),
+                      //                           boxShadow: <BoxShadow>[
+                      //                             BoxShadow(
+                      //                                 color: AppTheme.grey.withOpacity(0.5),
+                      //                                 offset: Offset(0.0, 1.0), //(x,y)
+                      //                                 blurRadius: 3.0),
+                      //                           ],
+                      //                         ),
+                      //                         child: Column(
+                      //                           mainAxisAlignment: MainAxisAlignment.center,
+                      //                           mainAxisSize: MainAxisSize.min,
+                      //                           children: <Widget>[
+                      //                             Container(
+                      //                               width: 80,
+                      //                               height: 3,
+                      //                               margin: EdgeInsets.only(top: 20, bottom: 15),
+                      //                               decoration: BoxDecoration(
+                      //                                 color: Colors.grey.withOpacity(0.5),
+                      //                                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      //                               ),
+                      //                             ),
+                      //                             Row(
+                      //                               children: <Widget>[
+                      //                                 SizedBox(width: 35),
+                      //                                 Image.asset('assets/images/whatsapp_connect.png', height: 80, width: 80),
+                      //                                 Padding(
+                      //                                     padding: const EdgeInsets.only( left: 20),
+                      //                                     child:
+                      //                                     Column(
+                      //                                       crossAxisAlignment: CrossAxisAlignment.start,
+                      //                                       mainAxisAlignment: MainAxisAlignment.center,
+                      //                                       children: [
+                      //                                         Container(
+                      //                                           child: Text("Customer Service",
+                      //                                               overflow: TextOverflow.ellipsis,
+                      //                                               maxLines: 1,
+                      //                                               style: TextStyle(
+                      //                                                   fontFamily: AppTheme.fontName,
+                      //                                                   fontWeight: FontWeight.w500,
+                      //                                                   fontSize: 18,
+                      //                                                   letterSpacing: 0.0,
+                      //                                                   color: AppTheme.grey.withOpacity(0.6)
+                      //                                               )
+                      //                                           ),
+                      //                                         ),
+                      //                                         SizedBox(
+                      //                                           height: 8,
+                      //                                         ),
+                      //                                         Container(
+                      //                                           width: MediaQuery.of(context).size.width*0.6,
+                      //                                           padding: EdgeInsets.only(right: 5),
+                      //                                           child: Text('Kamu akan terhubung melalui WhatsApp Customer Service',
+                      //                                               overflow: TextOverflow.ellipsis,
+                      //                                               maxLines: 3,
+                      //                                               style: TextStyle(
+                      //                                                   fontFamily: AppTheme.fontName,
+                      //                                                   fontWeight: FontWeight.w500,
+                      //                                                   fontSize: 16,
+                      //                                                   height: 1.5,
+                      //                                                   letterSpacing: 0.0,
+                      //                                                   color: AppTheme.grey.withOpacity(0.6)
+                      //                                               )
+                      //                                           ),
+                      //                                         ),
+                      //                                         SizedBox(width: 35),
+                      //                                       ],
+                      //                                     )
+                      //                                 ),
+                      //                               ],
+                      //                             ),
+                      //                             Container(
+                      //                                 margin: EdgeInsets.only(top: 15),
+                      //                                 alignment: Alignment.center,
+                      //                                 width: MediaQuery.of(context).size.width,
+                      //                                 height: 40,
+                      //                                 child:
+                      //                                 ZoomTapAnimation(
+                      //                                   onTap: () async {
+                      //                                     Navigator.of(context, rootNavigator: true).pop('dialog');
+                      //                                     await launch("https://wa.me/6285721603080?text=Hello");
+                      //                                   },
+                      //                                   child: Container(
+                      //                                     margin: EdgeInsets.only(left: 20, right: 20),
+                      //                                     alignment: Alignment.center,
+                      //                                     width: MediaQuery.of(context).size.width,
+                      //                                     height: 40,
+                      //                                     decoration: BoxDecoration(
+                      //                                       borderRadius: BorderRadius.circular(20.0),
+                      //                                       color: Colors.orange.shade600,
+                      //                                     ),
+                      //                                     child: Text(
+                      //                                       'Hubungkan',
+                      //                                       style: TextStyle(
+                      //                                         fontSize: 14.0,
+                      //                                         color: Colors.white,
+                      //                                         fontWeight: FontWeight.w600,
+                      //                                       ),
+                      //                                       textAlign: TextAlign.center,
+                      //                                     ),
+                      //                                   ),
+                      //                                 )
+                      //                             ),
+                      //                             Container(
+                      //                                 margin: EdgeInsets.only(top: 10, bottom: 20),
+                      //                                 alignment: Alignment.center,
+                      //                                 width: MediaQuery.of(context).size.width,
+                      //                                 height: 40,
+                      //                                 child:
+                      //                                 ZoomTapAnimation(
+                      //                                   onTap: () {
+                      //                                     Navigator.of(context, rootNavigator: true).pop('dialog');
+                      //                                   },
+                      //                                   child: Container(
+                      //                                     margin: EdgeInsets.only(left: 20, right: 20),
+                      //                                     alignment: Alignment.center,
+                      //                                     width: MediaQuery.of(context).size.width,
+                      //                                     height: 40,
+                      //                                     decoration: BoxDecoration(
+                      //                                       borderRadius: BorderRadius.circular(20.0),
+                      //                                       color: Colors.orange.shade50,
+                      //                                     ),
+                      //                                     child: Text(
+                      //                                       'Batal',
+                      //                                       style: TextStyle(
+                      //                                         fontSize: 14.0,
+                      //                                         color: Colors.orange,
+                      //                                         fontWeight: FontWeight.w600,
+                      //                                       ),
+                      //                                       textAlign: TextAlign.center,
+                      //                                     ),
+                      //                                   ),
+                      //                                 )
+                      //                             ),
+                      //                           ],
+                      //                         ),
+                      //                       ),
+                      //                     );
+                      //                 }
+                      //             );
+                      //           } else if (size==2) {
+                      //             showModalBottomSheet<void>(
+                      //                 context: context,
+                      //                 backgroundColor: Colors.transparent,
+                      //                 transitionAnimationController: animationControllerBottomSheet,
+                      //                 builder: (BuildContext context) {
+                      //                   return
+                      //                     SlideInUp(
+                      //                       child: Container(
+                      //                         decoration: BoxDecoration(
+                      //                           color: Colors.white,
+                      //                           borderRadius: BorderRadius.only(
+                      //                               topLeft: Radius.circular(20.0),
+                      //                               bottomLeft: Radius.circular(0.0),
+                      //                               bottomRight: Radius.circular(0.0),
+                      //                               topRight: Radius.circular(20.0)),
+                      //                           boxShadow: <BoxShadow>[
+                      //                             BoxShadow(
+                      //                                 color: AppTheme.grey.withOpacity(0.5),
+                      //                                 offset: Offset(0.0, 1.0), //(x,y)
+                      //                                 blurRadius: 3.0),
+                      //                           ],
+                      //                         ),
+                      //                         child: Column(
+                      //                           mainAxisAlignment: MainAxisAlignment.center,
+                      //                           mainAxisSize: MainAxisSize.min,
+                      //                           children: <Widget>[
+                      //                             Container(
+                      //                               width: 80,
+                      //                               height: 3,
+                      //                               margin: EdgeInsets.only(top: 20, bottom: 15),
+                      //                               decoration: BoxDecoration(
+                      //                                 color: Colors.grey.withOpacity(0.5),
+                      //                                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      //                               ),
+                      //                             ),
+                      //                             Column(
+                      //                               crossAxisAlignment: CrossAxisAlignment.start,
+                      //                               mainAxisAlignment: MainAxisAlignment.center,
+                      //                               children: [
+                      //                                 Container(
+                      //                                   padding: EdgeInsets.only(left: 25, right: 25),
+                      //                                   child: Text('Tentang App',
+                      //                                       overflow: TextOverflow.ellipsis,
+                      //                                       maxLines: 1,
+                      //                                       style: TextStyle(
+                      //                                           fontFamily: AppTheme.fontName,
+                      //                                           fontWeight: FontWeight.w500,
+                      //                                           fontSize: 18,
+                      //                                           letterSpacing: 0.0,
+                      //                                           color: AppTheme.grey.withOpacity(0.6)
+                      //                                       )
+                      //                                   ),
+                      //                                 ),
+                      //                                 SizedBox(
+                      //                                   height: 8,
+                      //                                 ),
+                      //                                 Container(
+                      //                                   padding: EdgeInsets.only(left: 25, right: 25, bottom: 20),
+                      //                                   width: MediaQuery.of(context).size.width,
+                      //                                   child: Text('Suma App merupakan platform aplikasi pembelajaran yang dibuat special untuk sahabat Suma di seluruh Indonesia. \n\nVersi yang saat ini kamu gunakan adalah v 1.1.4',
+                      //                                       style: TextStyle(
+                      //                                           fontFamily: AppTheme.fontName,
+                      //                                           fontWeight: FontWeight.w500,
+                      //                                           fontSize: 16,
+                      //                                           height: 1.5,
+                      //                                           letterSpacing: 0.0,
+                      //                                           color: AppTheme.grey.withOpacity(0.6)
+                      //                                       )
+                      //                                   ),
+                      //                                 ),
+                      //                               ],
+                      //                             ),
+                      //                             Container(
+                      //                                 margin: EdgeInsets.only(top: 5, bottom: 20),
+                      //                                 alignment: Alignment.center,
+                      //                                 width: MediaQuery.of(context).size.width,
+                      //                                 height: 40,
+                      //                                 child:
+                      //                                 ZoomTapAnimation(
+                      //                                   onTap: () {
+                      //                                     Navigator.of(context, rootNavigator: true).pop('dialog');
+                      //                                   },
+                      //                                   child: Container(
+                      //                                     margin: EdgeInsets.only(left: 20, right: 20),
+                      //                                     alignment: Alignment.center,
+                      //                                     width: MediaQuery.of(context).size.width,
+                      //                                     height: 40,
+                      //                                     decoration: BoxDecoration(
+                      //                                       borderRadius: BorderRadius.circular(20.0),
+                      //                                       color: Colors.orange.shade600,
+                      //                                     ),
+                      //                                     child: Text(
+                      //                                       'Tutup',
+                      //                                       style: TextStyle(
+                      //                                         fontSize: 14.0,
+                      //                                         color: Colors.white,
+                      //                                         fontWeight: FontWeight.w600,
+                      //                                       ),
+                      //                                       textAlign: TextAlign.center,
+                      //                                     ),
+                      //                                   ),
+                      //                                 )
+                      //                             ),
+                      //                           ],
+                      //                         ),
+                      //                       ),
+                      //                     );
+                      //                 }
+                      //             );
+                      //           }
+                      //         },
+                      //         itemBuilder: (BuildContext context) => <PopupMenuItem<int>>[
+                      //           PopupMenuItem(
+                      //             value: 1,
+                      //             child: Row(
+                      //               children: [
+                      //                 Icon(Icons.headset_mic_outlined),
+                      //                 SizedBox(
+                      //                   // sized box with width 10
+                      //                   width: 10,
+                      //                 ),
+                      //                 Text("Customer Service")
+                      //               ],
+                      //             ),
+                      //           ),
+                      //           PopupMenuItem(
+                      //             value: 2,
+                      //             child: Row(
+                      //               children: [
+                      //                 Icon(Icons.phone_android_rounded),
+                      //                 SizedBox(
+                      //                   width: 10,
+                      //                 ),
+                      //                 Text("Tentang App")
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ],
+                      //         offset: Offset(-6,45),
+                      //         color: Colors.white,
+                      //         elevation: 5,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       if(boolLogin=="true")...{
                         Container(
                           color: Colors.white,
                           width: double.infinity,
+                          margin: EdgeInsets.only(top: 20),
                           height: 105,
                           child:
                           Stack(
@@ -946,64 +947,197 @@ class _FeedScreenState extends State<FeedScreen>
                                   child:
                                   Stack(
                                     children: [
-                                      if(stories.length==0)...{
-                                        FadeInRight(
-                                          delay: Duration(milliseconds: 300),
-                                          child: Container(
-                                            height: 105,
-                                            width: double.infinity,
-                                            alignment: Alignment.center,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Image.asset("assets/images/empty_data.png",
-                                                    height: 55),
-                                                Container(
-                                                    margin: EdgeInsets.only(left: 10),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          'Oops...',
-                                                          textAlign: TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontFamily: AppTheme.fontName,
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 15,
-                                                            letterSpacing: 0.5,
-                                                            color: Colors.blueGrey.shade200,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'Konten belum tersedia',
-                                                          textAlign: TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontFamily: AppTheme.fontName,
-                                                            fontWeight: FontWeight.w500,
-                                                            fontSize: 11,
-                                                            letterSpacing: 0.5,
-                                                            color: Colors.blueGrey.shade200,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      } else ...{
-                                        ListView.builder(
-                                            padding: EdgeInsets.only(left: 70, right: 15),
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: stories.length,
-                                            itemBuilder: (BuildContext context, int index) {
+                                      FutureBuilder<String>(
+                                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                          if (snapshot.connectionState == ConnectionState.waiting) {
+                                            return
+                                              Container(
+                                                  height: MediaQuery.of(context).size.height*0.6,
+                                                  width: MediaQuery.of(context).size.width,
+                                                  alignment: Alignment.center,
+                                                  child: Container(
+                                                    height: 30.0,
+                                                    width: 30.0,
+                                                    margin: EdgeInsets.only(
+                                                        right: 10),
+                                                    child: CircularProgressIndicator(
+                                                      color: Colors.orange,
+                                                      strokeWidth: 3,
+                                                    ),
+                                                  )
+                                              );
+                                          } else {
+                                            if (snapshot.hasError)
                                               return
-                                                storyButton(stories[index], context);
-                                            })
-                                      }
+                                                FadeInRight(
+                                                  delay: Duration(milliseconds: 300),
+                                                  child: Container(
+                                                    height: 105,
+                                                    width: double.infinity,
+                                                    alignment: Alignment.center,
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        Image.asset("assets/images/empty_data.png",
+                                                            height: 55),
+                                                        Container(
+                                                            margin: EdgeInsets.only(left: 10),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text(
+                                                                  'Oops...',
+                                                                  textAlign: TextAlign.left,
+                                                                  style: TextStyle(
+                                                                    fontFamily: AppTheme.fontName,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    fontSize: 15,
+                                                                    letterSpacing: 0.5,
+                                                                    color: Colors.blueGrey.shade200,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  'Konten belum tersedia',
+                                                                  textAlign: TextAlign.left,
+                                                                  style: TextStyle(
+                                                                    fontFamily: AppTheme.fontName,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    fontSize: 11,
+                                                                    letterSpacing: 0.5,
+                                                                    color: Colors.blueGrey.shade200,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                            else
+                                            if(stories.length==0)
+                                              return
+                                                FadeInRight(
+                                                  delay: Duration(milliseconds: 300),
+                                                  child: Container(
+                                                    height: 105,
+                                                    width: double.infinity,
+                                                    alignment: Alignment.center,
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        Image.asset("assets/images/empty_data.png",
+                                                            height: 55),
+                                                        Container(
+                                                            margin: EdgeInsets.only(left: 10),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text(
+                                                                  'Oops...',
+                                                                  textAlign: TextAlign.left,
+                                                                  style: TextStyle(
+                                                                    fontFamily: AppTheme.fontName,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    fontSize: 15,
+                                                                    letterSpacing: 0.5,
+                                                                    color: Colors.blueGrey.shade200,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  'Konten belum tersedia',
+                                                                  textAlign: TextAlign.left,
+                                                                  style: TextStyle(
+                                                                    fontFamily: AppTheme.fontName,
+                                                                    fontWeight: FontWeight.w500,
+                                                                    fontSize: 11,
+                                                                    letterSpacing: 0.5,
+                                                                    color: Colors.blueGrey.shade200,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                            else
+                                              return
+                                                ListView.builder(
+                                                    padding: EdgeInsets.only(left: 70, right: 15),
+                                                    scrollDirection: Axis.horizontal,
+                                                    itemCount: stories.length,
+                                                    itemBuilder: (BuildContext context, int index) {
+                                                      return
+                                                        storyButton(stories[index], context);
+                                                    });
+                                          }
+                                        },
+                                      ),
+
+                                      // if(stories.length==0)...{
+                                      //   FadeInRight(
+                                      //     delay: Duration(milliseconds: 300),
+                                      //     child: Container(
+                                      //       height: 105,
+                                      //       width: double.infinity,
+                                      //       alignment: Alignment.center,
+                                      //       child: Row(
+                                      //         mainAxisAlignment: MainAxisAlignment.center,
+                                      //         crossAxisAlignment: CrossAxisAlignment.center,
+                                      //         children: [
+                                      //           Image.asset("assets/images/empty_data.png",
+                                      //               height: 55),
+                                      //           Container(
+                                      //               margin: EdgeInsets.only(left: 10),
+                                      //               child: Column(
+                                      //                 mainAxisAlignment: MainAxisAlignment.center,
+                                      //                 crossAxisAlignment: CrossAxisAlignment.start,
+                                      //                 children: [
+                                      //                   Text(
+                                      //                     'Oops...',
+                                      //                     textAlign: TextAlign.left,
+                                      //                     style: TextStyle(
+                                      //                       fontFamily: AppTheme.fontName,
+                                      //                       fontWeight: FontWeight.w500,
+                                      //                       fontSize: 15,
+                                      //                       letterSpacing: 0.5,
+                                      //                       color: Colors.blueGrey.shade200,
+                                      //                     ),
+                                      //                   ),
+                                      //                   Text(
+                                      //                     'Konten belum tersedia',
+                                      //                     textAlign: TextAlign.left,
+                                      //                     style: TextStyle(
+                                      //                       fontFamily: AppTheme.fontName,
+                                      //                       fontWeight: FontWeight.w500,
+                                      //                       fontSize: 11,
+                                      //                       letterSpacing: 0.5,
+                                      //                       color: Colors.blueGrey.shade200,
+                                      //                     ),
+                                      //                   ),
+                                      //                 ],
+                                      //               )
+                                      //           )
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //   )
+                                      // } else ...{
+                                      //   ListView.builder(
+                                      //       padding: EdgeInsets.only(left: 70, right: 15),
+                                      //       scrollDirection: Axis.horizontal,
+                                      //       itemCount: stories.length,
+                                      //       itemBuilder: (BuildContext context, int index) {
+                                      //         return
+                                      //           storyButton(stories[index], context);
+                                      //       })
+                                      // }
                                     ],
                                   )
 
@@ -1125,10 +1259,13 @@ class _FeedScreenState extends State<FeedScreen>
                                         ),
                                         shape: BoxShape.circle,
                                         color: Colors.orange,
-                                        image: new DecorationImage(
-                                            fit: BoxFit.fitWidth,
-                                            image: new NetworkImage(story.storyUrl)
-                                        )
+                                    ),
+                                    child: ClipOval(
+                                      child: FadeInImage.assetNetwork(
+                                        placeholder: 'assets/images/load_story.gif',
+                                        image: story.storyUrl, // Image URL
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   )
                               ),
@@ -1139,7 +1276,8 @@ class _FeedScreenState extends State<FeedScreen>
                             ],
                           ),
                         ),
-                      ] else ...[
+                      ]
+                      else ...[
                         Container(
                           height: 105,
                           child: Column(
@@ -1164,10 +1302,13 @@ class _FeedScreenState extends State<FeedScreen>
                                         ),
                                         shape: BoxShape.circle,
                                         color: Colors.orange,
-                                        image: new DecorationImage(
-                                            fit: BoxFit.fitWidth,
-                                            image: new NetworkImage(story.storyUrl)
-                                        )
+                                    ),
+                                    child: ClipOval(
+                                      child: FadeInImage.assetNetwork(
+                                        placeholder: 'assets/images/load_story.gif',
+                                        image: story.storyUrl, // Image URL
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   )
                               ),

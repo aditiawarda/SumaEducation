@@ -86,16 +86,16 @@ class MainMenu extends StatelessWidget {
       var dataBookNew = json.decode(response.body);
       print(dataBookNew);
       for (var i = 0; i < dataBookNew['data'].length; i++) {
-        var id = dataBookNew['data'][i]['id'];
-        var judul = dataBookNew['data'][i]['judul'];
-        var deskripsi = dataBookNew['data'][i]['deskripsi'];
-        var cover = dataBookNew['data'][i]['cover'];
-        var created_at = dataBookNew['data'][i]['created_at'];
-        var jumlah_halaman = dataBookNew['data'][i]['jumlah_halaman'];
-        var voice_cover = dataBookNew['data'][i]['voice_cover'];
-        var backsound = dataBookNew['data'][i]['backsound'];
-        var viewer = dataBookNew['data'][i]['viewer'];
-        var with_login = dataBookNew['data'][i]['with_login'];
+        var id = dataBookNew['data'][i]['id'].toString();
+        var judul = dataBookNew['data'][i]['judul'].toString();
+        var deskripsi = dataBookNew['data'][i]['deskripsi'].toString();
+        var cover = dataBookNew['data'][i]['cover'].toString();
+        var created_at = dataBookNew['data'][i]['created_at'].toString();
+        var jumlah_halaman = dataBookNew['data'][i]['jumlah_halaman'].toString();
+        var voice_cover = dataBookNew['data'][i]['voice_cover'].toString();
+        var backsound = dataBookNew['data'][i]['backsound'].toString();
+        var viewer = dataBookNew['data'][i]['viewer'].toString();
+        var with_login = dataBookNew['data'][i]['with_login'].toString();
 
         book.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound, viewer, with_login));
       }
@@ -907,7 +907,7 @@ class MainMenu extends StatelessWidget {
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      'Data tidak tersedia',
+                                                      'Belum ada konten',
                                                       textAlign: TextAlign.left,
                                                       style: TextStyle(
                                                         fontFamily: AppTheme.fontName,
@@ -918,7 +918,7 @@ class MainMenu extends StatelessWidget {
                                                       ),
                                                     ),
                                                     Text(
-                                                      'Data peserta tidak tersedia',
+                                                      'Data konten belum tersedia',
                                                       textAlign: TextAlign.left,
                                                       style: TextStyle(
                                                         fontFamily: AppTheme.fontName,
@@ -956,7 +956,7 @@ class MainMenu extends StatelessWidget {
                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                     children: [
                                                       Text(
-                                                        'Data tidak tersedia',
+                                                        'Belum ada konten',
                                                         textAlign: TextAlign.left,
                                                         style: TextStyle(
                                                           fontFamily: AppTheme.fontName,
@@ -967,7 +967,7 @@ class MainMenu extends StatelessWidget {
                                                         ),
                                                       ),
                                                       Text(
-                                                        'Data peserta tidak tersedia',
+                                                        'Data konten belum tersedia',
                                                         textAlign: TextAlign.left,
                                                         style: TextStyle(
                                                           fontFamily: AppTheme.fontName,

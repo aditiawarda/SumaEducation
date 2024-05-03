@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/konten_postingan.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/kreasi_all_other.dart';
 import 'package:suma_education/suma_education/main_page/ui_part/logout_button.dart';
@@ -353,7 +352,7 @@ class _DetailPostingScreenState extends State<DetailPostingScreen>
                                                           ),
                                                           child: Text(
                                                             'Hubungkan',
-                                                            style: GoogleFonts.inter(
+                                                            style: TextStyle(
                                                               fontSize: 14.0,
                                                               color: Colors.white,
                                                               fontWeight: FontWeight.w600,
@@ -384,7 +383,7 @@ class _DetailPostingScreenState extends State<DetailPostingScreen>
                                                           ),
                                                           child: Text(
                                                             'Batal',
-                                                            style: GoogleFonts.inter(
+                                                            style: TextStyle(
                                                               fontSize: 14.0,
                                                               color: Colors.orange,
                                                               fontWeight: FontWeight.w600,
@@ -494,7 +493,7 @@ class _DetailPostingScreenState extends State<DetailPostingScreen>
                                                           ),
                                                           child: Text(
                                                             'Tutup',
-                                                            style: GoogleFonts.inter(
+                                                            style: TextStyle(
                                                               fontSize: 14.0,
                                                               color: Colors.white,
                                                               fontWeight: FontWeight.w600,

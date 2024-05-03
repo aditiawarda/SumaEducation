@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/services.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
@@ -368,7 +367,7 @@ class _BookContentScreenState extends State<BookContentScreen>
                                                           ),
                                                           child: Text(
                                                             'Hubungkan',
-                                                            style: GoogleFonts.inter(
+                                                            style: TextStyle(
                                                               fontSize: 14.0,
                                                               color: Colors.white,
                                                               fontWeight: FontWeight.w600,
@@ -399,7 +398,7 @@ class _BookContentScreenState extends State<BookContentScreen>
                                                           ),
                                                           child: Text(
                                                             'Batal',
-                                                            style: GoogleFonts.inter(
+                                                            style: TextStyle(
                                                               fontSize: 14.0,
                                                               color: Colors.orange,
                                                               fontWeight: FontWeight.w600,
@@ -509,7 +508,7 @@ class _BookContentScreenState extends State<BookContentScreen>
                                                           ),
                                                           child: Text(
                                                             'Tutup',
-                                                            style: GoogleFonts.inter(
+                                                            style: TextStyle(
                                                               fontSize: 14.0,
                                                               color: Colors.white,
                                                               fontWeight: FontWeight.w600,

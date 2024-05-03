@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/main.dart';
 import 'package:flutter/material.dart';
@@ -59,18 +58,18 @@ class _InteraktifAllListDataState extends State<InteraktifAllListData>
       var dataInteraktif = json.decode(response.body);
       print(dataInteraktif);
       for (var i = 0; i < dataInteraktif['data'].length; i++) {
-        var id = dataInteraktif['data'][i]['id'];
-        var judul = dataInteraktif['data'][i]['judul'];
-        var thumbnail = dataInteraktif['data'][i]['thumbnail'];
-        var square_thumbnail = dataInteraktif['data'][i]['square_thumbnail'];
-        var durasi = dataInteraktif['data'][i]['durasi'];
-        var youtube_id = dataInteraktif['data'][i]['youtube_id'];
-        var source = dataInteraktif['data'][i]['source'];
-        var template = dataInteraktif['data'][i]['template'];
-        var kategori = dataInteraktif['data'][i]['kategori'];
-        var viewer = dataInteraktif['data'][i]['viewer'];
-        var with_login = dataInteraktif['data'][i]['with_login'];
-        var created_at = dataInteraktif['data'][i]['created_at'];
+        var id = dataInteraktif['data'][i]['id'].toString();
+        var judul = dataInteraktif['data'][i]['judul'].toString();
+        var thumbnail = dataInteraktif['data'][i]['thumbnail'].toString();
+        var square_thumbnail = dataInteraktif['data'][i]['square_thumbnail'].toString();
+        var durasi = dataInteraktif['data'][i]['durasi'].toString();
+        var youtube_id = dataInteraktif['data'][i]['youtube_id'].toString();
+        var source = dataInteraktif['data'][i]['source'].toString();
+        var template = dataInteraktif['data'][i]['template'].toString();
+        var kategori = dataInteraktif['data'][i]['kategori'].toString();
+        var viewer = dataInteraktif['data'][i]['viewer'].toString();
+        var with_login = dataInteraktif['data'][i]['with_login'].toString();
+        var created_at = dataInteraktif['data'][i]['created_at'].toString();
 
         interaktifListData.add(InteraktifData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, template, kategori, viewer, with_login, created_at));
       }

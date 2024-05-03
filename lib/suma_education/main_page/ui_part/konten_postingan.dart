@@ -7,7 +7,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
@@ -197,7 +196,7 @@ class _KontenPostinganState extends State<KontenPostingan>
                                 child:
                                 Text(
                                   'Hapus Postingan',
-                                  style: GoogleFonts.inter(
+                                  style: TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,

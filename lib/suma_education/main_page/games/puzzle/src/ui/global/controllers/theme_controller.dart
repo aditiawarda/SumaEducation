@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/domain/repositories/settings_repository.dart';
 import 'package:suma_education/suma_education/main_page/games/puzzle/src/ui/utils/colors.dart';
 
@@ -23,7 +22,15 @@ class ThemeController extends ChangeNotifier {
   }
 
   TextTheme get _textTheme {
-    return GoogleFonts.latoTextTheme();
+    return TextTheme(
+      // Ganti dengan gaya teks default yang Anda inginkan
+      bodyLarge: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Roboto', // Menggunakan font Roboto dari sistem
+      ),
+      // Tambahkan gaya teks lain sesuai kebutuhan
+    );
   }
 
   ThemeData get lightTheme {

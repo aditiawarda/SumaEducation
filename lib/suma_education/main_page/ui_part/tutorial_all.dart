@@ -56,17 +56,17 @@ class _TutorialAllListDataState extends State<TutorialAllListData>
       var dataTutorial = json.decode(response.body);
       print(dataTutorial);
       for (var i = 0; i < dataTutorial['data'].length; i++) {
-        var id = dataTutorial['data'][i]['id'];
-        var judul = dataTutorial['data'][i]['judul'];
-        var thumbnail = dataTutorial['data'][i]['thumbnail'];
-        var square_thumbnail = dataTutorial['data'][i]['square_thumbnail'];
-        var durasi = dataTutorial['data'][i]['durasi'];
-        var youtube_id = dataTutorial['data'][i]['youtube_id'];
-        var source = dataTutorial['data'][i]['source'];
-        var kategori = dataTutorial['data'][i]['kategori'];
-        var viewer = dataTutorial['data'][i]['viewer'];
-        var with_login = dataTutorial['data'][i]['with_login'];
-        var created_at = dataTutorial['data'][i]['created_at'];
+        var id = dataTutorial['data'][i]['id'].toString();
+        var judul = dataTutorial['data'][i]['judul'].toString();
+        var thumbnail = dataTutorial['data'][i]['thumbnail'].toString();
+        var square_thumbnail = dataTutorial['data'][i]['square_thumbnail'].toString();
+        var durasi = dataTutorial['data'][i]['durasi'].toString();
+        var youtube_id = dataTutorial['data'][i]['youtube_id'].toString();
+        var source = dataTutorial['data'][i]['source'].toString();
+        var kategori = dataTutorial['data'][i]['kategori'].toString();
+        var viewer = dataTutorial['data'][i]['viewer'].toString();
+        var with_login = dataTutorial['data'][i]['with_login'].toString();
+        var created_at = dataTutorial['data'][i]['created_at'].toString();
 
         tutorialListData.add(TutorialData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, kategori, viewer, with_login, created_at));
       }

@@ -20,6 +20,7 @@ class TimeAndMoves extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const textStyle = TextStyle(
+      color: Colors.orange,
       fontSize: 25,
       fontWeight: FontWeight.w600,
     );

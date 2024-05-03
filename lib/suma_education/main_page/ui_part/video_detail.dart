@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -32,6 +31,7 @@ class _VideoDetailState extends State<VideoDetail>
   AnimationController? animationController;
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool logoutLoad = false;
+  int currentYear = DateTime.now().year;
 
   @override
   void initState() {
@@ -198,7 +198,7 @@ class _VideoDetailState extends State<VideoDetail>
                                             Text("Memuat data...",
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
-                                              style: GoogleFonts.roboto(
+                                              style: TextStyle(
                                                   color: Colors.blueGrey,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 17
@@ -220,7 +220,7 @@ class _VideoDetailState extends State<VideoDetail>
                                               child: Text("Memuat data...",
                                                 maxLines: 5,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: GoogleFonts.roboto(
+                                                style: TextStyle(
                                                     fontSize: 14,
                                                     height: 1.5,
                                                     color: Colors.blueGrey.withOpacity(0.8)
@@ -327,7 +327,7 @@ class _VideoDetailState extends State<VideoDetail>
                                               Text("Memuat data...",
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
-                                                style: GoogleFonts.roboto(
+                                                style: TextStyle(
                                                     color: Colors.blueGrey,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 17
@@ -349,7 +349,7 @@ class _VideoDetailState extends State<VideoDetail>
                                                 child: Text("Memuat data...",
                                                   maxLines: 5,
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: GoogleFonts.roboto(
+                                                  style: TextStyle(
                                                       fontSize: 14,
                                                       height: 1.5,
                                                       color: Colors.blueGrey.withOpacity(0.8)
@@ -455,7 +455,7 @@ class _VideoDetailState extends State<VideoDetail>
                                               Text(judulKonten!,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
-                                                style: GoogleFonts.roboto(
+                                                style: TextStyle(
                                                     color: Colors.blueGrey,
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 17
@@ -477,7 +477,7 @@ class _VideoDetailState extends State<VideoDetail>
                                                 child: Text(deskripsiKonten!,
                                                   maxLines: 5,
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: GoogleFonts.roboto(
+                                                  style: TextStyle(
                                                       fontSize: 14,
                                                       height: 1.5,
                                                       color: Colors.blueGrey.withOpacity(0.8)
@@ -494,7 +494,7 @@ class _VideoDetailState extends State<VideoDetail>
                         ),
                         Positioned(
                           bottom: 12, left: 20,
-                          child: Text("Copyright © 2023 Suma",
+                          child: Text("Copyright © "+currentYear.toString()+" PT Suma Alpha Indonesia",
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.blueGrey.shade200

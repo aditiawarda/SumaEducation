@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/suma_education/main_page/bottom_navigation_view/main_page.dart';
@@ -86,7 +85,7 @@ class _LoginPageState extends State<LoginScreen>
                   controller: txtEditEmail,
                   textInputAction: TextInputAction.next,
                   autofocus: false,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 18.0,
                     color: const Color(0xFF151624),
                   ),
@@ -101,7 +100,7 @@ class _LoginPageState extends State<LoginScreen>
                   },
                   decoration: InputDecoration(
                     hintText: 'Email',
-                    hintStyle: GoogleFonts.inter(
+                    hintStyle: TextStyle(
                       fontSize: 16.0,
                       color: const Color(0xFF151624).withOpacity(0.5),
                     ),
@@ -133,7 +132,7 @@ class _LoginPageState extends State<LoginScreen>
                 child: TextFormField(
                   controller: txtEditPassword,
                   obscureText: _isObscure,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 18.0,
                     color: const Color(0xFF151624),
                   ),
@@ -148,7 +147,7 @@ class _LoginPageState extends State<LoginScreen>
                   },
                   decoration: InputDecoration(
                     hintText: 'Password',
-                    hintStyle: GoogleFonts.inter(
+                    hintStyle: TextStyle(
                       fontSize: 16.0,
                       color: const Color(0xFF151624).withOpacity(0.5),
                     ),
@@ -264,7 +263,7 @@ class _LoginPageState extends State<LoginScreen>
             ),
             Text(
               'Login',
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 fontSize: 16.0,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,

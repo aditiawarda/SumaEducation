@@ -7,12 +7,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:getwidget/components/button/gf_button.dart';
-import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/suma_education/main_page/bottom_navigation_view/main_page.dart';
-import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -43,7 +39,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.orange,
-          textTheme: AppTheme.textTheme,
           platform: TargetPlatform.iOS,
         ),
         home: MyHomePage()
@@ -114,7 +109,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         topRight: Radius.circular(20.0)),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: AppTheme.grey.withOpacity(0.5),
                           offset: Offset(0.0, 1.0), //(x,y)
                           blurRadius: 3.0),
                     ],
@@ -148,11 +142,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: TextStyle(
-                                            fontFamily: AppTheme.fontName,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 18,
                                             letterSpacing: 0.0,
-                                            color: AppTheme.grey.withOpacity(0.6)
                                         )
                                     ),
                                   ),
@@ -166,12 +158,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
                                         style: TextStyle(
-                                            fontFamily: AppTheme.fontName,
                                             fontWeight: FontWeight.w500,
                                             height: 1.5,
                                             fontSize: 16,
                                             letterSpacing: 0.0,
-                                            color: AppTheme.grey.withOpacity(0.6)
                                         )
                                     ),
                                   ),
@@ -204,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               ),
                               child: Text(
                                 'Coba Hubungkan',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 14.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -236,7 +226,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               ),
                               child: Text(
                                 'Tutup',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 14.0,
                                   color: Colors.orange,
                                   fontWeight: FontWeight.w600,
@@ -289,7 +279,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       topRight: Radius.circular(20.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.5),
                         offset: Offset(0.0, 1.0), //(x,y)
                         blurRadius: 3.0),
                   ],
@@ -326,11 +315,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 18,
                                               letterSpacing: 0.0,
-                                              color: AppTheme.grey.withOpacity(0.7)
                                           )
                                       ),
                                     ),
@@ -344,12 +331,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
                                           style: TextStyle(
-                                              fontFamily: AppTheme.fontName,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 16,
                                               letterSpacing: 0,
                                               height: 1.5,
-                                              color: AppTheme.grey.withOpacity(0.6)
                                           )
                                       ),
                                     ),
@@ -381,7 +366,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               ),
                               child: Text(
                                 'Update Sekarang',
-                                style: GoogleFonts.inter(
+                                style: TextStyle(
                                   fontSize: 14.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -414,7 +399,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 ),
                                 child: Text(
                                   'Nanti',
-                                  style: GoogleFonts.inter(
+                                  style: TextStyle(
                                     fontSize: 14.0,
                                     color: Colors.orange,
                                     fontWeight: FontWeight.w600,

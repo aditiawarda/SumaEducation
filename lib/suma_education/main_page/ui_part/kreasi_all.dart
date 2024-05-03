@@ -56,17 +56,17 @@ class _KreasiListAllDataState extends State<KreasiListAllData>
       var dataKreasi = json.decode(response.body);
       print(dataKreasi);
       for (var i = 0; i < dataKreasi['data'].length; i++) {
-        var id = dataKreasi['data'][i]['id'];
-        var judul = dataKreasi['data'][i]['judul'];
-        var thumbnail = dataKreasi['data'][i]['thumbnail'];
-        var square_thumbnail = dataKreasi['data'][i]['square_thumbnail'];
-        var durasi = dataKreasi['data'][i]['durasi'];
-        var youtube_id = dataKreasi['data'][i]['youtube_id'];
-        var source = dataKreasi['data'][i]['source'];
-        var kategori = dataKreasi['data'][i]['kategori'];
-        var viewer = dataKreasi['data'][i]['viewer'];
-        var with_login = dataKreasi['data'][i]['with_login'];
-        var created_at = dataKreasi['data'][i]['created_at'];
+        var id = dataKreasi['data'][i]['id'].toString();
+        var judul = dataKreasi['data'][i]['judul'].toString();
+        var thumbnail = dataKreasi['data'][i]['thumbnail'].toString();
+        var square_thumbnail = dataKreasi['data'][i]['square_thumbnail'].toString();
+        var durasi = dataKreasi['data'][i]['durasi'].toString();
+        var youtube_id = dataKreasi['data'][i]['youtube_id'].toString();
+        var source = dataKreasi['data'][i]['source'].toString();
+        var kategori = dataKreasi['data'][i]['kategori'].toString();
+        var viewer = dataKreasi['data'][i]['viewer'].toString();
+        var with_login = dataKreasi['data'][i]['with_login'].toString();
+        var created_at = dataKreasi['data'][i]['created_at'].toString();
         kreasiListData.add(KreasiData(id, judul, thumbnail, square_thumbnail, durasi, youtube_id, source, kategori, viewer, with_login, created_at));
       }
     } catch (e) {

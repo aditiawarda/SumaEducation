@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cool_alert/cool_alert.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
@@ -149,7 +148,7 @@ class _LogoutButtonState extends State<LogoutButton>
                                     ),
                                     Text(
                                       'Logout',
-                                      style: GoogleFonts.inter(
+                                      style: TextStyle(
                                         fontSize: 16.0,
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,

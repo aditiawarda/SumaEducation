@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -109,7 +108,7 @@ class _VideoDetailFeedState extends State<VideoDetailFeed>
                                   Text("Memuat data...",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
-                                    style: GoogleFonts.roboto(
+                                    style: TextStyle(
                                         color: Colors.blueGrey,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 17
@@ -131,7 +130,7 @@ class _VideoDetailFeedState extends State<VideoDetailFeed>
                                     child: Text("Memuat data...",
                                       maxLines: 5,
                                       overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.roboto(
+                                      style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.blueGrey.withOpacity(0.8)
                                       ),
@@ -149,7 +148,7 @@ class _VideoDetailFeedState extends State<VideoDetailFeed>
                                     Text("Memuat data...",
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
-                                      style: GoogleFonts.roboto(
+                                      style: TextStyle(
                                           color: Colors.blueGrey,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 17
@@ -171,7 +170,7 @@ class _VideoDetailFeedState extends State<VideoDetailFeed>
                                       child: Text("Memuat data...",
                                         maxLines: 5,
                                         overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.roboto(
+                                        style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.blueGrey.withOpacity(0.8)
                                         ),
@@ -188,7 +187,7 @@ class _VideoDetailFeedState extends State<VideoDetailFeed>
                                     Text(judulKonten!,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
-                                      style: GoogleFonts.roboto(
+                                      style: TextStyle(
                                           color: Colors.blueGrey,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 17
@@ -210,7 +209,7 @@ class _VideoDetailFeedState extends State<VideoDetailFeed>
                                       child: Text(deskripsiKonten!,
                                         maxLines: 5,
                                         overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.roboto(
+                                        style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.blueGrey.withOpacity(0.8)
                                         ),

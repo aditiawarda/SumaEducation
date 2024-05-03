@@ -22,13 +22,7 @@ class MyAppGAME extends StatelessWidget {
           ),
           localizationsDelegates: const [
             S.delegate,
-
-            // GlobalMaterialLocalizations.delegate,
-            // GlobalWidgetsLocalizations.delegate,
-            // GlobalCupertinoLocalizations.delegate,
-            //
             GlobalMaterialLocalizations.delegate,
-            // DefaultCupertinoLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate, // Here !
             DefaultWidgetsLocalizations.delegate,
           ],

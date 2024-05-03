@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
@@ -143,7 +142,7 @@ class _UserBioState extends State<UserBio>
                             ),
                             child: Text(
                               'Camera',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -175,7 +174,7 @@ class _UserBioState extends State<UserBio>
                             ),
                             child: Text(
                               'Gallery',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -206,7 +205,7 @@ class _UserBioState extends State<UserBio>
                             ),
                             child: Text(
                               'Batal',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.orange,
                                 fontWeight: FontWeight.w600,

@@ -57,16 +57,16 @@ class _BookListAllDataState extends State<BookListAllData>
       var dataBook = json.decode(response.body);
       print(dataBook);
       for (var i = 0; i < dataBook['data'].length; i++) {
-        var id = dataBook['data'][i]['id'];
-        var judul = dataBook['data'][i]['judul'];
-        var deskripsi = dataBook['data'][i]['deskripsi'];
-        var cover = dataBook['data'][i]['cover'];
-        var created_at = dataBook['data'][i]['created_at'];
-        var jumlah_halaman = dataBook['data'][i]['jumlah_halaman'];
-        var voice_cover = dataBook['data'][i]['voice_cover'];
-        var backsound = dataBook['data'][i]['backsound'];
-        var viewer = dataBook['data'][i]['viewer'];
-        var with_login = dataBook['data'][i]['with_login'];
+        var id = dataBook['data'][i]['id'].toString();
+        var judul = dataBook['data'][i]['judul'].toString();
+        var deskripsi = dataBook['data'][i]['deskripsi'].toString();
+        var cover = dataBook['data'][i]['cover'].toString();
+        var created_at = dataBook['data'][i]['created_at'].toString();
+        var jumlah_halaman = dataBook['data'][i]['jumlah_halaman'].toString();
+        var voice_cover = dataBook['data'][i]['voice_cover'].toString();
+        var backsound = dataBook['data'][i]['backsound'].toString();
+        var viewer = dataBook['data'][i]['viewer'].toString();
+        var with_login = dataBook['data'][i]['with_login'].toString();
 
         bookListData.add(BookData(id, judul, deskripsi, cover, created_at, jumlah_halaman, voice_cover, backsound, viewer, with_login));
       }

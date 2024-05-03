@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
@@ -57,14 +56,14 @@ class _StoryFeedState extends State<StoryFeed>
         var dataStory = json.decode(response.body);
         print(dataStory);
         for (var i = 0; i < dataStory['data'].length; i++) {
-          var id = dataStory['data'][i]['id'];
-          var id_user = dataStory['data'][i]['id_user'];
-          var username = dataStory['data'][i]['username'];
-          var deskripsi = dataStory['data'][i]['deskripsi'];
-          var avatar = dataStory['data'][i]['picture'];
-          var content = dataStory['data'][i]['filename'];
-          var time = dataStory['data'][i]['created_at'];
-          var status_view = dataStory['data'][i]['status_view'];
+          var id = dataStory['data'][i]['id'].toString();
+          var id_user = dataStory['data'][i]['id_user'].toString();
+          var username = dataStory['data'][i]['username'].toString();
+          var deskripsi = dataStory['data'][i]['deskripsi'].toString();
+          var avatar = dataStory['data'][i]['picture'].toString();
+          var content = dataStory['data'][i]['filename'].toString();
+          var time = dataStory['data'][i]['created_at'].toString();
+          var status_view = dataStory['data'][i]['status_view'].toString();
           stories.add(StoryData(id, id_user, username, deskripsi, avatar, content, time, status_view));
         }
     } catch (e) {
@@ -129,7 +128,7 @@ class _StoryFeedState extends State<StoryFeed>
                             ),
                             child: Text(
                               'Camera',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -161,7 +160,7 @@ class _StoryFeedState extends State<StoryFeed>
                             ),
                             child: Text(
                               'Gallery',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -192,7 +191,7 @@ class _StoryFeedState extends State<StoryFeed>
                             ),
                             child: Text(
                               'Batal',
-                              style: GoogleFonts.inter(
+                              style: TextStyle(
                                 fontSize: 14.0,
                                 color: Colors.orange,
                                 fontWeight: FontWeight.w600,
@@ -294,7 +293,7 @@ class _StoryFeedState extends State<StoryFeed>
         ));
       }
     } catch (e) {
-      print("Error during converting to Base64");
+      print("Error during converting to Base64 111");
       new Future.delayed(new Duration(milliseconds: 2000), () {
         setState(() {});
       });

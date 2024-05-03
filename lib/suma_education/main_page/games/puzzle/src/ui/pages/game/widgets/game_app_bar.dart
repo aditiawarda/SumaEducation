@@ -29,10 +29,14 @@ class GameAppBar extends StatelessWidget {
               child: Text.rich(
                 TextSpan(
                   text: "${isIOS ? "Puzzle" : "Puzzle"}\n",
+                  style: TextStyle(
+                    color: Colors.orange,
+                  ),
                   children: const [
                     TextSpan(
                       text: "SUMA",
                       style: TextStyle(
+                        color: Colors.orange,
                         fontSize: 24,
                         height: 1,
                       ),

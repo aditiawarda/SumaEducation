@@ -7,16 +7,11 @@ import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
-import 'package:ripple_animation/ripple_animation.dart';
+import 'package:simple_ripple_animation/simple_ripple_animation.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
-import 'package:suma_education/suma_education/main_page/bottom_navigation_view/main_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suma_education/suma_education/main_page/screen/login_screen.dart';
 import 'dart:async';
-
-import 'package:suma_education/suma_education/main_page/screen/register_screen.dart';
 
 class RegisterSuccessScreen extends StatefulWidget {
   const RegisterSuccessScreen({Key? key, required this.animationController}) : super(key: key);
@@ -90,7 +85,7 @@ class _LoginPageState extends State<RegisterSuccessScreen>
         child:
         Text(
           'Login Sekarang',
-          style: GoogleFonts.inter(
+          style: TextStyle(
             fontSize: 16.0,
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -153,7 +148,9 @@ class _LoginPageState extends State<RegisterSuccessScreen>
                                             repeat: true,
                                             color: Colors.green,
                                             minRadius: 80,
-                                            ripplesCount: 3, child: null,
+                                            ripplesCount: 3, child: Container(
+                                            child: null,
+                                          ),
                                           ),
                                         ),
                                       ),

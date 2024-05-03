@@ -5,7 +5,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,7 +65,7 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
           });
 
       var json = jsonDecode(response.body);
-      String status = json["status"];
+      String status = json["status"].toString();
 
       if (status == "Success") {
         setState(() {
@@ -124,11 +123,11 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
         var dataViewer = json.decode(response.body);
         print(dataViewer);
         for (var i = 0; i < dataViewer['data'].length; i++) {
-          var id_user = dataViewer['data'][i]['id_user'];
-          var username = dataViewer['data'][i]['username'];
-          var avatar = dataViewer['data'][i]['picture'];
-          var time = dataViewer['data'][i]['timestamp_view'];
-          var reaction = dataViewer['data'][i]['reaction'];
+          var id_user = dataViewer['data'][i]['id_user'].toString();
+          var username = dataViewer['data'][i]['username'].toString();
+          var avatar = dataViewer['data'][i]['picture'].toString();
+          var time = dataViewer['data'][i]['timestamp_view'].toString();
+          var reaction = dataViewer['data'][i]['reaction'].toString();
           viewer_stories.add(StoryViewerData(id_user, username, avatar, time, reaction));
         }
       });
@@ -151,7 +150,7 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
           });
 
       var json = jsonDecode(response.body);
-      myReaction = json['reaction'];
+      myReaction = json['reaction'].toString();
       print(myReaction);
 
     } catch (e) {
@@ -170,8 +169,8 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
           });
 
       var json = jsonDecode(response.body);
-      String status = json["status"];
-      String message = json["message"];
+      String status = json["status"].toString();
+      String message = json["message"].toString();
 
       if (status == "Success") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -200,8 +199,8 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
           });
 
       var json = jsonDecode(response.body);
-      String status = json["status"];
-      String message = json["message"];
+      String status = json["status"].toString();
+      String message = json["message"].toString();
 
       if (status == "Success") {
         Navigator.pop(context);
@@ -565,7 +564,7 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                  children: [
                    Text(viewer_stories.userName,
                      maxLines: 5,
-                     style: GoogleFonts.roboto(
+                     style: TextStyle(
                          fontSize: 15,
                          fontWeight: FontWeight.bold
                      ),
@@ -795,7 +794,7 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if(widget.story.deskripsi!=null)...{
+                        if(widget.story.deskripsi!=null && widget.story.deskripsi!="")...{
                           Container(
                             alignment: Alignment.center,
                             padding: EdgeInsets.only(bottom: 15,top: 15),
@@ -884,7 +883,7 @@ class _StoryViewState extends State<StoryView> with TickerProviderStateMixin {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      if(widget.story.deskripsi!=null)...{
+                      if(widget.story.deskripsi!=null && widget.story.deskripsi!="")...{
                         Container(
                           alignment: Alignment.center,
                           padding: EdgeInsets.only(bottom: 15,top: 15),

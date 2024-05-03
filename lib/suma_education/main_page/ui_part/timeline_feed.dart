@@ -6,7 +6,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:suma_education/suma_education/app_theme/app_theme.dart';
 import 'package:suma_education/main.dart';
 import 'package:flutter/material.dart';
@@ -57,14 +56,14 @@ class _TimelineFeedState extends State<TimelineFeed>
       var dataStory = json.decode(response.body);
       print(dataStory);
       for (var i = 0; i < dataStory['data'].length; i++) {
-        var id = dataStory['data'][i]['id'];
-        var id_user = dataStory['data'][i]['id_user'];
-        var username = dataStory['data'][i]['username'];
-        var avatar = dataStory['data'][i]['avatar'];
-        var content = dataStory['data'][i]['content'];
-        var deskripsi = dataStory['data'][i]['deskripsi'];
-        var kategori = dataStory['data'][i]['kategori'];
-        var created_at = dataStory['data'][i]['created_at'];
+        var id = dataStory['data'][i]['id'].toString();
+        var id_user = dataStory['data'][i]['id_user'].toString();
+        var username = dataStory['data'][i]['username'].toString();
+        var avatar = dataStory['data'][i]['avatar'].toString();
+        var content = dataStory['data'][i]['content'].toString();
+        var deskripsi = dataStory['data'][i]['deskripsi'].toString();
+        var kategori = dataStory['data'][i]['kategori'].toString();
+        var created_at = dataStory['data'][i]['created_at'].toString();
         timelineData.add(TimelineData(id, id_user, username, avatar, content, deskripsi, kategori, created_at));
       }
     } catch (e) {
@@ -82,8 +81,8 @@ class _TimelineFeedState extends State<TimelineFeed>
           });
 
       var json = jsonDecode(response.body);
-      String status = json["status"];
-      String message = json["message"];
+      String status = json["status"].toString();
+      String message = json["message"].toString();
 
       if (status == "Success") {
         setState(() {});
@@ -237,7 +236,7 @@ class _TimelineFeedState extends State<TimelineFeed>
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: timelineData.length,
-                            padding: EdgeInsets.only(bottom: 20, top: 35),
+                            padding: EdgeInsets.only(bottom: 50, top: 10),
                             crossAxisCount: 1,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 18,
@@ -352,19 +351,19 @@ class _TimelineFeedState extends State<TimelineFeed>
                                             Row(
                                               children: [
                                                 CircleAvatar(
-                                                  radius: 13.0,
+                                                  radius: 21.0,
                                                   backgroundColor: Colors.white,
                                                   child: CircleAvatar(
                                                     backgroundColor: Colors.orange,
                                                     backgroundImage: NetworkImage(timelineData[index].avatar.toString()),
-                                                    radius: 12.0,
+                                                    radius: 20.0,
                                                   ),
                                                 ),
                                                 SizedBox(width: 10),
                                                 Text(timelineData[index].username.toString(),
                                                   maxLines: 1,
                                                   style: TextStyle(
-                                                      fontSize: 15,
+                                                      fontSize: 17,
                                                       fontWeight: FontWeight.bold
                                                   ),
                                                 ),
@@ -373,7 +372,7 @@ class _TimelineFeedState extends State<TimelineFeed>
                                             if(timelineData[index].deskripsi.toString()!="null" && timelineData[index].deskripsi.toString()!="")...{
                                               SizedBox(height: 4),
                                               Container(
-                                                  margin: EdgeInsets.only(left: 37),
+                                                  margin: EdgeInsets.only(left: 50),
                                                   child: Text(timelineData[index].deskripsi.toString(),
                                                     style: TextStyle(
                                                         height: 1.4,
